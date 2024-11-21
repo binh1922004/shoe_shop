@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController {
         @GetMapping("/home")
         public String getIndex(){
-                System.out.println("get in");
-                return "webapp/index";
+//                System.out.println("get in");
+                return "webapp/admin/products/product-add";
         }
 }
