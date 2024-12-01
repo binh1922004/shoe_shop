@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController {
 
     @GetMapping
-    public String home() {
+    public String home()
+    {
         return "web/index";
     }
 }
