@@ -1,12 +1,9 @@
-<html xmlns:th="http://www.thymeleaf.org">
 <!doctype html>
-<html class="no-js" lang="">
-    
-<!-- Mirrored from htmldemo.net/james/james/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:29 GMT -->
+<html class="no-js" lang="" xmlns:th="http://www.thymeleaf.org">
 <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title> Login || James </title>
+        <title> Register || James </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -63,15 +60,14 @@
         ============================================ -->
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
-    <body>
+<body>
         <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <!-- Add your site or application content here -->
         <!-- header area start -->
         <div th:include="~{fragments/web/header.html}"></div>
         <!-- header area end -->
-        <!-- Hiển thị thông điệp nếu có -->
         <!-- cart item area start -->
         <div class="shopping-cart">
             <div class="container">
@@ -79,8 +75,8 @@
                     <div class="col-md-12">
                         <div class="location">
                             <ul>
-                                <li><a href="/" title="go to homepage">Home<span>/</span></a>  </li>
-                                <li><strong>Login page</strong></li>
+                                <li><a href="index.html" title="go to homepage">Home<span>/</span></a>  </li>
+                                <li><strong>Register page</strong></li>
                             </ul>
                         </div>
                     </div>
@@ -90,27 +86,30 @@
         <div th:if="${mess}" style="color: red; text-align: center; font-size: larger">
             <p th:text="${mess}"></p>
         </div>
-        <div class="login-area">
+        <div class="login-area ptb-120">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 offset-lg-3 text-center">
+                    <div class="col-lg-6 offset-md-3 text-center">
                         <div class="login">
                             <div class="login-form-container">
                                 <div class="login-text">
-                                    <h2>login</h2>
-                                    <span>Please login using account detail bellow.</span>
+                                    <h2>Register</h2>
+                                    <span>Please Register using account detail bellow.</span>
                                 </div>
                                 <div class="login-form">
-                                    <form action="/login" method="post">
-                                        <input type="text" name="user-name"  placeholder="Username" th:value="${username}" required>
-                                        <input type="password" name="user-password" placeholder="Password" required>
+                                    <form action="/register" method="post">
+                                        <input name="email" placeholder="Email" type="email" required>
+                                        <input type="text" name="fullname" placeholder="Fullname" required>
+                                        <input type="password" name="password" placeholder="Password" required>
+                                        <input type="text" name="address" placeholder="Address" required>
+                                        <div class=" align-items-center gap-3">
+                                            <button type="button" onclick="sendVerificationEmail()" style="margin: 0 auto; display: block">Send Verification Code</button><br>
+                                            <input type="text" name="verity" placeholder="Verify code" required pattern="^\d{6}$" title="Please enter exactly 6 digits">
+                                        </div>
+
+
                                         <div class="button-box">
-                                            <div class="login-toggle-btn">
-                                                <input type="checkbox" id="remember" name="rememberMe">
-                                                <label for="remember">Remember me</label>
-                                                <a href="/reset_password">Forgot Password?</a>
-                                            </div>
-                                            <button type="submit" class="default-btn">Login</button>
+                                            <button type="submit" class="default-btn" style="margin: 0 auto; display: block">Register</button>
                                         </div>
                                     </form>
                                 </div>
@@ -120,7 +119,6 @@
                 </div>
             </div>
         </div>
-
         <!-- footer area start -->
         <div th:include="~{fragments/web/footer.html}"></div>
         <!-- footer area end -->
@@ -158,7 +156,31 @@
         <!-- main JS
         ============================================ -->
         <script src="js/main.js"></script>
-    </body>
+        <script>
+            function sendVerificationEmail() {
+                var email = document.querySelector("input[name='email']").value;
 
-<!-- Mirrored from htmldemo.net/james/james/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:29 GMT -->
+                if (email) {
+                    fetch("/send-code?email=" + email, {
+                        method: "POST"
+                    })
+                        .then(response => response.text())
+                        .then(message => {
+                            if (message === "success") {
+                                alert("Đã gửi mã xác minh thành công! Vui lòng kiểm tra email của bạn.");
+                            }
+                            else if (message === "email_exists") {
+                                alert("Email đã đăng kí. Vui lòng chọn email khác");
+                            }
+                            else{
+                                alert("Có lỗi. Vui lòng tử lại!")
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                } else {
+                    alert("Please enter a valid email.");
+                }
+            }
+        </script>
+    </body>
 </html>
