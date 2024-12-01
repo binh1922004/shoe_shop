@@ -18,13 +18,13 @@ public class CategoryController {
     @GetMapping("")
     public String category(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
-        return "webapp/admin/categories/category-list";
+        return "/admin/categories/category-list";
     }
     @GetMapping("/insertCategoryPage")
     public String insertProductPage(Model model) {
         Category category = new Category();
         model.addAttribute("category", category);
-        return "webapp/admin/categories/category-add";
+        return "/admin/categories/category-add";
     }
 
     @PostMapping("/save")
@@ -39,7 +39,7 @@ public class CategoryController {
         Category category = categoryRepository.findById(id).get();
         model.addAttribute("category", category);
         model.addAttribute("id", category.getId());
-        return "webapp/admin/categories/category-edit";
+        return "/admin/categories/category-edit";
     }
 
     @PostMapping("/update")
