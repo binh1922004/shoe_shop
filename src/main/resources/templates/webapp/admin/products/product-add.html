@@ -1369,7 +1369,7 @@
                                                 data-choices-groups data-placeholder="Select Categories"
                                                 name="choices-single-groups" th:field="*{categoryId}">
                                             <option th:each="category : ${categories}" th:value="${category.id}"
-                                                    th:utext="${category.type}"
+                                                    th:text="${category.type}"
                                                     th:selected="${product.categoryName == category.type}"/>
                                         </select>
                                     </div>

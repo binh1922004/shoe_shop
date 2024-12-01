@@ -32,6 +32,10 @@ public class Product {
     @Column(name = "price", nullable = true)
     private double price;
 
+    @Basic
+    @Column(nullable = true)
+    private String image;
+
 
     @ManyToOne
     @JoinColumn(name = "category_id")
