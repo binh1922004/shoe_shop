@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.controller;
+package hcmute.com.ShoeShop.controller.web;
 
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.utlis.Constant;
@@ -12,15 +12,15 @@ public class WaitingController {
     public String waitingPage(HttpSession session) {
         Users loggedInUser = (Users) session.getAttribute(Constant.SESSION_USER);//Lấy thông tin từ session
         System.out.println(loggedInUser.getFullname() + " "+loggedInUser.getId());
-        int roleId = loggedInUser.getId();
+        int roleId = loggedInUser.getRole().getRoleId();
         if (roleId == 1) {
             return "user/my-account";
         }
         else if (roleId == 2) {
-            return "manager/home";
+            return "user/my-account";
         }
         else if (roleId == 3) {
-            return "user/home";
+            return "user/my-account";
         }
         else{
             return "web/login";
