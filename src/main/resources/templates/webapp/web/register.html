@@ -1,7 +1,5 @@
 <!doctype html>
 <html class="no-js" lang="" xmlns:th="http://www.thymeleaf.org">
-    
-<!-- Mirrored from htmldemo.net/james/james/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:30 GMT -->
 <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -104,9 +102,14 @@
                                         <input type="text" name="fullname" placeholder="Fullname" required>
                                         <input type="password" name="password" placeholder="Password" required>
                                         <input type="text" name="address" placeholder="Address" required>
+                                        <div class=" align-items-center gap-3">
+                                            <button type="button" onclick="sendVerificationEmail()" style="margin: 0 auto; display: block">Send Verification Code</button><br>
+                                            <input type="text" name="verity" placeholder="Verify code" required pattern="^\d{6}$" title="Please enter exactly 6 digits">
+                                        </div>
+
 
                                         <div class="button-box">
-                                            <button type="submit" class="default-btn">Register</button>
+                                            <button type="submit" class="default-btn" style="margin: 0 auto; display: block">Register</button>
                                         </div>
                                     </form>
                                 </div>
@@ -153,7 +156,31 @@
         <!-- main JS
         ============================================ -->
         <script src="js/main.js"></script>
-    </body>
+        <script>
+            function sendVerificationEmail() {
+                var email = document.querySelector("input[name='email']").value;
 
-<!-- Mirrored from htmldemo.net/james/james/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:30 GMT -->
+                if (email) {
+                    fetch("/send-code?email=" + email, {
+                        method: "POST"
+                    })
+                        .then(response => response.text())
+                        .then(message => {
+                            if (message === "success") {
+                                alert("Đã gửi mã xác minh thành công! Vui lòng kiểm tra email của bạn.");
+                            }
+                            else if (message === "email_exists") {
+                                alert("Email đã đăng kí. Vui lòng chọn email khác");
+                            }
+                            else{
+                                alert("Có lỗi. Vui lòng tử lại!")
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                } else {
+                    alert("Please enter a valid email.");
+                }
+            }
+        </script>
+    </body>
 </html>

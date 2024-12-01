@@ -21,4 +21,15 @@ spring:
     mode: HTML                            # Định dạng HTML
     encoding: UTF-8                       # Mã hóa ký tự
     cache: false                          # Vô hiệu hóa bộ nhớ đệm khi phát triển
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: nd2004lk13@gmail.com
+    password: swwa kcsa bbma gvlc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
