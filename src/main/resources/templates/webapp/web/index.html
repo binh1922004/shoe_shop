@@ -247,15 +247,14 @@
                                                 </div> -->
                                                 <div class="products" th:each="product : ${products}">
                                                     <div class="single-product">
-                                                        <!--                                                        <div class="level-pro-new" th:if="${product.isNew}">-->
-                                                        <!--                                                            <span>new</span>-->
-                                                        <!--                                                        </div>-->
-                                                        <!--                                                        <div class="product-img">-->
-                                                        <!--                                                            <a th:href="@{/products/{id}(id=${product.id})}">-->
-                                                        <!--                                                                <img th:src="${product.primaryImage}" alt="Primary Image" class="primary-img">-->
-                                                        <!--                                                                <img th:src="${product.secondaryImage}" alt="Secondary Image" class="secondary-img">-->
-                                                        <!--                                                            </a>-->
-                                                        <!--                                                        </div>-->
+                                                        <div class="level-pro-new">
+                                                            <span>new</span>
+                                                        </div>
+                                                        <div class="product-img">
+                                                            <a th:href="@{/product/details/{id}(id=${product.id})}">
+                                                                <img th:src="${product.image}" alt="Image" class="primary-img">
+                                                            </a>
+                                                        </div>
                                                         <div class="product-name">
                                                             <a th:href="@{/product/details/{id}(id=${product.id})}" th:title="${product.title}" th:text="${product.title}"></a>
                                                             <p th:text="${product.description}"></p>
