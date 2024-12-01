@@ -1,5 +1,8 @@
-package hcmute.com.ShoeShop.entity;
+package hcmute.com.ShoeShop.utlis;
 
+import hcmute.com.ShoeShop.entity.Order;
+import hcmute.com.ShoeShop.entity.ShipmentStatus;
+import hcmute.com.ShoeShop.entity.Users;
 import jakarta.persistence.*;
 import lombok.Data;
 
