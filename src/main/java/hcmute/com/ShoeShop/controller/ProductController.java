@@ -5,6 +5,8 @@ import hcmute.com.ShoeShop.entity.Category;
 import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
 import hcmute.com.ShoeShop.repository.ProductRepository;
+import hcmute.com.ShoeShop.services.ProductService;
+import hcmute.com.ShoeShop.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -24,22 +27,28 @@ public class ProductController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @GetMapping("")
-    public String productPage(Model model) {
-        model.addAttribute("products", productRepository.findAll());
-        return "/admin/products/product-list";
-    }
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private StorageService storageService;
+
+//    @GetMapping("")
+//    public String productPage(Model model) {
+//        model.addAttribute("products", productRepository.findAll());
+//        return "/admin/products/product-list";
+//    }
     @GetMapping("/insertProductPage")
     public String insertProductPage(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
         ProductDto productDto = new ProductDto();
         model.addAttribute("product", productDto);
-        return "/admin/products/product-add";
+        return "webapp/admin/products/product-add";
 
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute(name = "product") ProductDto productDto) {
+    public String save(@ModelAttribute(name = "product") ProductDto productDto, @RequestParam(name = "image", required = false)  MultipartFile image) {
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setDescription(productDto.getDescription());
@@ -47,6 +56,13 @@ public class ProductController {
         product.setVoucher(productDto.getVoucher());
         Category category = categoryRepository.findById(productDto.getCategoryId()).get();
         product.setCategory(category);
+
+        if(image != null) {
+            String fileName = "pro_" + LocalDateTime.now().toString();
+            fileName = storageService.uploadFile(image, fileName);
+            product.setImage(fileName);
+        }
+
         productRepository.save(product);
         return "redirect:/product";
     }
@@ -67,17 +83,24 @@ public class ProductController {
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("product", productDto);
         model.addAttribute("id", productDto.getId());
-        return "/admin/products/product-edit";
+        return "webapp/admin/products/product-edit";
 
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute(name = "product") ProductDto productDto) {
+    public String update(@ModelAttribute(name = "product") ProductDto productDto, @RequestParam(name = "image", required = false)  MultipartFile image) {
         Product product = productRepository.findById(productDto.getId()).get();
         product.setTitle(productDto.getTitle());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setVoucher(productDto.getVoucher());
+
+        if(image != null) {
+            String fileName = "pro_" + LocalDateTime.now().toString();
+            fileName = storageService.uploadFile(image, fileName);
+            product.setImage(fileName);
+        }
+
         Category category = categoryRepository.findById(productDto.getCategoryId()).get();
         product.setCategory(category);
         productRepository.save(product);
@@ -89,6 +112,20 @@ public class ProductController {
     public String delete(@PathVariable("id") Long id){
         productRepository.deleteById(id);
         return "redirect:/product";
+    }
+
+
+    @GetMapping("")
+    public String productPage(Model model) {
+        model.addAttribute("products", productService.getAllProducts());
+        return "webapp/admin/products/product-list";
+    }
+
+    @GetMapping("/details/{id}")
+    public String getProductDetails(@PathVariable long id, Model model) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        return "webapp/user/single-product";
     }
 
 }

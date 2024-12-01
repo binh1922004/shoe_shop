@@ -30,7 +30,11 @@ public class Product {
 
     @Basic
     @Column(name = "price", nullable = true)
-    private BigDecimal price;
+    private double price;
+
+    @Basic
+    @Column(nullable = true)
+    private String image;
 
 
     @ManyToOne
@@ -38,5 +42,9 @@ public class Product {
     @EqualsAndHashCode.Exclude
     private Category category;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<OrderDetail> orderDetailSet;
 
 }

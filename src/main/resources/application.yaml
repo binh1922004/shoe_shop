@@ -6,8 +6,10 @@ server:
 spring:
   datasource:
     url: "jdbc:mysql://localhost:3306/shoeshop"
-    username: shoeshop
-    password: shoeshop123!
+#    username: shoeshop
+#    password: shoeshop123!
+    username: root
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,9 +18,20 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   thymeleaf:
-    prefix: classpath:/templates/webapp/   # Đặt đường dẫn cho thư mục templates của bạn
+    prefix: classpath:/templates/   # Đặt đường dẫn cho thư mục templates của bạn
     suffix: .html                         # Phần mở rộng của các tệp mẫu
     mode: HTML                            # Định dạng HTML
     encoding: UTF-8                       # Mã hóa ký tự
     cache: false                          # Vô hiệu hóa bộ nhớ đệm khi phát triển
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: nd2004lk13@gmail.com
+    password: swwa kcsa bbma gvlc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
