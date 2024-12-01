@@ -5,6 +5,7 @@ import hcmute.com.ShoeShop.entity.Category;
 import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
 import hcmute.com.ShoeShop.repository.ProductRepository;
+import hcmute.com.ShoeShop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +25,14 @@ public class ProductController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @GetMapping("")
-    public String productPage(Model model) {
-        model.addAttribute("products", productRepository.findAll());
-        return "/admin/products/product-list";
-    }
+    @Autowired
+    private ProductService productService;
+
+//    @GetMapping("")
+//    public String productPage(Model model) {
+//        model.addAttribute("products", productRepository.findAll());
+//        return "/admin/products/product-list";
+//    }
     @GetMapping("/insertProductPage")
     public String insertProductPage(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
@@ -89,6 +93,20 @@ public class ProductController {
     public String delete(@PathVariable("id") Long id){
         productRepository.deleteById(id);
         return "redirect:/product";
+    }
+
+
+    @GetMapping("")
+    public String productPage(Model model) {
+        model.addAttribute("products", productService.getAllProducts());
+        return "web/index";
+    }
+
+    @GetMapping("/details/{id}")
+    public String getProductDetails(@PathVariable long id, Model model) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        return "user/single-product";
     }
 
 }
