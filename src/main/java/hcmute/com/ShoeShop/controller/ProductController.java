@@ -99,7 +99,7 @@ public class ProductController {
     @GetMapping("")
     public String productPage(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "web/index";
+        return "admin/products/product-list";
     }
 
     @GetMapping("/details/{id}")
