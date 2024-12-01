@@ -18,7 +18,7 @@ public class ProductDto {
     private String description;
     private Long voucher;
 
-    private BigDecimal price;
+    private double price;
 
     private String categoryName;
 }
