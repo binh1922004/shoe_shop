@@ -43,7 +43,7 @@ public class ProductController {
         model.addAttribute("categories", categoryRepository.findAll());
         ProductDto productDto = new ProductDto();
         model.addAttribute("product", productDto);
-        return "webapp/admin/products/product-add";
+        return "admin/products/product-add";
 
     }
 
@@ -83,7 +83,7 @@ public class ProductController {
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("product", productDto);
         model.addAttribute("id", productDto.getId());
-        return "webapp/admin/products/product-edit";
+        return "admin/products/product-edit";
 
     }
 
@@ -118,14 +118,14 @@ public class ProductController {
     @GetMapping("")
     public String productPage(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "webapp/admin/products/product-list";
+        return "admin/products/product-list";
     }
 
     @GetMapping("/details/{id}")
     public String getProductDetails(@PathVariable long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
-        return "webapp/user/single-product";
+        return "user/single-product";
     }
 
 }
