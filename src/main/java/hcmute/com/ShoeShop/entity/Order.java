@@ -1,5 +1,6 @@
 package hcmute.com.ShoeShop.entity;
 
+import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,6 +29,10 @@ public class Order {
         @Column(name = "created_date", nullable = false)
         @Temporal(TemporalType.TIMESTAMP) // Định dạng DateTime
         private Date createdDate;
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL', 'ROLLBACK')", nullable = false)
+        private ShipmentStatus status;
 
         @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
         @EqualsAndHashCode.Exclude

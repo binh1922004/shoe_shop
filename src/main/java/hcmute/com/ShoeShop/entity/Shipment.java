@@ -4,6 +4,8 @@ import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Entity
 @Data
 public class Shipment {
@@ -19,7 +21,10 @@ public class Shipment {
         @JoinColumn(name = "shipper_id", referencedColumnName = "id", nullable = false)
         private Users shipper;
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL')", nullable = false)
-        private ShipmentStatus status;
+        @Column(name = "update_date")
+        private Date lastupdate;
+
+//        @Enumerated(EnumType.STRING)
+//        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL')", nullable = false)
+//        private ShipmentStatus status;
 }
