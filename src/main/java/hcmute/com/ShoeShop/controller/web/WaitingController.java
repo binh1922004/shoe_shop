@@ -20,10 +20,10 @@ public class WaitingController {
             return "user/my-account";
         }
         else if (roleId == 3) {
-            return "user/my-account";
+            return "redirect:/user/shop";
         }
         else{
-            return "web/login";
+            return "redirect:/login";
         }
     }
 
