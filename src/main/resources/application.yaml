@@ -2,7 +2,7 @@ server:
   port: 8080
   servlet:
     context-path: /
-#
+
 spring:
   datasource:
     url: "jdbc:mysql://localhost:3306/shoeshop"
@@ -12,3 +12,12 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+  thymeleaf:
+    prefix: classpath:/templates/webapp/   # Đặt đường dẫn cho thư mục templates của bạn
+    suffix: .html                         # Phần mở rộng của các tệp mẫu
+    mode: HTML                            # Định dạng HTML
+    encoding: UTF-8                       # Mã hóa ký tự
+    cache: false                          # Vô hiệu hóa bộ nhớ đệm khi phát triển
+
+
