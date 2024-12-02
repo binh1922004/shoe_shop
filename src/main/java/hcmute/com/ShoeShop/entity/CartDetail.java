@@ -19,8 +19,8 @@ public class CartDetail {
 
         @ManyToOne
         @NotNull(message = "Product cannot be null")
-        @JoinColumn(name = "product_id", nullable = false)
-        private Product product;
+        @JoinColumn(name = "productdetail_id", nullable = false)
+        private ProductDetail product;
 
         @NotNull(message = "Quantity cannot be null")
         @PositiveOrZero(message = "Total price must be greater than or equal to 0")
