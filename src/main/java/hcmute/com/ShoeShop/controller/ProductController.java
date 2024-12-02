@@ -30,11 +30,12 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-//    @GetMapping("")
-//    public String productPage(Model model) {
-//        model.addAttribute("products", productRepository.findAll());
-//        return "/admin/products/product-list";
-//    }
+    @GetMapping("")
+    public String productPage(Model model) {
+        model.addAttribute("products", productRepository.findAll());
+        return "/admin/products/product-list";
+    }
+
     @GetMapping("/insertProductPage")
     public String insertProductPage(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
@@ -104,7 +105,7 @@ public class ProductController {
 //        return "web/index";
 //    }
 
-    @GetMapping("")
+    @GetMapping("/web")
     public String getAllProducts(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "6") int size,
                                  Model model) {
@@ -112,7 +113,7 @@ public class ProductController {
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
-        return "web/index";
+        return "redirect:/";
     }
 
     @GetMapping("/details/{id}")

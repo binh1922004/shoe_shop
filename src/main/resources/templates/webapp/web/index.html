@@ -215,15 +215,6 @@
                                                         <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
                                                     </ul>
                                                 </div>
-<!--                                                        <div class="actions">-->
-<!--                                                            <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>-->
-<!--                                                            <ul class="add-to-link">-->
-<!--                                                                <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#">-->
-<!--                                                                    <i class="fa fa-search"></i></a></li>-->
-<!--                                                                <li><a href="#"> <i class="fa fa-heart-o"></i></a></li>-->
-<!--                                                                <li><a href="#"> <i class="fa fa-refresh"></i></a></li>-->
-<!--                                                            </ul>-->
-<!--                                                        </div>-->
                                             </div>
 
                                     </div>
@@ -233,18 +224,18 @@
                                                 <ul class="pagination justify-content-center">
                                                     <!-- Nút Previous -->
                                                     <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-                                                        <a class="page-link" th:href="@{/product(page=${currentPage - 1}, size=6)}">Previous</a>
+                                                        <a class="page-link" th:href="@{/(page=${currentPage - 1}, size=6)}">Previous</a>
                                                     </li>
 
                                                     <!-- Các số trang -->
                                                     <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                                                         th:classappend="${i == currentPage ? 'active' : ''}">
-                                                        <a class="page-link" th:href="@{/product(page=${i}, size=6)}" th:text="${i + 1}"></a>
+                                                        <a class="page-link" th:href="@{/(page=${i}, size=6)}" th:text="${i + 1}"></a>
                                                     </li>
 
                                                     <!-- Nút Next -->
                                                     <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                                                        <a class="page-link" th:href="@{/product(page=${currentPage + 1}, size=6)}">Next</a>
+                                                        <a class="page-link" th:href="@{/(page=${currentPage + 1}, size=6)}">Next</a>
                                                     </li>
                                                 </ul>
                                             </nav>

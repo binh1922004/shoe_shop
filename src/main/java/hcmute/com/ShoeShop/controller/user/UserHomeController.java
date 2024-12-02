@@ -17,7 +17,7 @@ public class UserHomeController {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
         if(u!=null) {
             model.addAttribute("user", u);
-            return "user/shop";
+            return "redirect:/shop";
         }
         else {
             return "redirect:/login";
