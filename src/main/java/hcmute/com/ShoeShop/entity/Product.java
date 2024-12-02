@@ -1,5 +1,6 @@
 package hcmute.com.ShoeShop.entity;
 
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,13 +20,16 @@ public class Product {
     @Column(name = "id", nullable = false)
     protected Long id;
 
+    @NotNull(message = "Title cannot be null")
     @Basic
     @Column(length = 255,name = "title", nullable = true,  columnDefinition = "nvarchar(255)")
     private String title;
 
+    @Size(max = 255, message = "Description cannot exceed 255 characters")
     @Basic
     @Column(name = "description", nullable = true, length = 255, columnDefinition = "nvarchar(255)")
     private String description;
+
     private Long voucher;
 
     @Basic
@@ -35,7 +39,6 @@ public class Product {
     @Basic
     @Column(nullable = true)
     private String image;
-
 
     @ManyToOne
     @JoinColumn(name = "category_id")

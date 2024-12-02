@@ -100,7 +100,7 @@
                                     <form action="/register" method="post">
                                         <input name="email" placeholder="Email" type="email" required>
                                         <input type="text" name="fullname" placeholder="Fullname" required>
-                                        <input type="password" name="password" placeholder="Password" required>
+                                        <input type="password" name="password" placeholder="Password" required minlength="6" title="Password must be at least 6 characters long">
                                         <input type="text" name="address" placeholder="Address" required>
                                         <div class=" align-items-center gap-3">
                                             <button type="button" onclick="sendVerificationEmail()" style="margin: 0 auto; display: block">Send Verification Code</button><br>

@@ -1,5 +1,6 @@
 package hcmute.com.ShoeShop.entity;
 
+import jakarta.validation.constraints.*;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,16 +16,13 @@ public class Shipment {
 
         @OneToOne
         @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
+        @NotNull(message = "Order cannot be null")
         private Order order;
 
         @ManyToOne
         @JoinColumn(name = "shipper_id", referencedColumnName = "id", nullable = false)
+        @NotNull(message = "Shipper must not be null")
         private Users shipper;
 
-        @Column(name = "update_date")
-        private Date lastupdate;
-
-//        @Enumerated(EnumType.STRING)
-//        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL')", nullable = false)
-//        private ShipmentStatus status;
+		@NotNull(message = "Shipment status must not be null")
 }
