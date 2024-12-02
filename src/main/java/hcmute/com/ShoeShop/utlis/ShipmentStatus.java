@@ -1,8 +1,9 @@
-package hcmute.com.ShoeShop.entity;
+package hcmute.com.ShoeShop.utlis;
 
 public enum ShipmentStatus {
         IN_STOCK,
         SHIPPED,
         DELIVERED,
-        CANCEL
+        CANCEL,
+        ROLLBACK
 }

@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.controller;
+package hcmute.com.ShoeShop.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +9,6 @@ public class HomeController {
 
     @GetMapping
     public String home() {
-        return "user/cart";
+        return "web/index";
     }
 }
