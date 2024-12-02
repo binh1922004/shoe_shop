@@ -9,6 +9,6 @@ public class HomeController {
 
     @GetMapping
     public String home() {
-        return "web/index";
+        return "user/cart";
     }
 }
