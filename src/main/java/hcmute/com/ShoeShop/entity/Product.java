@@ -45,6 +45,9 @@ public class Product {
     @EqualsAndHashCode.Exclude
     private Category category;
 
+    @Column(name = "is_delete")
+    private boolean isdelete;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

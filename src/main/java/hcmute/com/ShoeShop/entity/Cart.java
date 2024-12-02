@@ -1,8 +1,8 @@
 package hcmute.com.ShoeShop.entity;
 
-import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,11 +12,10 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "Orders")
-public class Order {
+public class Cart {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
+        private int id;
 
         @ManyToOne
         @NotNull(message = "User cannot be null")
@@ -33,12 +32,8 @@ public class Order {
         @NotNull(message = "Created date cannot be null")
         private Date createdDate;
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL', 'ROLLBACK')", nullable = false)
-        private ShipmentStatus status;
-
-        @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+        @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
         @EqualsAndHashCode.Exclude
         @ToString.Exclude
-        private Set<OrderDetail> orderDetailSet;
+        private Set<CartDetail> orderDetailSet;
 }
