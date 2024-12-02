@@ -5,8 +5,6 @@ import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
-
 @Entity
 @Data
 public class Shipment {
@@ -24,5 +22,8 @@ public class Shipment {
         @NotNull(message = "Shipper must not be null")
         private Users shipper;
 
-		@NotNull(message = "Shipment status must not be null")
+        @Enumerated(EnumType.STRING)
+        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL')", nullable = false)
+        @NotNull(message = "Shipment status must not be null")
+        private ShipmentStatus status;
 }
