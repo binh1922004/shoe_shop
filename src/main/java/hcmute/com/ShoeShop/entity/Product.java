@@ -33,7 +33,7 @@ public class Product {
     private Long voucher;
 
     @Basic
-    @Column(name = "price", nullable = true)
+    @Column(name = "price", nullable = false)
     private double price;
 
     @Basic
