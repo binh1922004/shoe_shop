@@ -9,6 +9,8 @@ import hcmute.com.ShoeShop.services.imp.ProductService;
 import hcmute.com.ShoeShop.services.StorageService;
 import hcmute.com.ShoeShop.services.imp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -110,10 +112,21 @@ public class ProductController {
     }
 
 
-    @GetMapping("")
-    public String productPage(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
-        return "admin/products/product-list";
+//    @GetMapping("")
+//    public String productPage(Model model) {
+//        model.addAttribute("products", productService.getAllProducts());
+//        return "web/index";
+//    }
+
+    @GetMapping("/web")
+    public String getAllProducts(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "6") int size,
+                                 Model model) {
+        Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        return "redirect:/";
     }
 
     @GetMapping("/details/{id}")
