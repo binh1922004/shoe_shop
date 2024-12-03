@@ -5,6 +5,8 @@ import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Entity
 @Data
 public class Shipment {
@@ -26,4 +28,9 @@ public class Shipment {
         @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL')", nullable = false)
         @NotNull(message = "Shipment status must not be null")
         private ShipmentStatus status;
+
+        @Column(name = "updated_date")
+        private Date updatedDate;
+
+        private String note;
 }
