@@ -6,10 +6,18 @@ import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
 import hcmute.com.ShoeShop.repository.ProductRepository;
 import hcmute.com.ShoeShop.services.imp.ProductService;
+import hcmute.com.ShoeShop.services.StorageService;
+import hcmute.com.ShoeShop.services.imp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/product")
@@ -23,13 +31,10 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-/*
-    @GetMapping("")
-    public String productPage(Model model) {
-        model.addAttribute("products", productRepository.findAll());
-        return "/admin/products/product-list";
-    }
-    */
+
+    @Autowired
+    private StorageService storageService;
+
     @GetMapping("/insertProductPage")
     public String insertProductPage(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
@@ -40,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute(name = "product") ProductDto productDto) {
+    public String save(@ModelAttribute(name = "product") ProductDto productDto, @RequestParam(name = "image", required = false)  MultipartFile image) {
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setDescription(productDto.getDescription());
@@ -48,6 +53,13 @@ public class ProductController {
         product.setVoucher(productDto.getVoucher());
         Category category = categoryRepository.findById(productDto.getCategoryId()).get();
         product.setCategory(category);
+
+        if(image != null) {
+            String fileName = "pro_" + LocalDateTime.now().toString();
+            fileName = storageService.uploadFile(image, fileName);
+            product.setImage(fileName);
+        }
+
         productRepository.save(product);
         return "redirect:/product";
     }
@@ -73,12 +85,19 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute(name = "product") ProductDto productDto) {
+    public String update(@ModelAttribute(name = "product") ProductDto productDto, @RequestParam(name = "image", required = false)  MultipartFile image) {
         Product product = productRepository.findById(productDto.getId()).get();
         product.setTitle(productDto.getTitle());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setVoucher(productDto.getVoucher());
+
+        if(image != null) {
+            String fileName = "pro_" + LocalDateTime.now().toString();
+            fileName = storageService.uploadFile(image, fileName);
+            product.setImage(fileName);
+        }
+
         Category category = categoryRepository.findById(productDto.getCategoryId()).get();
         product.setCategory(category);
         productRepository.save(product);
@@ -93,10 +112,21 @@ public class ProductController {
     }
 
 
-    @GetMapping("")
-    public String productPage(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
-        return "admin/products/product-list";
+//    @GetMapping("")
+//    public String productPage(Model model) {
+//        model.addAttribute("products", productService.getAllProducts());
+//        return "web/index";
+//    }
+
+    @GetMapping("/web")
+    public String getAllProducts(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "6") int size,
+                                 Model model) {
+        Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        return "redirect:/";
     }
 
     @GetMapping("/details/{id}")

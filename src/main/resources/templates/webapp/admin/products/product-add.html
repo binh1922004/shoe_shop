@@ -1343,7 +1343,7 @@
         <div class="container-xxl">
 
             <div class="row">
-                <form th:object="${product}" method="post" th:action="@{/product/save}">
+                <form th:object="${product}" method="post" th:action="@{/product/save}" enctype="multipart/form-data">
                     <input
                             type="hidden"
                             th:field="*{id}">
@@ -1372,6 +1372,17 @@
                                                     th:text="${category.type}"
                                                     th:selected="${product.categoryName == category.type}"/>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Ảnh</label>
+                                            <input type="file"  class="form-control bg-light-subtle"
+                                                      id="image" rows="7" name="image"
+                                                      placeholder="Short description about the product"></input>
+                                        </div>
                                     </div>
                                 </div>
 

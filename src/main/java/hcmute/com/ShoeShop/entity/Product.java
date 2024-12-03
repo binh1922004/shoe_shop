@@ -48,9 +48,4 @@ public class Product {
     @Column(name = "is_delete", nullable = false, columnDefinition = "boolean default false")
     private boolean isDelete = false;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Set<OrderDetail> orderDetailSet;
-
 }

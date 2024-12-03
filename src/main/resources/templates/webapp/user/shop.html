@@ -66,7 +66,7 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div th:include="~{fragments/user/begin_header.html}"></div>
+<!--        <div th:include="~{fragments/user/begin_header.html}"></div>-->
 
         <!-- header area start -->
         <div th:include="~{fragments/user/header.html}"></div>
@@ -194,7 +194,72 @@
                                 per page
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="product-content">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active fade show home2" id="gird">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-6" th:each="product : ${products}">
+                                                <div class="single-product" >
+                                                    <div class="level-pro-new">
+                                                        <span>new</span>
+                                                    </div>
+                                                    <div class="product-img">
+                                                        <a th:href="@{/product/details/{id}(id=${product.id})}">
+                                                            <img th:src="${product.image}" alt="Image" class="primary-img">
+                                                        </a>
+                                                    </div>
+                                                    <div class="actions">
+                                                        <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>
+                                                        <ul class="add-to-link">
+                                                            <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
+                                                            <li><a href="#"> <i class="fa fa-heart-o"></i></a></li>
+                                                            <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="product-price">
+                                                        <div class="product-name">
+                                                            <a th:href="@{/product/details/{id}(id=${product.id})}" th:title="${product.title}" th:text="${product.title}"></a>
+                                                            <!--                                                            <p th:text="${product.description}"></p>-->
+                                                        </div>
+                                                        <div class="price-rating">
+                                                            <span th:text="'$' + ${product.price}"></span>
+                                                            <div class="ratings">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star-half-o"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Phân trang -->
+                            <div class="col-md-12">
+                                <ul class="pagination justify-content-center">
+                                    <!-- Nút Previous -->
+                                    <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                                        <a class="page-link" th:href="@{/user/shop(page=${currentPage - 1}, size=6)}">Previous</a>
+                                    </li>
 
+                                    <!-- Các số trang -->
+                                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                        th:classappend="${i == currentPage ? 'active' : ''}">
+                                        <a class="page-link" th:href="@{/user/shop(page=${i}, size=6)}" th:text="${i + 1}"></a>
+                                    </li>
+
+                                    <!-- Nút Next -->
+                                    <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                                        <a class="page-link" th:href="@{/user/shop(page=${currentPage + 1}, size=6)}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

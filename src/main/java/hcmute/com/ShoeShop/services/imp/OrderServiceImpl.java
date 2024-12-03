@@ -17,4 +17,9 @@ public class OrderServiceImpl implements IOrderService {
         public List<Order> findAll() {
                 return orderRepository.findAll();
         }
+
+        @Override
+        public Order findById(int orderId) {
+                return orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("can not find order"));
+        }
 }
