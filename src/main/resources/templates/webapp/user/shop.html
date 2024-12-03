@@ -416,18 +416,18 @@
                                 <ul class="pagination justify-content-center">
                                     <!-- Nút Previous -->
                                     <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-                                        <a class="page-link" th:href="@{/shop(page=${currentPage - 1}, size=6)}">Previous</a>
+                                        <a class="page-link" th:href="@{/user/shop(page=${currentPage - 1}, size=6)}">Previous</a>
                                     </li>
 
                                     <!-- Các số trang -->
                                     <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                                         th:classappend="${i == currentPage ? 'active' : ''}">
-                                        <a class="page-link" th:href="@{/shop(page=${i}, size=6)}" th:text="${i + 1}"></a>
+                                        <a class="page-link" th:href="@{/user/shop(page=${i}, size=6)}" th:text="${i + 1}"></a>
                                     </li>
 
                                     <!-- Nút Next -->
                                     <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                                        <a class="page-link" th:href="@{/shop(page=${currentPage + 1}, size=6)}">Next</a>
+                                        <a class="page-link" th:href="@{/user/shop(page=${currentPage + 1}, size=6)}">Next</a>
                                     </li>
                                 </ul>
                             </div>
