@@ -1373,6 +1373,7 @@
                                     <thead class="bg-light-subtle">
                                     <tr>
                                         <th>ID</th>
+                                        <th>Ảnh</th>
                                         <th>Tên sản phẩm</th>
                                         <th>Giá</th>
                                         <th>Loại</th>
@@ -1383,6 +1384,8 @@
                                     <!-- Thymeleaf loop to iterate over products -->
                                     <tr th:each="product : ${products}">
                                         <td th:text="${product.id}"></td>
+
+                                        <td><img th:src="@{{fileName}(fileName=${product.image})}" alt="Thumbnail" style="max-width: 100px;"></td>
 
                                         <td>
                                             <div class="d-flex align-items-center gap-2">

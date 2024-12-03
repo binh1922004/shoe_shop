@@ -1,6 +1,5 @@
 package hcmute.com.ShoeShop.controller;
 
-import hcmute.com.ShoeShop.dto.CategoryDto;
 import hcmute.com.ShoeShop.entity.Category;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/inventory")
+public class InventoryController {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -18,13 +17,13 @@ public class CategoryController {
     @GetMapping("")
     public String category(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
-        return "admin/categories/category-list";
+        return "/admin/inventory/inventory-warehouse";
     }
     @GetMapping("/insertCategoryPage")
     public String insertProductPage(Model model) {
         Category category = new Category();
         model.addAttribute("category", category);
-        return "admin/categories/category-add";
+        return "/admin/categories/inventory-warehouse";
     }
 
     @PostMapping("/save")
@@ -39,7 +38,7 @@ public class CategoryController {
         Category category = categoryRepository.findById(id).get();
         model.addAttribute("category", category);
         model.addAttribute("id", category.getId());
-        return "admin/categories/category-edit";
+        return "/admin/categories/category-edit";
     }
 
     @PostMapping("/update")
