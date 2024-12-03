@@ -101,16 +101,16 @@
                                     <form action="/register" method="post">
                                         <input name="email" placeholder="Email" type="email" required>
                                         <input type="text" name="fullname" placeholder="Fullname" required>
-                                        <input type="password" name="password" placeholder="Password" required minlength="6" title="Password must be at least 6 characters long">
                                         <input type="text" name="address" placeholder="Address" required>
-                                        <div class=" align-items-center gap-3">
-                                            <button type="button" onclick="sendVerificationEmail()" style="margin: 0 auto; display: block">Send Verification Code</button><br>
-                                            <input type="text" name="verity" placeholder="Verify code" required pattern="^\d{6}$" title="Please enter exactly 6 digits">
+                                        <input type="text" name="phone" placeholder="Phone Number" required pattern="^0\d{9}$" title="Phone number must be a valid 10-digit number starting with 0">
+                                        <input type="password" name="password" placeholder="Password" required minlength="6" title="Password must be at least 6 characters long">
+                                        <div class="align-items-center gap-3" style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+                                            <button type="button" onclick="sendVerificationEmail()" class="default-btn" style="padding: 10px; font-size: 16px; width: 100%; height: 40px; border: 1px solid #ccc; border-radius: 5px; display: block;">Send code</button>
+                                            <input type="text" name="verity" placeholder="Verify code" required pattern="^\d{6}$" title="Please enter exactly 6 digits" style="padding: 10px; margin-bottom: 4px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; width: 100%; height: 40px;">
                                         </div>
 
-
                                         <div class="button-box">
-                                            <button type="submit" class="default-btn" style="margin: 0 auto; display: block">Register</button>
+                                            <button type="submit" class="default-btn" style="margin: 0 auto; margin-top: 10px;display: block">Register</button>
                                         </div>
                                     </form>
                                 </div>
