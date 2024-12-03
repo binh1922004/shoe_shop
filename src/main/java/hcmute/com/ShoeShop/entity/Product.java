@@ -33,7 +33,7 @@ public class Product {
     private Long voucher;
 
     @Basic
-    @Column(name = "price", nullable = true)
+    @Column(name = "price", nullable = false)
     private double price;
 
     @Basic
@@ -46,6 +46,6 @@ public class Product {
     private Category category;
 
     @Column(name = "is_delete", nullable = false, columnDefinition = "boolean default false")
-    private boolean isdelete;
+    private boolean isDelete = false;
 
 }

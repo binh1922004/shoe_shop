@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.services;
+package hcmute.com.ShoeShop.services.imp;
 
 import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.repository.ProductRepository;
@@ -24,5 +24,8 @@ public class ProductService {
 
     public Product getProductById(long id) {
         return productRepository.findById(id).orElse(null);
+    }
+    public Page<Product> findAllPage(Pageable pageable) {
+        return productRepository.findAll(pageable); // Đây là phương thức đúng
     }
 }

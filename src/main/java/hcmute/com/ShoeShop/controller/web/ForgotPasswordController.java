@@ -1,8 +1,8 @@
 package hcmute.com.ShoeShop.controller.web;
 
 import hcmute.com.ShoeShop.entity.Users;
-import hcmute.com.ShoeShop.services.EmailService;
-import hcmute.com.ShoeShop.services.UserService;
+import hcmute.com.ShoeShop.services.imp.EmailService;
+import hcmute.com.ShoeShop.services.imp.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

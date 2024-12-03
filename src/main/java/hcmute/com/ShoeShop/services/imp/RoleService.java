@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.services;
+package hcmute.com.ShoeShop.services.imp;
 
 import hcmute.com.ShoeShop.entity.Role;
 import hcmute.com.ShoeShop.repository.RoleRepository;
