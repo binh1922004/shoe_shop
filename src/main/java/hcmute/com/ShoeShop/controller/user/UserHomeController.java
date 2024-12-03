@@ -41,7 +41,7 @@ public class UserHomeController {
     @GetMapping("/shop")
     public String userHome(HttpSession session, Model model,
                            @RequestParam(defaultValue = "0") int page,
-                           @RequestParam(defaultValue = "12") int size) {
+                           @RequestParam(defaultValue = "6") int size) {
 
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
         List<Category> categories = categoryService.findAll();
