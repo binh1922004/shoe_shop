@@ -45,7 +45,7 @@ public class Product {
     @EqualsAndHashCode.Exclude
     private Category category;
 
-    @Column(name = "is_delete")
+    @Column(name = "is_delete", nullable = false, columnDefinition = "boolean default false")
     private boolean isdelete;
 
 }
