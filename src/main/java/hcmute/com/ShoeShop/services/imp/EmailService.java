@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.services;
+package hcmute.com.ShoeShop.services.imp;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

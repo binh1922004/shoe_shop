@@ -5,8 +5,9 @@ import hcmute.com.ShoeShop.entity.Category;
 import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
 import hcmute.com.ShoeShop.repository.ProductRepository;
-import hcmute.com.ShoeShop.services.ProductService;
+import hcmute.com.ShoeShop.services.imp.ProductService;
 import hcmute.com.ShoeShop.services.StorageService;
+import hcmute.com.ShoeShop.services.imp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 @RequestMapping("/product")
@@ -33,11 +33,6 @@ public class ProductController {
     @Autowired
     private StorageService storageService;
 
-//    @GetMapping("")
-//    public String productPage(Model model) {
-//        model.addAttribute("products", productRepository.findAll());
-//        return "/admin/products/product-list";
-//    }
     @GetMapping("/insertProductPage")
     public String insertProductPage(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
@@ -127,5 +122,4 @@ public class ProductController {
         model.addAttribute("product", product);
         return "user/single-product";
     }
-
 }

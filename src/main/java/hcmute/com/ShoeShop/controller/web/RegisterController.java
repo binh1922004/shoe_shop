@@ -1,11 +1,10 @@
 package hcmute.com.ShoeShop.controller.web;
 
 import hcmute.com.ShoeShop.entity.Users;
-import hcmute.com.ShoeShop.services.EmailService;
-import hcmute.com.ShoeShop.services.RoleService;
-import hcmute.com.ShoeShop.services.UserService;
+import hcmute.com.ShoeShop.services.imp.EmailService;
+import hcmute.com.ShoeShop.services.imp.RoleService;
+import hcmute.com.ShoeShop.services.imp.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
