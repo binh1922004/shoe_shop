@@ -186,19 +186,6 @@
                                 </ul>
                             </div>
                             <div class="select-catagory">
-                                <div class="color-select">
-                                    <label class="required">
-                                        <em>*</em> Color
-                                    </label>
-                                    <div class="input-box">
-                                        <select id="select-1">
-                                            <option value="">-- Please Select --</option>
-                                            <option value="">black +$2.00</option>
-                                            <option value="">blue +$1.00</option>
-                                            <option value="">yellow +$1.00</option>
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="size-select">
                                     <label class="required">
                                         <em>*</em> Size
@@ -206,15 +193,18 @@
                                     <div class="input-box">
                                         <select id="select-2">
                                             <option value="">-- Please Select --</option>
-                                            <option value="">L +$2.00</option>
-                                            <option value="">M +$1.00</option>
+                                            <option th:each="productDetail : ${productDetails}"
+                                                    th:value="${productDetail.priceadd}"
+                                                    th:text="'Size: ' + ${productDetail.size} + ' - $' + ${productDetail.priceadd}">
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="cart-item">
                                 <div class="price-box">
-                                    <span>$170</span>
+                                    <!-- Giá cuối cùng sẽ được hiển thị ở đây -->
+                                    <span id="final-price" th:text="${product.price}"></span>
                                 </div>
                                 <div class="single-cart">
                                     <div class="cart-plus-minus">
@@ -241,7 +231,7 @@
                                     <a class="active" href="#tab1" aria-controls="tab1" role="tab" data-bs-toggle="tab">Product Description</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#tab2" aria-controls="tab2" role="tab" data-bs-toggle="tab">reviews</a>
+                                    <a href="#tab2" aria-controls="tab2" role="tab" data-bs-toggle="tab">Reviews</a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#tab3" aria-controls="tab3" role="tab" data-bs-toggle="tab">product tag</a>
@@ -255,22 +245,56 @@
                                         <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer enim purus, posuere at ultricies eu, placerat a felis. Suspendisse aliquet urna pretium eros convallis interdum. Quisque in arcu id dui vulputate mollis eget non arcu. Aenean et nulla purus. Mauris vel tellus non nunc mattis lobortis. </p>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab2">
+                                <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="tab2-tab">
                                     <div class="single-p-tab-content">
                                         <div class="row">
-                                            <div class="col-md-5">
-                                                <div class="product-review">
-                                                    <p> <a href="#"> plaza</a> <span>Review by</span> plaza </p>
-                                                    <div class="product-rating-info">
-                                                        <p>value</p>
-                                                        <div class="ratings">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half-o"></i>
-                                                        </div>
+                                            <div class="col-md-12">
+                                                <div class="rate-product hidden-xs">
+                                                    <div class="rate-product-heading">
+                                                        <h3>You're reviewing: Fusce aliquam</h3>
+                                                        <h3>How do you rate this product? <em>*</em></h3>
                                                     </div>
+                                                    <form action="#">
+                                                        <table class="product-review-table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>1 star</th>
+                                                                <th>2 star</th>
+                                                                <th>3 star</th>
+                                                                <th>4 star</th>
+                                                                <th>5 star</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <th>Quality</th>
+                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <ul class="form-list">
+                                                            <li>
+                                                                <label>Nickname <em>*</em></label>
+                                                                <input type="text">
+                                                            </li>
+                                                            <li>
+                                                                <label>Review <em>*</em></label>
+                                                                <textarea cols="3" rows="5"></textarea>
+                                                            </li>
+                                                        </ul>
+                                                        <button type="submit">Submit Review</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="product-review">
+                                                    <p><a href="#"> plaza</a> <span>Review by</span> plaza</p>
                                                     <div class="product-rating-info">
                                                         <p>Quality</p>
                                                         <div class="ratings">
@@ -281,82 +305,9 @@
                                                             <i class="fa fa-star-half-o"></i>
                                                         </div>
                                                     </div>
-                                                    <div class="product-rating-info">
-                                                        <p>Price</p>
-                                                        <div class="ratings">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half-o"></i>
-                                                        </div>
-                                                    </div>
                                                     <div class="review-date">
-                                                        <p>plaza <em> (Posted on 8/27/2015)</em></p>
+                                                        <p>plaza <em>(Posted on 8/27/2015)</em></p>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <div class="rate-product hidden-xs">
-                                                    <div class="rate-product-heading">
-                                                        <h3>You're reviewing: Fusce aliquam</h3>
-                                                        <h3>How do you rate this product? <em>*</em></h3>
-                                                    </div>
-                                                    <form action="#">
-                                                        <table class="product-review-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th></th>
-                                                                    <th>1 star</th>
-                                                                    <th>2 star</th>
-                                                                    <th>3 star</th>
-                                                                    <th>4 star</th>
-                                                                    <th>5 star</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th>Price</th>
-                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Value</th>
-                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Quality</th>
-                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
-                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <ul class="form-list">
-                                                            <li>
-                                                                <label> nickname <em>*</em> </label>
-                                                                <input type="text">
-                                                            </li>
-                                                            <li>
-                                                                <label> Summary of Your Review <em>*</em> </label>
-                                                                <input type="text">
-                                                            </li>
-                                                            <li>
-                                                                <label> Review <em>*</em> </label>
-                                                                <textarea cols="3" rows="5"></textarea>
-                                                            </li>
-                                                        </ul>
-                                                        <button type="submit"> submit review</button>
-                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -928,38 +879,52 @@
 
         <!-- jquery
         ============================================ -->
-        <script src="js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="/js/vendor/jquery-1.12.4.min.js"></script>
         <!-- bootstrap JS
         ============================================ -->
-        <script src="js/bootstrap.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
         <!-- wow JS
         ============================================ -->
-        <script src="js/wow.min.js"></script>
+        <script src="/js/wow.min.js"></script>
         <!-- price-slider JS
         ============================================ -->
-        <script src="js/jquery-price-slider.js"></script>
+        <script src="/js/jquery-price-slider.js"></script>
         <!-- nivoslider JS
         ============================================ -->
-        <script src="lib/js/jquery.nivo.slider.js"></script>
-        <script src="lib/home.js"></script>
+        <script src="/lib/js/jquery.nivo.slider.js"></script>
+        <script src="/lib/home.js"></script>
         <!-- meanmenu JS
         ============================================ -->
         <script src="js/jquery.meanmenu.js"></script>
         <!-- owl.carousel JS
         ============================================ -->
-        <script src="js/owl.carousel.min.js"></script>
+        <script src="/js/owl.carousel.min.js"></script>
         <!-- elevatezoom JS
         ============================================ -->
-        <script src="js/jquery.elevatezoom.js"></script>
+        <script src="/js/jquery.elevatezoom.js"></script>
         <!-- scrollUp JS
         ============================================ -->
-        <script src="js/jquery.scrollUp.min.js"></script>
+        <script src="/js/jquery.scrollUp.min.js"></script>
         <!-- plugins JS
         ============================================ -->
-        <script src="js/plugins.js"></script>
+        <script src="/js/plugins.js"></script>
         <!-- main JS
         ============================================ -->
-        <script src="js/main.js"></script>
+        <script src="/js/main.js"></script>
+        <script>
+            // Lấy giá sản phẩm gốc từ HTML
+            const basePrice = parseFloat(document.getElementById('final-price').textContent);
+            const selectBox = document.getElementById('select-2');
+            const finalPriceSpan = document.getElementById('final-price');
+
+            // Xử lý sự kiện thay đổi size
+            selectBox.addEventListener('change', function () {
+                // Lấy giá cộng thêm từ thuộc tính value
+                const priceAdd = parseFloat(this.value) || 0; // Giá cộng thêm, mặc định là 0 nếu không chọn gì
+                const totalPrice = basePrice + priceAdd; // Tính tổng giá
+                finalPriceSpan.textContent = totalPrice.toFixed(1); // Cập nhật giá hiển thị
+            });
+        </script>
     </body>
 
 <!-- Mirrored from htmldemo.net/james/james/single-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:16 GMT -->

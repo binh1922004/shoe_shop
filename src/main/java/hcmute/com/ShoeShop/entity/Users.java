@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,4 +42,8 @@ public class Users {
         @ManyToOne  // Một người dùng chỉ có một vai trò
         @JoinColumn(name = "role_id", nullable = false)
         private Role role;
+
+        // Quan hệ OneToMany với Rating
+        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<Rating> ratings = new ArrayList<>();
 }
