@@ -11,4 +11,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 //        @Query("select o, s.status from Order o join Shipment s on s.order.id = o.id")
 //        public List<Object> findALlWithStatus();
+
+        public Order findOrderById(int orderId);
 }

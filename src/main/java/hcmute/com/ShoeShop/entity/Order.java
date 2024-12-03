@@ -1,5 +1,6 @@
 package hcmute.com.ShoeShop.entity;
 
+import hcmute.com.ShoeShop.utlis.PayOption;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -41,4 +42,8 @@ public class Order {
         @EqualsAndHashCode.Exclude
         @ToString.Exclude
         private Set<OrderDetail> orderDetailSet;
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "pay_option", columnDefinition = "ENUM('COD', 'Momo')", nullable = false)
+        private PayOption payOption;
 }
