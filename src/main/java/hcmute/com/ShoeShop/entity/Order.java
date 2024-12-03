@@ -22,7 +22,7 @@ public class Order {
         @ManyToOne
         @NotNull(message = "User cannot be null")
         @JoinColumn(name = "user_id", nullable = false) // Khóa ngoại đến User
-        private Users userId;
+        private Users user;
 
         @Column(name = "total_price", nullable = false)
         @NotNull(message = "Total price cannot be null")
