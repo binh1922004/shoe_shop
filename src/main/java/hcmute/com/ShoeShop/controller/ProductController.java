@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/product")
@@ -134,5 +135,12 @@ public class ProductController {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "user/single-product";
+    }
+
+    @GetMapping("")
+    public String getAllProduct(Model model){
+        List<Product> list = productService.getAllProducts();
+        model.addAttribute("products", list);
+        return "admin/products/product-list";
     }
 }
