@@ -3,8 +3,11 @@ package hcmute.com.ShoeShop.controller;
 import hcmute.com.ShoeShop.dto.ProductDto;
 import hcmute.com.ShoeShop.entity.Category;
 import hcmute.com.ShoeShop.entity.Product;
+import hcmute.com.ShoeShop.entity.ProductDetail;
+import hcmute.com.ShoeShop.entity.Rating;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
 import hcmute.com.ShoeShop.repository.ProductRepository;
+import hcmute.com.ShoeShop.services.imp.ProductDetailService;
 import hcmute.com.ShoeShop.services.imp.ProductService;
 import hcmute.com.ShoeShop.services.StorageService;
 import hcmute.com.ShoeShop.services.imp.ProductService;
@@ -13,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -32,6 +36,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductDetailService productDetailService;
 
     @Autowired
     private StorageService storageService;
@@ -131,9 +138,12 @@ public class ProductController {
     }
 
     @GetMapping("/details/{id}")
-    public String getProductDetails(@PathVariable long id, Model model) {
+    public String getProductDetails(@PathVariable long id, ModelMap model, Rating rating) {
         Product product = productService.getProductById(id);
+        List<ProductDetail> productDetails = productDetailService.findProductByProductId(id);
+        model.addAttribute("productDetails", productDetails);
         model.addAttribute("product", product);
+        model.addAttribute("rating",rating);
         return "user/single-product";
     }
 
