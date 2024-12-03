@@ -1,20 +1,21 @@
 package hcmute.com.ShoeShop.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
 @Entity
-public class OrderDetail {
+public class CartDetail {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
 
         @ManyToOne
-        @JoinColumn(name = "order_id", nullable = false)
-        @NotNull(message = "Order cannot be null")
-        private Order order;
+        @JoinColumn(name = "cart_id", nullable = false)
+        @NotNull(message = "Cart cannot be null")
+        private Cart cart;
 
         @ManyToOne
         @NotNull(message = "Product cannot be null")
