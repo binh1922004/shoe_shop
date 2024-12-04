@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductDetailService {
@@ -20,6 +21,10 @@ public class ProductDetailService {
     public List<ProductDetail> findProductByProductId(long productId) {
         List<ProductDetail> productDetails = productDetailRepository.findByProductId(productId);
         return productDetails;
+    }
+
+    public Optional<ProductDetail> findProductDetailById(long productDetailId) {
+        return productDetailRepository.findById(productDetailId);
     }
 
 

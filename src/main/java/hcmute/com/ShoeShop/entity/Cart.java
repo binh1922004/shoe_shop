@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,13 +30,12 @@ public class Cart {
         private Double totalPrice;
 
         @CreationTimestamp
-        @Column(name = "created_date", nullable = false, updatable = false)
+        @Column(name = "created_date", updatable = false, columnDefinition = "DATETIME")
         @Temporal(TemporalType.TIMESTAMP) // Định dạng DateTime
-        @NotNull(message = "Created date cannot be null")
         private Date createdDate;
 
         @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
         @EqualsAndHashCode.Exclude
         @ToString.Exclude
-        private Set<CartDetail> orderDetailSet;
+        private Set<CartDetail> orderDetailSet = new HashSet<>();
 }
