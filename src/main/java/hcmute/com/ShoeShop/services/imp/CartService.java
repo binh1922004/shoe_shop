@@ -39,7 +39,7 @@ public class CartService {
             return cartRepository.save(newCart);
         });
 
-        // tinh gia cua product dua tren size da chon
+        // tinh gia cua product dua tren size da chon ( gia goc + gia size)
         double finalPrice = productDetail.getProduct().getPrice() + productDetail.getPriceadd();
 
         // kiem tra san pham da ton tai trong ProductDetail chua
@@ -51,7 +51,7 @@ public class CartService {
             cartDetail.setCart(cart);
             cartDetail.setProduct(productDetail);
             cartDetail.setQuantity(quantity);
-            cartDetail.setPrice(finalPrice * quantity);
+            cartDetail.setPrice(finalPrice);
 
             // Thêm vào orderDetailSet
             cart.getOrderDetailSet().add(cartDetail);
@@ -59,14 +59,17 @@ public class CartService {
         else {
             // neu co roi thi cap nhat so luong va gia
             cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
-            cartDetail.setPrice(cartDetail.getPrice() + (finalPrice * quantity));
+            cartDetail.setPrice(finalPrice);
         }
 
         // luu thong tin CartDetail
         cartDetailRepository.save(cartDetail);
 
-        // cap nhat tong gia tri cua giỏ hàng
-        double totalPrice = cart.getOrderDetailSet().stream().mapToDouble(CartDetail::getPrice).sum();
+        // cập nhật tổng giá trị của giỏ hàng
+        // duyet qua set lay gia * quantity
+        double totalPrice = cart.getOrderDetailSet().stream()
+                .mapToDouble(detail -> detail.getPrice() * detail.getQuantity())
+                .sum();
 
         cart.setTotalPrice(totalPrice);
 

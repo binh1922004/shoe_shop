@@ -462,19 +462,19 @@
 <!--                                            <a href="#">Edit</a>-->
 <!--                                        </td>-->
                                         <td class="move-wishlist">
-                                            <a href="#" th:text="${detail.id}" >Move</a>
+                                            <a href="#">Move</a>
                                         </td>
                                         <td class="unit-price">
                                             <span th:text="${detail.product.size}"></span>
                                         </td>
                                         <td class="unit-price">
-                                            <span th:text="${detail.product.product.price} + ${detail.product.priceadd}"></span>
+                                            <span id="unitPrice" th:text="${detail.product.product.price} + ${detail.product.priceadd}"></span>
                                         </td>
                                         <td class="quantity">
                                             <span th:text="${detail.quantity}"></span>
                                         </td>
                                         <td class="subtotal">
-                                            <span th:text="${detail.price}"></span>
+                                            <span id="subtotalPrice" th:text="${detail.price}*${detail.quantity}"></span>
                                         </td>
                                         <td class="remove-icon">
                                             <a th:href="@{/cart/delete/{id}(id = ${detail.id})}">
@@ -567,7 +567,7 @@
                     <div class="col-md-4">
                         <div class="totals">
                             <p>Created Date: <span th:text="${#dates.format(cart.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                            <h3>Grand Total <span th:text="${cart.totalPrice}"></span></h3>
+                            <h3>Grand Total <span id="totalPrice" th:text="${cart.totalPrice}"></span></h3>
                             <div class="shopping-button">
                                 <button type="submit">proceed to checkout</button>
                             </div>
@@ -729,6 +729,11 @@
         ============================================ -->
         <script src="/js/main.js"></script>
     </body>
+<script>
+    const totalPriceElem = document.getElementById('totalPrice');
+    const totalPrice = parseFloat(totalPriceElem.textContent);
+    totalPriceElem.textContent = new Intl.NumberFormat('vi-VN', { style: 'decimal', minimumFractionDigits: 0 }).format(totalPrice);
+</script>
 
 <!-- Mirrored from htmldemo.net/james/james/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:17 GMT -->
 </html>
