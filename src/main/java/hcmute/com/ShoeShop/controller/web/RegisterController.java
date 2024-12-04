@@ -1,6 +1,8 @@
 package hcmute.com.ShoeShop.controller.web;
 
+import hcmute.com.ShoeShop.entity.Address;
 import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.services.imp.AddressService;
 import hcmute.com.ShoeShop.services.imp.EmailService;
 import hcmute.com.ShoeShop.services.imp.RoleService;
 import hcmute.com.ShoeShop.services.imp.UserService;
@@ -25,7 +27,12 @@ public class RegisterController {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    AddressService addressService;
+
     private String verificationCode = null;
+
+    String tmp_mail = "";
 
     @GetMapping("/register")
     public String registerUser(){
@@ -37,25 +44,32 @@ public class RegisterController {
                                   @RequestParam("fullname") String fullname,
                                   @RequestParam("address") String address,
                                   @RequestParam("verity") String verity,
+                                  @RequestParam("phone") String phone ,
                                   Model model) {
         try{
             Users user = new Users();
-            user.setEmail(email);
-            user.setFullname(fullname);
-            user.setAddress(address);
-            user.setPass(password);
-
-            user.setRole(roleService.findRoleById(3));
-
+            Address adr = new Address();
             if(userService.findUserByEmail(email) == null ) {
-                if(verificationCode.equals(verity)){
+                if(verificationCode.equals(verity) && tmp_mail.equals(email)) {
+                    //Add user
+                    user.setEmail(email);
+                    user.setFullname(fullname);
+                    user.setAddress(address);
+                    user.setPass(password);
+                    user.setPhone(phone);
+                    user.setRole(roleService.findRoleById(3));
                     userService.saveUser(user);
-                    System.out.println("Register successful");
-                    System.out.println(userService.findAll());
+
+                    //Add address
+                    adr.setUser(user);
+                    adr.setAddress(address);
+                    adr.setIsDefault(true);
+                    addressService.save(adr);
+
                     return "redirect:/login";
                 }
                 else {
-                    model.addAttribute("mess", "Verity code not match");
+                    model.addAttribute("mess", "Verity code or email not match");
                     verificationCode = null;
                     return "web/register";
                 }
@@ -80,10 +94,12 @@ public class RegisterController {
         try {
             if (userService.findUserByEmail(email) == null) {
                 verificationCode = generateRandomCode();
+                tmp_mail = email;
                 // Gửi email với mã xác minh
                 emailService.sendVerificationCode(email, verificationCode);
                 return "success";
             } else {
+                tmp_mail = "";
                 return "email_exists";
             }
         } catch (Exception e) {

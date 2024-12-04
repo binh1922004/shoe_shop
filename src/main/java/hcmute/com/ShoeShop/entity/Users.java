@@ -35,9 +35,15 @@ public class Users {
         @Column(name = "pass", nullable = false)
         private String pass;
 
+        @NotNull(message = "Address cannot be null")
         @Size(max = 255, message = "Address cannot exceed 255 characters")
-        @Column(name = "address", length = 255)
+        @Column(name = "address", length = 255, nullable = false)
         private String address;
+
+        @NotNull(message = "Phone number cannot be null")
+        @Pattern(regexp = "^0\\d{9}$", message = "Phone number must be a valid 10-digit number starting with 0")
+        @Column(name = "phone", nullable = false, length = 10)
+        private String phone;
 
         @ManyToOne  // Một người dùng chỉ có một vai trò
         @JoinColumn(name = "role_id", nullable = false)
