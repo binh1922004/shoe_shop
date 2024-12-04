@@ -25,11 +25,9 @@ public class CartService {
     private UserService userService;
 
     public void addToCart(String email, int productDetailId, int quantity) {
+
         // lấy thong tin khach hang
         Users user = userService.findUserByEmail(email);
-
-        // lay thong tin san pham
-        ProductDetail productDetail = productDetailService.findProductDetailById(productDetailId).orElse(null);
 
         // lay gio hang cua nguoi dung neu chua co thi tao moi
         Cart cart = cartRepository.findByUserId(user).orElseGet(()->{
@@ -39,10 +37,13 @@ public class CartService {
             return cartRepository.save(newCart);
         });
 
+        // lay thong tin san pham
+        ProductDetail productDetail = productDetailService.findProductDetailById(productDetailId).orElse(null);
+
         // tinh gia cua product dua tren size da chon ( gia goc + gia size)
         double finalPrice = productDetail.getProduct().getPrice() + productDetail.getPriceadd();
 
-        // kiem tra san pham da ton tai trong ProductDetail chua
+        // kiem tra san pham da ton tai trong gio hang chua
         CartDetail cartDetail = cartDetailRepository.findByCartAndProduct(cart, productDetail).orElse(null);
 
         // neu chua co trong gio hang thi them moi
@@ -68,9 +69,49 @@ public class CartService {
         // cập nhật tổng giá trị của giỏ hàng
         // duyet qua set lay gia * quantity
         double totalPrice = cart.getOrderDetailSet().stream()
-                .mapToDouble(detail -> detail.getPrice() * detail.getQuantity())
-                .sum();
+                .mapToDouble(detail -> detail.getPrice() * detail.getQuantity()).sum();
 
+        // set tong gia tri gio hang
+        cart.setTotalPrice(totalPrice);
+
+        // luu thong tin gio hang
+        cartRepository.save(cart);
+    }
+
+    public void updateMyCart(String email, long cartDetailId, int quantity) {
+
+        // lấy thong tin khach hang
+        Users user = userService.findUserByEmail(email);
+
+        // lay thong tin gio hang cua nguoi dung
+        Cart cart = cartRepository.findByUserId(user).orElseGet(() ->{
+            throw new IllegalArgumentException("Can not find cart with user: " + user.getFullname());
+        });
+
+        // neu so luong la 0 thi xoa
+        if(quantity == 0){
+            this.removeFromCart(email, cartDetailId);
+            return;
+        }
+
+
+        // lay thong tin cua CartDetail trong gio hang can update
+        CartDetail cartDetail = cartDetailRepository.findById(cartDetailId).orElseGet(()->{
+            throw new IllegalArgumentException("Can not find cart detail");
+        });
+
+        // set quantity
+        cartDetail.setQuantity(quantity);
+
+        // luu thong tin cartDetail
+        cartDetailRepository.save(cartDetail);
+
+        // cập nhật tổng giá trị của giỏ hàng
+        // duyet qua set gia = (gia goc + gia size) * quantity
+        double totalPrice = cart.getOrderDetailSet().stream()
+                .mapToDouble(detail -> detail.getPrice() * detail.getQuantity()).sum();
+
+        // set tong gia tri gio hang
         cart.setTotalPrice(totalPrice);
 
         // luu thong tin gio hang
@@ -107,17 +148,21 @@ public class CartService {
 
 
     public Cart getCartByUser(String email) {
+
         // kiem tra nguoi dung co ton tai khong
         Users user = userService.findUserByEmail(email);
 
         if(user == null) {
+
             return null;
         }
 
+        // kiem tra co gio hang chua neu chua thi tao moi
         return cartRepository.findByUserId(user).orElseGet(() ->{
             Cart cart = new Cart();
             cart.setUserId(user);
             cart.setTotalPrice(0.0);
+
             return cartRepository.save(cart);
         });
 

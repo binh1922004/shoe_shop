@@ -198,8 +198,8 @@
                                     <em>*</em> Size
                                 </label>
                                 <div class="input-box">
-                                    <select id="select-2" name="productDetailId">
-                                        <option value="">-- Please Select --</option>
+                                    <select id="select-2" name="productDetailId" required>
+<!--                                        <option value="">&#45;&#45; Please Select &#45;&#45;</option>-->
                                         <option th:each="productDetail : ${productDetails}"
                                                 th:value="${productDetail.id}"
                                                 th:data-priceadd="${productDetail.priceadd}"
