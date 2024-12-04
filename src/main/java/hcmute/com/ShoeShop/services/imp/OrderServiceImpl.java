@@ -31,7 +31,7 @@ public class OrderServiceImpl implements IOrderService {
 
         public OrderStaticDto getStatic(){
                 OrderStaticDto orderStaticDto = new OrderStaticDto();
-                orderStaticDto.setDelivered(orderRepository.countByStatus(ShipmentStatus.SHIPPED));
+                orderStaticDto.setShipping(orderRepository.countByStatus(ShipmentStatus.SHIPPED));
                 orderStaticDto.setCancel(orderRepository.countByStatus(ShipmentStatus.CANCEL));
                 orderStaticDto.setInStock(orderRepository.countByStatus(ShipmentStatus.IN_STOCK));
                 orderStaticDto.setRollBack(orderRepository.countByStatus(ShipmentStatus.ROLLBACK));

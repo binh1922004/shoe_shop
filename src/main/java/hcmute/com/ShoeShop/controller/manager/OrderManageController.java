@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/manager/order")
 public class OrderManageController {
         @Autowired
         OrderServiceImpl orderService;
@@ -41,7 +41,7 @@ public class OrderManageController {
         }
 
 
-        @GetMapping("/orders")
+        @GetMapping("/list")
         public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "1")int pagesize,
                                         @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
                                         Model model){
@@ -54,21 +54,20 @@ public class OrderManageController {
 
                 int totalPages = listOder.getTotalPages();
                 model.addAttribute("totalPages", totalPages);
-                System.out.println(totalPages);
                 if (totalPages > 0){
                         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                                 .boxed()
                                 .collect(Collectors.toList());
                         model.addAttribute("pageNumbers", pageNumbers);
                 }
+
                 OrderStaticDto orderStaticDto = orderService.getStatic();
                 model.addAttribute("static", orderStaticDto);
-
 
                 return "manager/order/orders-list";
         }
 
-        @GetMapping("/order/{id}")
+        @GetMapping("/detail/{id}")
         public String getOrderDetail(@PathVariable("id") int orderId, Model model){
                 model.addAttribute("title", "Order detail");
 
@@ -95,10 +94,10 @@ public class OrderManageController {
                 return "manager/order/order-detail";
         }
 
-        @GetMapping("/order-shipping")
+        @GetMapping("/shipping")
         public String addShipping(@RequestParam("orderid") int orderid,
                                   @RequestParam("userid") int userid){
                 shipmentService.insertShipment(orderid, userid);
-                return "redirect:/manager/order/" + orderid;
+                return "redirect:/manager/order/detail/" + orderid;
         }
 }
