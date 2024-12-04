@@ -5,10 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import jakarta.persistence.*;
-import lombok.ToString;
 
-import java.math.BigDecimal;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -45,7 +44,15 @@ public class Product {
     @EqualsAndHashCode.Exclude
     private Category category;
 
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductDetail> details = new ArrayList<>();
+
     @Column(name = "is_delete", nullable = false, columnDefinition = "boolean default false")
     private boolean isDelete = false;
+
+    // Quan hệ OneToMany với Rating
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rating> ratings = new ArrayList<>();
 
 }

@@ -1,5 +1,6 @@
 package hcmute.com.ShoeShop.entity;
 
+import hcmute.com.ShoeShop.utlis.PayOption;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -21,7 +22,7 @@ public class Order {
         @ManyToOne
         @NotNull(message = "User cannot be null")
         @JoinColumn(name = "user_id", nullable = false) // Khóa ngoại đến User
-        private Users userId;
+        private Users user;
 
         @Column(name = "total_price", nullable = false)
         @NotNull(message = "Total price cannot be null")
@@ -41,4 +42,8 @@ public class Order {
         @EqualsAndHashCode.Exclude
         @ToString.Exclude
         private Set<OrderDetail> orderDetailSet;
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "pay_option", columnDefinition = "ENUM('COD', 'Momo')", nullable = false)
+        private PayOption payOption;
 }

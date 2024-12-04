@@ -134,7 +134,7 @@ public class UserHomeController {
         u.setAddress(adr);
         userService.saveUser(u);
         redirectAttributes.addFlashAttribute("success1", "User has been changed successfully.");
-        return "redirect:/user/my_account";  // Sau khi thành công, chuyển tới trang my-account
+        return "redirect:/user/my_account";  // Sau khi th�nh c�ng, chuy?n t?i trang my-account
     }
 
 
