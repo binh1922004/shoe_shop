@@ -1,55 +1,81 @@
 package hcmute.com.ShoeShop.controller;
 
-import hcmute.com.ShoeShop.entity.Category;
-import hcmute.com.ShoeShop.repository.CategoryRepository;
+import hcmute.com.ShoeShop.dto.InventoryDto;
+import hcmute.com.ShoeShop.entity.Inventory;
+import hcmute.com.ShoeShop.entity.Product;
+import hcmute.com.ShoeShop.repository.InventoryRepository;
+import hcmute.com.ShoeShop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/inventory")
 public class InventoryController {
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private InventoryRepository inventoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @GetMapping("")
     public String category(Model model) {
-        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("inventories", inventoryRepository.findAll());
         return "/admin/inventory/inventory-warehouse";
     }
-    @GetMapping("/insertCategoryPage")
+    @GetMapping("/insertPage")
     public String insertProductPage(Model model) {
-        Category category = new Category();
-        model.addAttribute("category", category);
-        return "/admin/categories/inventory-warehouse";
+        InventoryDto inventory = new InventoryDto();
+        model.addAttribute("inventory", inventory);
+        model.addAttribute("products", productRepository.findAll());
+
+        return "/admin/inventory/inventory-add";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute(name = "category") Category category) {
-        categoryRepository.save(category);
-
-        return "redirect:/category";
+    public String save(@ModelAttribute(name = "inventory") InventoryDto inventoryDto) {
+        Inventory inventory = new Inventory();
+        Product product = productRepository.findById(inventoryDto.getProductId()).get();
+        inventory.setQuantity(inventoryDto.getQuantity());
+        inventory.setProduct(product);
+        inventory.setCreatedAt(LocalDateTime.now());
+        inventoryRepository.save(inventory);
+        return "redirect:/inventory";
     }
 
-    @GetMapping("/updateCategory/{id}")
-    public String getFormUpdateCategory(@PathVariable("id") Long id, Model model){
-        Category category = categoryRepository.findById(id).get();
-        model.addAttribute("category", category);
-        model.addAttribute("id", category.getId());
-        return "/admin/categories/category-edit";
+    @GetMapping("/update/{id}")
+    public String getFormUpdateCategory(@PathVariable("id") Integer id, Model model){
+        Inventory inventory = inventoryRepository.findById(id).get();
+        InventoryDto inventoryDto = new InventoryDto();
+        inventoryDto.setId(inventory.getId());
+        inventoryDto.setTitle(inventory.getProduct().getTitle());
+        inventoryDto.setQuantity(inventory.getQuantity());
+        inventoryDto.setCreatedAt(inventory.getCreatedAt());
+        inventoryDto.setProductId(inventory.getProduct().getId());
+        System.out.println(inventoryDto);
+        model.addAttribute("inventory", inventoryDto);
+        model.addAttribute("id", inventory.getId());
+        model.addAttribute("products", productRepository.findAll());
+        return "/admin/inventory/inventory-edit";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute(name = "category") Category category) {
-        categoryRepository.save(category);
-        return "redirect:/category";
+    public String update(@ModelAttribute(name = "inventory") InventoryDto inventoryDto) {
+        Inventory inventory = inventoryRepository.findById(inventoryDto.getId()).get();
+        Product product = productRepository.findById(inventoryDto.getProductId()).get();
+        inventory.setQuantity(inventoryDto.getQuantity());
+        inventory.setProduct(product);
+        inventory.setCreatedAt(LocalDateTime.now());
+        inventoryRepository.save(inventory);
+        return "redirect:/inventory";
     }
-    @GetMapping("/deleteCategory/{id}")
-    public String delete(@PathVariable("id") Long id){
-        categoryRepository.deleteById(id);
-        return "redirect:/category";
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer id){
+        inventoryRepository.deleteById(id);
+        return "redirect:/inventory";
     }
 
 }

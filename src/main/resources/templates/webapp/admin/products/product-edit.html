@@ -2,7 +2,7 @@
 <html lang="en">
 
 
-<!-- Mirrored from techzaa.in/larkon/admin/product-edit.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Nov 2024 14:46:46 GMT -->
+<!-- Mirrored from techzaa.in/larkon/admin/inventory-edit.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Nov 2024 14:46:46 GMT -->
 <head>
     <!-- Title Meta -->
     <meta charset="utf-8"/>
@@ -1343,93 +1343,126 @@
         <div class="container-xxl">
 
             <div class="row">
-                <form th:object="${product}" method="post" th:action="@{/product/update}">
-                    <input
-                            type="hidden"
-                            th:field="*{id}">
-                    <div class="col-xl-9 col-lg-8 ">
+                <form th:object="${product}" method="post" th:action="@{/product/update}" enctype="multipart/form-data">
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="col-xl-9 col-lg-8">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Thông tin</h4>
                             </div>
                             <div class="card-body">
+                                <!-- Product Title -->
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <form>
-                                            <div class="mb-3">
-                                                <label for="product-name" class="form-label">Tên</label>
-                                                <input type="text" id="product-name" class="form-control"
-                                                       placeholder="Items Name" th:field="*{title}">
-                                            </div>
-                                        </form>
+                                        <div class="mb-3">
+                                            <label for="product-name" class="form-label">Tên sản phẩm</label>
+                                            <input type="text" id="product-name" class="form-control"
+                                                   placeholder="Tên sản phẩm" th:field="*{title}" required>
+                                        </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <label for="product-categories" class="form-label">Loại sản phẩm</label>
                                         <select class="form-control" id="product-categories" data-choices
-                                                data-choices-groups data-placeholder="Select Categories"
+                                                data-choices-groups data-placeholder="Chọn loại sản phẩm"
                                                 name="choices-single-groups" th:field="*{categoryId}">
                                             <option th:each="category : ${categories}" th:value="${category.id}"
-                                                    th:utext="${category.type}"
+                                                    th:text="${category.type}"
                                                     th:selected="${product.categoryName == category.type}"/>
                                         </select>
                                     </div>
                                 </div>
 
+                                <!-- Product Image -->
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label for="description" class="form-label">Ảnh</label>
+                                            <label for="image" class="form-label">Ảnh sản phẩm</label>
                                             <input type="file" class="form-control bg-light-subtle"
-                                                   id="image" rows="7" name="image"
-                                                   placeholder="Short description about the product"></input>
+                                                   id="image" name="image" placeholder="Ảnh sản phẩm">
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- Product Description -->
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label for="description" class="form-label">Mô tả</label>
+                                            <label for="description" class="form-label">Mô tả sản phẩm</label>
                                             <textarea th:field="*{description}" class="form-control bg-light-subtle"
-                                                      id="description" rows="7"
-                                                      placeholder="Short description about the product"></textarea>
+                                                      id="description" rows="7" placeholder="Mô tả sản phẩm"></textarea>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Product Voucher -->
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <form>
-                                            <div class="mb-3">
-                                                <label for="product-id" class="form-label">Voucher</label>
-                                                <input type="number" id="product-id" class="form-control"
-                                                       th:field="*{voucher}"
-                                                       placeholder="#******">
-                                            </div>
-
-                                        </form>
+                                        <div class="mb-3">
+                                            <label for="voucher" class="form-label">Voucher</label>
+                                            <input type="number" id="voucher" class="form-control"
+                                                   th:field="*{voucher}" placeholder="Voucher code">
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Price and Size Details -->
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Giá</h4>
+                                <h4 class="card-title">Giá và Size</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <label for="product-price" class="form-label">Giá</label>
+                                        <label for="product-price" class="form-label">Giá sản phẩm</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
                                             <input type="number" id="product-price" class="form-control"
-                                                   th:field="*{price}"
-                                                   placeholder="000">
+                                                   th:field="*{price}" placeholder="Giá sản phẩm">
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Size and Price Add Fields for each size -->
+                                <!-- Size and Price Add Fields for each size -->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h5>Chọn size và thêm giá cho từng size</h5>
+                                        <div class="form-group">
+                                            <label class="form-label">Size</label>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Size</th>
+                                                    <th>Giá thêm</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="size : ${#numbers.sequence(38, 45)}">
+                                                    <td th:text="${size}">38</td>
+                                                    <td>
+                                                        <input type="number" class="form-control"
+                                                               th:name="'productDetails[' + ${size} + '].priceadd'"
+                                                               th:value="${sizePriceMap != null and sizePriceMap.containsKey(size) ? sizePriceMap[size] : null}"
+                                                               placeholder="Giá thêm cho size" />
+                                                    </td>
+                                                </tr>
+
+
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+
+                        <!-- Save and Cancel Buttons -->
                         <div class="p-3 bg-light mb-3 rounded">
                             <div class="row justify-content-end g-2">
                                 <div class="col-lg-2">
@@ -1481,5 +1514,5 @@
 </body>
 
 
-<!-- Mirrored from techzaa.in/larkon/admin/product-edit.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Nov 2024 14:46:46 GMT -->
+<!-- Mirrored from techzaa.in/larkon/admin/inventory-edit.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Nov 2024 14:46:46 GMT -->
 </html>
