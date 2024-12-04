@@ -12,6 +12,9 @@ import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
 import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.services.imp.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,11 +39,14 @@ public class OrderManageController {
 
 
         @GetMapping("/orders")
-        public String getAllOrders(Model model){
+        public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
+                                        @RequestParam(name = "page-num", defaultValue = "1") int pageNum,
+                                        Model model){
+                Pageable pageable = PageRequest.of(pageNum, pagesize);
 
                 model.addAttribute("title", "Order");
 
-                List<Order> listOder = orderService.findAll();
+                Page<Order> listOder = orderService.findAll(pageable);
                 model.addAttribute("listOrder", listOder);
                 return "manager/order/orders-list";
         }
