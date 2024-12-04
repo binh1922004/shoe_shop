@@ -3,6 +3,7 @@ package hcmute.com.ShoeShop.controller.manager;
 
 import hcmute.com.ShoeShop.dto.OrderDetailDto;
 import hcmute.com.ShoeShop.dto.OrderPaymentDto;
+import hcmute.com.ShoeShop.dto.OrderStaticDto;
 import hcmute.com.ShoeShop.dto.ShipperDto;
 import hcmute.com.ShoeShop.entity.Order;
 import hcmute.com.ShoeShop.entity.Shipment;
@@ -20,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/manager")
@@ -39,8 +42,8 @@ public class OrderManageController {
 
 
         @GetMapping("/orders")
-        public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
-                                        @RequestParam(name = "page-num", defaultValue = "1") int pageNum,
+        public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "1")int pagesize,
+                                        @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
                                         Model model){
                 Pageable pageable = PageRequest.of(pageNum, pagesize);
 
@@ -48,6 +51,20 @@ public class OrderManageController {
 
                 Page<Order> listOder = orderService.findAll(pageable);
                 model.addAttribute("listOrder", listOder);
+
+                int totalPages = listOder.getTotalPages();
+                model.addAttribute("totalPages", totalPages);
+                System.out.println(totalPages);
+                if (totalPages > 0){
+                        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                                .boxed()
+                                .collect(Collectors.toList());
+                        model.addAttribute("pageNumbers", pageNumbers);
+                }
+                OrderStaticDto orderStaticDto = orderService.getStatic();
+                model.addAttribute("static", orderStaticDto);
+
+
                 return "manager/order/orders-list";
         }
 
