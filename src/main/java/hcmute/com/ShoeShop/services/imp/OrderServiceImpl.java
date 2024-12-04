@@ -23,4 +23,7 @@ public class OrderServiceImpl implements IOrderService {
                 return orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("can not find order"));
         }
 
+        public void cancelOrder(int orderId) {
+                orderRepository.deleteById(orderId);
+        }
 }
