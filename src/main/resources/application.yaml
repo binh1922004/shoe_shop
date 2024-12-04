@@ -6,8 +6,8 @@ server:
 spring:
   datasource:
     url: "jdbc:mysql://localhost:3306/shoeshop"
-    username: shoeshop
-    password: shoeshop123!
+    username: root
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -33,4 +33,7 @@ spring:
           auth: true
           starttls:
             enable: true
-
+  servlet:
+    multipart:
+      max-file-size: 100MB   # Set your desired maximum file size (e.g., 10MB)
+      max-request-size: 100MB  # Set your desired maximum request size (e.g., 10MB)

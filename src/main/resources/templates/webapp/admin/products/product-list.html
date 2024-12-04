@@ -12,6 +12,16 @@
     <meta name="author" content="Techzaa"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
+    <style>
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Giữ tỷ lệ và cắt ảnh nếu cần */
+            border-radius: 50%; /* Để làm tròn ảnh */
+        }
+
+    </style>
+
     <!-- App favicon -->
     <!-- Favicon -->
     <link rel="shortcut icon" th:href="@{/assets/images/favicon.ico}"/>
@@ -1373,7 +1383,6 @@
                                     <thead class="bg-light-subtle">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Ảnh</th>
                                         <th>Tên sản phẩm</th>
                                         <th>Giá</th>
                                         <th>Loại</th>
@@ -1385,18 +1394,17 @@
                                     <tr th:each="product : ${products}">
                                         <td th:text="${product.id}"></td>
 
-                                        <td><img th:src="@{{fileName}(fileName=${product.image})}" alt="Thumbnail" style="max-width: 100px;"></td>
-
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                    <img src="assets/images/product/p-1.png" alt="" class="avatar-md">
+                                                    <img th:src="@{{fileName}(fileName=${product.image})}" alt="" class="avatar-img">
                                                 </div>
+
                                                 <div>
                                                     <a th:href="@{'/product/detail/' + ${product.id}}"
                                                        class="text-dark fw-medium fs-15" th:text="${product.title}"></a>
-                                                    <p class="text-muted mb-0 mt-1 fs-13"><span>Size: </span>
-                                                        S, M, L, XL</p>
+<!--                                                    <p class="text-muted mb-0 mt-1 fs-13"><span>Size: </span>-->
+<!--                                                        S, M, L, XL</p>-->
                                                 </div>
                                             </div>
                                         </td>
@@ -1438,16 +1446,24 @@
                         <div class="card-footer border-top">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-end mb-0">
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>
+                                    <!-- Previous button -->
+                                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                        <a class="page-link" th:href="@{'/product?page=' + ${currentPage - 1}}" href="javascript:void(0);">Previous</a>
                                     </li>
-                                    <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>
+
+                                    <!-- Page numbers -->
+                                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                                        <a class="page-link" th:href="@{'/product?page=' + ${i}}" th:text="${i + 1}"></a>
                                     </li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+
+                                    <!-- Next button -->
+                                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                        <a class="page-link" th:href="@{'/product?page=' + ${currentPage + 1}}" href="javascript:void(0);">Next</a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
+
                     </div>
                 </div>
 

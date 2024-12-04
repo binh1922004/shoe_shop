@@ -579,10 +579,10 @@
                                 <a class="sub-nav-link" href="product-details.html">Details</a>
                             </li>
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="product-edit.html">Edit</a>
+                                <a class="sub-nav-link" href="inventory-edit.html">Edit</a>
                             </li>
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="product-add.html">Create</a>
+                                <a class="sub-nav-link" href="inventory-add.html">Create</a>
                             </li>
                         </ul>
                     </div>
@@ -1343,7 +1343,7 @@
         <div class="container-xxl">
 
             <div class="row">
-                <form th:object="${product}" method="post" th:action="@{/product/save}" enctype="multipart/form-data">
+                <form th:object="${inventory}" method="post" th:action="@{/inventory/update}" enctype="multipart/form-data">
                     <input type="hidden" th:field="*{id}">
 
                     <div class="col-xl-9 col-lg-8">
@@ -1355,43 +1355,14 @@
                                 <!-- Product Title -->
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="product-name" class="form-label">Tên sản phẩm</label>
-                                            <input type="text" id="product-name" class="form-control"
-                                                   placeholder="Tên sản phẩm" th:field="*{title}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="product-categories" class="form-label">Loại sản phẩm</label>
+                                        <label for="product-categories" class="form-label">Sản phẩm</label>
                                         <select class="form-control" id="product-categories" data-choices
-                                                data-choices-groups data-placeholder="Chọn loại sản phẩm"
-                                                name="choices-single-groups" th:field="*{categoryId}">
-                                            <option th:each="category : ${categories}" th:value="${category.id}"
-                                                    th:text="${category.type}"
-                                                    th:selected="${product.categoryName == category.type}"/>
+                                                data-choices-groups data-placeholder="Chọn sản phẩm"
+                                                name="choices-single-groups" th:field="*{productId}">
+                                            <option th:each="product : ${products}" th:value="${product.id}"
+                                                    th:text="${product.title}"
+                                                    th:selected="${product.id == inventory.productId}"/>
                                         </select>
-                                    </div>
-                                </div>
-
-                                <!-- Product Image -->
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label for="image" class="form-label">Ảnh sản phẩm</label>
-                                            <input type="file" class="form-control bg-light-subtle"
-                                                   id="image" name="image" placeholder="Ảnh sản phẩm">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Product Description -->
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label for="description" class="form-label">Mô tả sản phẩm</label>
-                                            <textarea th:field="*{description}" class="form-control bg-light-subtle"
-                                                      id="description" rows="7" placeholder="Mô tả sản phẩm"></textarea>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -1399,59 +1370,9 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-3">
-                                            <label for="voucher" class="form-label">Voucher</label>
-                                            <input type="number" id="voucher" class="form-control"
-                                                   th:field="*{voucher}" placeholder="Voucher code">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Price and Size Details -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Giá và Size</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <label for="product-price" class="form-label">Giá sản phẩm</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
-                                            <input type="number" id="product-price" class="form-control"
-                                                   th:field="*{price}" placeholder="Giá sản phẩm">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Size and Price Add Fields for each size -->
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h5>Chọn size và thêm giá cho từng size</h5>
-                                        <div class="form-group">
-                                            <label class="form-label">Size</label>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th>Size</th>
-                                                    <th>Giá thêm</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <!-- Loop through sizes 38 to 45 -->
-                                                <tr th:each="size : ${#numbers.sequence(38, 45)}">
-                                                    <td th:text="${size}">38</td>
-                                                    <td>
-                                                        <!-- The correct format for th:name -->
-                                                        <input type="number" class="form-control"
-                                                               th:name="'productDetails[' + ${size} + '].priceadd'"
-                                                               placeholder="Giá thêm cho size" />
-                                                    </td>
-                                                </tr>
-
-                                                </tbody>
-                                            </table>
+                                            <label for="quantity" class="form-label">Số lượng</label>
+                                            <input type="number" id="quantity" class="form-control"
+                                                   th:field="*{quantity}" placeholder="Voucher code">
                                         </div>
                                     </div>
                                 </div>
