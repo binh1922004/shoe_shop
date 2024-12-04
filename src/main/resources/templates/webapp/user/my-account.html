@@ -191,10 +191,54 @@
                                                         <p>Be sure to update your personal information if it has changed.</p>
                                                         <div class="row">
                                                             <div class="col-md-6 col-sm-12">
-                                                                <div class="form-name">
-                                                                    <label>Email</label>
-                                                                    <input type="email" name="email" placeholder="Email" th:value="${user.email}"  readonly required>
-                                                                </div>
+                                                                <form th:action="@{/user/submitAddress}" method="post">
+                                                                    <div th:if="${er}" class="alert alert-danger">
+                                                                        <span th:text="${er}"></span>
+                                                                    </div>
+                                                                    <div th:if="${adr != null}">
+                                                                        <th:block th:each="address : ${adr}">
+                                                                            <!-- Radio button cho từng địa chỉ -->
+                                                                            <div class="form-check">
+                                                                                <input class="form-check-input" type="radio"
+                                                                                       th:id="'address-' + ${address.id}"
+                                                                                       th:name="selectedAddressId"
+                                                                                       th:value="${address.id}"
+                                                                                       th:checked="${address.isDefault} ? true : false" />
+                                                                                <label class="form-check-label" th:for="'address-' + ${address.id}"
+                                                                                       th:text="${address.address}"></label>
+                                                                            </div>
+                                                                        </th:block>
+                                                                        <div class="add-address" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                                                                            <!-- Trường hidden để xác định hành động -->
+                                                                            <input type="hidden" name="action" id="action" value="">
+
+                                                                            <!-- Nút Set Default -->
+                                                                            <button type="submit"
+                                                                                    style="background-color: #4CAF50; color: white; padding: 5px 10px;
+                           font-size: 14px; border: none; border-radius: 4px; cursor: pointer;
+                           transition: background-color 0.3s ease, transform 0.2s ease;"
+                                                                                    onmouseover="this.style.backgroundColor='#45a049';"
+                                                                                    onmouseout="this.style.backgroundColor='#4CAF50';"
+                                                                                    onclick="setAction('setDefault')">
+                                                                                Set Default
+                                                                            </button>
+
+                                                                            <!-- Nút Delete -->
+                                                                            <button type="submit"
+                                                                                    style="background-color: #f44336; color: white; padding: 5px 10px;
+                           font-size: 14px; border: none; border-radius: 4px; cursor: pointer;
+                           transition: background-color 0.3s ease, transform 0.2s ease;"
+                                                                                    onmouseover="this.style.backgroundColor='#d32f2f';"
+                                                                                    onmouseout="this.style.backgroundColor='#f44336';"
+                                                                                    onclick="setAction('delete')">
+                                                                                Delete
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div th:if="${adr == null}">
+                                                                        <p>No addresses available</p>
+                                                                    </div>
+                                                                </form>
 
                                                             </div>
                                                         </div>
@@ -431,8 +475,8 @@
         <script src="/js/jquery-price-slider.js"></script>
         <!-- nivoslider JS
         ============================================ -->
-        <script src="lib/js/jquery.nivo.slider.js"></script>
-        <script src="lib/home.js"></script>
+        <script src="/lib/js/jquery.nivo.slider.js"></script>
+        <script src="/lib/home.js"></script>
         <!-- meanmenu JS
         ============================================ -->
         <script src="/js/jquery.meanmenu.js"></script>
@@ -451,6 +495,11 @@
         <!-- main JS
         ============================================ -->
         <script src="/js/main.js"></script>
+        <script>
+            function setAction(action) {
+                document.getElementById('action').value = action;
+            }
+        </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const streetInput = document.getElementById("street");
@@ -504,7 +553,5 @@
             });
 
         </script>
-
-
     </body>
 </html>

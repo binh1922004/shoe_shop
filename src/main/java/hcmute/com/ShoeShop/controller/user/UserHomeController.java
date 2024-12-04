@@ -78,6 +78,8 @@ public class UserHomeController {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
         if (u != null) {
             model.addAttribute("user", u);
+            List<Address> adr = addressService.getAddressesByID(u.getId());
+            model.addAttribute("adr", adr);
             return "user/my-account";
         } else {
             return "redirect:/login";
@@ -89,66 +91,52 @@ public class UserHomeController {
                                 @RequestParam("currentPassword") String currentPassword,
                                 @RequestParam("newPassword") String newPassword,
                                 @RequestParam("confirmPassword") String confirmPassword,
-                                HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+                                HttpSession session, RedirectAttributes redirectAttributes) {
         try {
-
-            setMess(model);
 
             Users u = (Users) session.getAttribute(Constant.SESSION_USER);
             Users us = userService.findUserByEmail(email);
             if (us == null) {
                 return "redirect:/login";
             }
-            model.addAttribute("user", us);
+            redirectAttributes.addFlashAttribute("user", us);
             if (!newPassword.equals(confirmPassword)) {
-                model.addAttribute("error", "New Password and Confirm Password do not match.");
                 redirectAttributes.addFlashAttribute("error", "New Password and Confirm Password do not match.");
-                return "user/my-account";
+                return "redirect:/user/my_account";
             }
-            if(currentPassword.length()>0){
-                if (u.getPass().equals(currentPassword)) {
-                    u.setPass(newPassword);
-                    userService.saveUser(u);
-                    model.addAttribute("success", "Password has been reset successfully.");
-                    return "user/my-account";
-                } else if (!u.getPass().equals(currentPassword)){
-                    model.addAttribute("error", "Current password do not match .");
-                    return "user/my-account";
-                }
+            if (u.getPass().equals(currentPassword)) {
+                u.setPass(newPassword);
+                userService.saveUser(u);
+                redirectAttributes.addFlashAttribute("success", "Password has been reset successfully.");
+                return "redirect:/user/my_account";
+            } else if (!u.getPass().equals(currentPassword)){
+                redirectAttributes.addFlashAttribute("error", "Current password do not match.");
+                return "redirect:/user/my_account";
             }
-            return "user/my-account";
+            return "redirect:/user/my_account";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/login";
         }
     }
+
     @PostMapping("/changeInformation")
-    public String changMyProfile(@RequestParam("email") String email,
-                                 @RequestParam("fullname") String fullname,
+    public String changMyProfile(@RequestParam("fullname") String fullname,
                                  @RequestParam("phone") String phone,
                                  @RequestParam("address") String adr,
-                                 HttpSession session, Model model){
+                                 HttpSession session, RedirectAttributes redirectAttributes) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
-        if(u == null){
+        if (u == null) {
             return "redirect:/login";
         }
-        model.addAttribute("user", u);
-        try{
-
-            setMess(model);
-
-            u.setFullname(fullname);
-            u.setPhone(phone);
-            u.setAddress(adr);
-            userService.saveUser(u);
-            model.addAttribute("success1", "Profile has been changed successfully.");
-            return "user/my-account";
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        return "redirect:/login";
+        u.setFullname(fullname);
+        u.setPhone(phone);
+        u.setAddress(adr);
+        userService.saveUser(u);
+        redirectAttributes.addFlashAttribute("success1", "User has been changed successfully.");
+        return "redirect:/user/my_account";  // Sau khi thành công, chuyển tới trang my-account
     }
+
 
     @PostMapping("/addresses")
     public String addresses(@RequestParam("newAddress") String newAddr,
@@ -173,9 +161,29 @@ public class UserHomeController {
         return "redirect:/login";
     }
 
-    public void setMess(Model model){
-        model.addAttribute("error", null);
-        model.addAttribute("success", null);
-        model.addAttribute("success1", null);
+    @PostMapping("/submitAddress")
+    public String handleAddressAction(@RequestParam("selectedAddressId") Integer addressId,
+                                      @RequestParam("action") String action,
+                                        HttpSession session,
+                                      RedirectAttributes redirectAttributes) {
+        Users u = (Users) session.getAttribute(Constant.SESSION_USER);
+        if(u == null){
+            return "redirect:/login";
+        }
+        Address addr = addressService.findById(addressId);
+        redirectAttributes.addFlashAttribute("user", u);
+        if ("setDefault".equals(action)) {
+            addressService.setDefaultAddress(u.getId(),addressId);
+            u.setAddress(addr.getAddress());
+        } else if ("delete".equals(action)) {
+            if (addr != null && addr.getIsDefault()==false) {
+                addressService.delete(addr);
+            }
+            else{
+                redirectAttributes.addFlashAttribute("er", "Address can't be deleted. This is defaults address");
+            }
+        }
+        return "redirect:/user/my_account";
     }
+
 }
