@@ -6,6 +6,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 import java.util.Set;
@@ -27,7 +28,8 @@ public class Cart {
         @PositiveOrZero(message = "Total price must be greater than or equal to 0")
         private Double totalPrice;
 
-        @Column(name = "created_date", nullable = false)
+        @CreationTimestamp
+        @Column(name = "created_date", nullable = false, updatable = false)
         @Temporal(TemporalType.TIMESTAMP) // Định dạng DateTime
         @NotNull(message = "Created date cannot be null")
         private Date createdDate;
