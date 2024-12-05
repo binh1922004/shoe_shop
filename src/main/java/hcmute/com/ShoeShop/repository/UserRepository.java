@@ -1,5 +1,6 @@
 package hcmute.com.ShoeShop.repository;
 
+import hcmute.com.ShoeShop.entity.Role;
 import hcmute.com.ShoeShop.entity.Users;
 import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
     @Query("SELECT u FROM Users u WHERE LOWER(u.fullname) LIKE LOWER(CONCAT('%', :name, '%')) AND u.role.roleId = :roleid")
     List<Users> findByRoleIdAndContainName(String name, int roleid);
     Users findUsersById(int userId);
+
+    long countByRole(Role role);
 }

@@ -3,6 +3,7 @@ package hcmute.com.ShoeShop.controller.manager;
 
 import hcmute.com.ShoeShop.dto.OrderDetailDto;
 import hcmute.com.ShoeShop.dto.OrderPaymentDto;
+import hcmute.com.ShoeShop.dto.OrderStaticDto;
 import hcmute.com.ShoeShop.dto.ShipperDto;
 import hcmute.com.ShoeShop.entity.Order;
 import hcmute.com.ShoeShop.entity.Shipment;
@@ -12,14 +13,19 @@ import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
 import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.services.imp.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/manager/order")
 public class OrderManageController {
         @Autowired
         OrderServiceImpl orderService;
@@ -35,17 +41,33 @@ public class OrderManageController {
         }
 
 
-        @GetMapping("/orders")
-        public String getAllOrders(Model model){
+        @GetMapping("/list")
+        public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "1")int pagesize,
+                                        @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
+                                        Model model){
+                Pageable pageable = PageRequest.of(pageNum, pagesize);
 
                 model.addAttribute("title", "Order");
 
-                List<Order> listOder = orderService.findAll();
+                Page<Order> listOder = orderService.findAll(pageable);
                 model.addAttribute("listOrder", listOder);
+
+                int totalPages = listOder.getTotalPages();
+                model.addAttribute("totalPages", totalPages);
+                if (totalPages > 0){
+                        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                                .boxed()
+                                .collect(Collectors.toList());
+                        model.addAttribute("pageNumbers", pageNumbers);
+                }
+
+                OrderStaticDto orderStaticDto = orderService.getStatic();
+                model.addAttribute("static", orderStaticDto);
+
                 return "manager/order/orders-list";
         }
 
-        @GetMapping("/order/{id}")
+        @GetMapping("/detail/{id}")
         public String getOrderDetail(@PathVariable("id") int orderId, Model model){
                 model.addAttribute("title", "Order detail");
 
@@ -72,10 +94,10 @@ public class OrderManageController {
                 return "manager/order/order-detail";
         }
 
-        @GetMapping("/order-shipping")
+        @GetMapping("/shipping")
         public String addShipping(@RequestParam("orderid") int orderid,
                                   @RequestParam("userid") int userid){
                 shipmentService.insertShipment(orderid, userid);
-                return "redirect:/manager/order/" + orderid;
+                return "redirect:/manager/order/detail/" + orderid;
         }
 }

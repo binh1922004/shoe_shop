@@ -1,6 +1,7 @@
 package hcmute.com.ShoeShop.repository;
 
 import hcmute.com.ShoeShop.entity.Order;
+import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 //        public List<Object> findALlWithStatus();
 
         public Order findOrderById(int orderId);
+
+        long countByStatus(ShipmentStatus status);
 }
