@@ -17,7 +17,7 @@
         <link href='https://fonts.googleapis.com/css?family=Norican' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
         <!-- Bootstrap CSS
         ============================================ -->
         <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -60,6 +60,15 @@
         <!-- modernizr JS
         ============================================ -->
         <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+        <style>
+            .fa-heart {
+                color: red; /* Trái tim đỏ khi yêu thích */
+            }
+
+            .fa-heart-o {
+                color: #ccc; /* Trái tim xám khi chưa yêu thích */
+            }
+        </style>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -108,22 +117,6 @@
                                                 <span th:text="${category.type}">Category Name</span>
                                             </a>
                                         </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="single-sidebar">
-                                <div class="single-sidebar-title">
-                                    <h3>Manufacturer</h3>
-                                </div>
-                                <div class="single-sidebar-content">
-                                    <ul>
-                                        <li><a href="#">Calvin Klein (2)</a></li>
-                                        <li><a href="#">Diesel (2)</a></li>
-                                        <li><a href="#">option value (1)</a></li>
-                                        <li><a href="#">Polo (2)</a></li>
-                                        <li><a href="#">store view (4)</a></li>
-                                        <li><a href="#">Tommy Hilfiger (2)</a></li>
-                                        <li><a href="#">will be used (1)</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -213,7 +206,15 @@
                                                         <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>
                                                         <ul class="add-to-link">
                                                             <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
-                                                            <li><a href="#"> <i class="fa fa-heart-o"></i></a></li>
+                                                            <li>
+                                                                <!-- Dùng th:attr để gán giá trị product.id vào data-product-id -->
+                                                                <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">
+                                                                    <!--<i class="fa fa-heart-o"></i>Trái tim xám ban đầu -->
+                                                                    <i class="fa"
+                                                                       th:class="${wishlist.contains(product) ? ' fa fa-heart' : 'fa fa-heart-o'}">
+                                                                    </i>
+                                                                </a>
+                                                            </li>
                                                             <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
                                                         </ul>
                                                     </div>
@@ -359,5 +360,49 @@
         <!-- main JS
         ============================================ -->
         <script src="/js/main.js"></script>
+        <script>
+            $(document).ready(function () {
+                // Bắt sự kiện khi nhấn vào liên kết "add-to-wishlist"
+                $('.add-to-wishlist').click(function (e) {
+                    e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+
+                    var productIdStr = $(this).data('product-id'); // Lấy productId từ thuộc tính data-product-id
+                    var productId = parseInt(productIdStr, 10); // Chuyển đổi productId sang số nguyên
+                    if (isNaN(productId) || productId <= 0) {
+                        alert('ID sản phẩm không hợp lệ');
+                        return;
+                    }
+
+                    var heartIcon = $(this).find('i'); // Lấy thẻ <i> chứa biểu tượng trái tim
+
+                    // Gửi yêu cầu AJAX đến server
+                    $.ajax({
+                        url: '/wishlist/toggle', // URL của endpoint thêm/xóa sản phẩm vào wishlist
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ productId: productId }), // Gửi productId dưới dạng JSON
+                        success: function (response) {
+                            if (response === 'ADDED') {
+                                // Nếu thêm thành công, thay đổi biểu tượng trái tim thành màu đỏ
+                                heartIcon.removeClass('fa-heart-o').addClass('fa-heart');
+                                heartIcon.css('color', 'red');
+                            } else if (response === 'REMOVED') {
+                                // Nếu bị xóa, đổi biểu tượng trái tim thành không màu
+                                heartIcon.removeClass('fa-heart').addClass('fa-heart-o');
+                                heartIcon.css('color', '');
+                            } else if (response === 'LOGIN_REQUIRED') {
+                                alert('Vui lòng đăng nhập để thêm sản phẩm vào wishlist');
+                            } else if (response === 'ALREADY_EXISTS') {
+                                alert('Sản phẩm đã có trong wishlist');
+                            }
+                        },
+                        error: function () {
+                            alert('Đã có lỗi xảy ra, vui lòng thử lại sau');
+                        }
+                    });
+                });
+            });
+        </script>
+
     </body>
 </html>

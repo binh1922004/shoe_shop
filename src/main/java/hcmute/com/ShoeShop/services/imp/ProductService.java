@@ -32,6 +32,8 @@ public class ProductService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private WishlistService wishlistService;
     // Save product
     @Transactional
     public void saveProduct(ProductDto productDto, MultipartFile image, Map<String, String> productDetails) {
@@ -102,10 +104,10 @@ public class ProductService {
             }
         }
     }
-
     // Delete product
     @Transactional
     public void deleteProduct(Long id) {
+        wishlistService.deleteByProductId(id);
         productRepository.deleteById(id);
     }
 

@@ -995,6 +995,7 @@ body {
     margin: 0 ; /* Loại bỏ margin */
     box-sizing: border-box; /* Đảm bảo kích thước bao gồm padding và border */
     background-color: #f9f9f9; /* Nền cho container */
+    overflow: hidden; /* Ẩn phần ảnh thừa nếu có */
 }
 .product-img a {
     display: block;
@@ -1006,6 +1007,7 @@ body {
     width: 100%; /* Ảnh chiếm hết chiều rộng của container */
     height: 100%; /* Ảnh chiếm hết chiều cao của container */
     object-fit: cover; /* Giữ nguyên tỷ lệ và che phủ hết không gian */
+    object-position: center center; /* Căn giữa ảnh nếu ảnh bị cắt */
     border: 1px solid #ddd; /* Viền màu xám nhạt */
     border-radius: 5px; /* Bo góc nhẹ */
     background-color: #f9f9f9; /* Nền để tránh khoảng trống */
@@ -3402,9 +3404,22 @@ button.check-button:hover,
     color: #fff;
 }
 
-
+/*
 .single-product-img.tab-content {
   min-height: 560px;
+}*/
+.single-product-img.tab-content {
+    min-height: 400px;  /* Chiều cao tối thiểu của phần chứa hình ảnh */
+    display: flex;
+    justify-content: center;  /* Căn giữa hình ảnh */
+    align-items: center;  /* Căn giữa theo chiều dọc */
+    overflow: hidden;  /* Ẩn phần ảnh thừa ra ngoài */
+}
+
+.single-product-img.tab-content img {
+    width: 100%;
+    height: auto;  /* Chiều cao tự động điều chỉnh để giữ tỷ lệ */
+    object-fit: cover;  /* Đảm bảo ảnh phủ hết phần tử mà không bị méo */
 }
 
 
