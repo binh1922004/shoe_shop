@@ -116,4 +116,8 @@ public class WishlistService {
         System.out.println("Product not found in wishlist for user");
         return false; // Không tìm thấy sản phẩm trong wishlist
     }
+
+    void deleteByProductId(Long productId){
+        wishListRepository.deleteByProductId(productId);
+    }
 }
