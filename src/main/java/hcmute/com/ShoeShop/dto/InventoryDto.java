@@ -1,7 +1,4 @@
 package hcmute.com.ShoeShop.dto;
-
-import hcmute.com.ShoeShop.entity.Product;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;

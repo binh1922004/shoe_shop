@@ -1,7 +1,6 @@
 package hcmute.com.ShoeShop.controller.user;
 
 import hcmute.com.ShoeShop.entity.Users;
-import hcmute.com.ShoeShop.entity.WishList;
 import hcmute.com.ShoeShop.utlis.Constant;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

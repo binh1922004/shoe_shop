@@ -16,9 +16,9 @@ public class WaitingController {
         if (loggedInUser != null) {
             int roleId = loggedInUser.getRole().getRoleId();
             if (roleId == 1) {
-                return "user/my-account";
+                return "redirect:/admin";
             } else if (roleId == 2) {
-                return "user/my-account";
+                return "redirect:/manager";
             } else if (roleId == 3) {
                 return "redirect:/user/shop";
             } else {

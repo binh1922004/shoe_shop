@@ -1,8 +1,6 @@
-<html xmlns:th="http://www.thymeleaf.org">
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="" xmlns:th="http://www.thymeleaf.org">
     
-<!-- Mirrored from htmldemo.net/james/james/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:18:47 GMT -->
 <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -13,15 +11,11 @@
         <!-- favicon
         ============================================ -->
         <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
-
         <!-- Google Fonts
         ============================================ -->
         <link href='https://fonts.googleapis.com/css?family=Norican' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-
-        <!-- All css -->
-
         <!-- Bootstrap CSS
         ============================================ -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -64,6 +58,15 @@
         <!-- modernizr JS
         ============================================ -->
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <style>
+            .fa-heart {
+                color: red; /* Trái tim đỏ khi yêu thích */
+            }
+
+            .fa-heart-o {
+                color: #ccc; /* Trái tim xám khi chưa yêu thích */
+            }
+        </style>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -211,7 +214,9 @@
                                                     <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>
                                                     <ul class="add-to-link">
                                                         <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
-                                                        <li><a href="#"> <i class="fa fa-heart-o"></i></a></li>
+                                                        <li><a href="#" onclick="toggleHeart(this);  return false;">
+                                                            <i class="fa fa-heart-o"></i>
+                                                        </a></li>
                                                         <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
                                                     </ul>
                                                 </div>
@@ -3434,6 +3439,18 @@
         <!-- main JS
         ============================================ -->
         <script src="js/main.js"></script>
+        <script>
+            function toggleHeart(element) {
+                const icon = element.querySelector('i');
+                if (icon.classList.contains('fa-heart-o')) {
+                    icon.classList.remove('fa-heart-o');
+                    icon.classList.add('fa-heart');
+                } else {
+                    icon.classList.remove('fa-heart');
+                    icon.classList.add('fa-heart-o');
+                }
+            }
+        </script>
     </body>
 
 <!-- Mirrored from htmldemo.net/james/james/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:11 GMT -->
