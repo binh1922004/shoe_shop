@@ -3,30 +3,22 @@ import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.services.imp.*;
 import hcmute.com.ShoeShop.utlis.Constant;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.ArrayList;
 import java.util.List;
 import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.ProductService;
-import hcmute.com.ShoeShop.utlis.Constant;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 @Controller
 @RequestMapping("/user")
@@ -44,6 +36,9 @@ public class UserHomeController {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private WishlistService wishListService;
+
     @GetMapping("/shop")
     public String userHome(HttpSession session, Model model,
                            @RequestParam(defaultValue = "0") int page,
@@ -51,7 +46,7 @@ public class UserHomeController {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
         if (u != null) {
             List<Category> categories = categoryService.findAll();
-
+            List<Product> wishlist = wishListService.getWishlist(u.getId());
             int cateCount = categoryService.count();
             if (categories != null && cateCount > 0) {
                 Pageable pageable = PageRequest.of(page, size);
@@ -61,6 +56,7 @@ public class UserHomeController {
             } else {
                 model.addAttribute("cate", null);
             }
+            model.addAttribute("wishlist", wishlist);
             model.addAttribute("user", u);
             Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
 
@@ -134,7 +130,7 @@ public class UserHomeController {
         u.setAddress(adr);
         userService.saveUser(u);
         redirectAttributes.addFlashAttribute("success1", "User has been changed successfully.");
-        return "redirect:/user/my_account";  // Sau khi thành công, chuy?n t?i trang my-account
+        return "redirect:/user/my_account";  // Sau khi thï¿½nh cï¿½ng, chuy?n t?i trang my-account
     }
 
 
@@ -184,6 +180,18 @@ public class UserHomeController {
             }
         }
         return "redirect:/user/my_account";
+    }
+
+    @GetMapping("/wishlist")
+    public String wishlist(HttpSession session, Model model) {
+        Users u = (Users) session.getAttribute(Constant.SESSION_USER);
+        if(u == null){
+            return "redirect:/login";
+        }
+        List<Product> wishlist = wishListService.getWishlist(u.getId());
+        model.addAttribute("user",u);
+        model.addAttribute("wishlist", wishlist);
+        return "user/wishlist";
     }
 
 }

@@ -1,16 +1,17 @@
 package hcmute.com.ShoeShop.controller;
 
 import hcmute.com.ShoeShop.dto.ProductDto;
-import hcmute.com.ShoeShop.entity.Category;
-import hcmute.com.ShoeShop.entity.Product;
-import hcmute.com.ShoeShop.entity.ProductDetail;
-import hcmute.com.ShoeShop.entity.Rating;
+import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
 import hcmute.com.ShoeShop.repository.ProductRepository;
 import hcmute.com.ShoeShop.services.imp.ProductDetailService;
 import hcmute.com.ShoeShop.services.imp.ProductService;
 import hcmute.com.ShoeShop.services.StorageService;
 import hcmute.com.ShoeShop.services.imp.ProductService;
+import hcmute.com.ShoeShop.services.imp.WishlistService;
+import hcmute.com.ShoeShop.utlis.Constant;
+import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +43,9 @@ public class ProductController {
 
     @Autowired
     private StorageService storageService;
+
+    @Autowired
+    private WishlistService wishListService;
 
     @GetMapping("/insertProductPage")
     public String insertProductPage(Model model) {
@@ -119,13 +123,6 @@ public class ProductController {
         return "redirect:/product";
     }
 
-
-//    @GetMapping("")
-//    public String productPage(Model model) {
-//        model.addAttribute("products", productService.getAllProducts());
-//        return "web/index";
-//    }
-
     @GetMapping("/web")
     public String getAllProducts(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "6") int size,
@@ -138,7 +135,13 @@ public class ProductController {
     }
 
     @GetMapping("/details/{id}")
-    public String getProductDetails(@PathVariable long id, ModelMap model, Rating rating) {
+    public String getProductDetails(@PathVariable long id, ModelMap model, Rating rating, HttpSession session) {
+        Users u = (Users) session.getAttribute(Constant.SESSION_USER);
+        if(u==null)
+            return "redirect:/login";
+        model.addAttribute("user", u);
+        List<Product> wishlist = wishListService.getWishlist(u.getId());
+        model.addAttribute("wishlist", wishlist);
         Product product = productService.getProductById(id);
         List<ProductDetail> productDetails = productDetailService.findProductByProductId(id);
         model.addAttribute("productDetails", productDetails);
