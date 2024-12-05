@@ -471,7 +471,7 @@
                             <table class="table-bordered table table-hover">
                                 <h4 th:if="${alert} != null" th:text="${alert}"></h4>
                                 <thead>
-                                    <tr>
+                                    <tr style="text-align: center">
                                         <th class="cart-item-img">Image</th>
                                         <th class="cart-product-name">Product Name</th>
 <!--                                        <th class="edit"></th>-->
@@ -489,7 +489,7 @@
                                         <td class="cart-item-img">
                                             <a href="single-product.html">
 <!--                                                th:src="${detail.product.product.image}"-->
-                                                <img  alt="image">
+                                                <img th:src="${detail.product.product.image}" alt="image" style="max-width: 100px; max-height: 100px; object-fit: cover;">
                                             </a>
                                         </td>
                                         <td class="cart-product-name">
@@ -507,8 +507,8 @@
                                         <td class="unit-price">
                                             <span id="unitPrice" th:text="${detail.product.product.price} + ${detail.product.priceadd}"></span>
                                         </td>
-                                        <td class="quantity">
-                                            <div class="quantity-controller">
+                                        <td class="quantity" >
+                                            <div class="quantity-controller" style="margin-top: 30px ; margin-left: 30px ; margin-right: -30px">
                                                 <button type="button" class="quantity-btn decrease" data-id="${detail.id}">-</button>
                                                 <input type="number" class="quantity-input" name="quantity" th:value="${detail.quantity}" data-id="${detail.id}" readonly>
                                                 <button type="button" class="quantity-btn increase" data-id="${detail.id}">+</button>
@@ -519,7 +519,7 @@
                                             <span id="subtotalPrice" th:text="${detail.price}*${detail.quantity}"></span>
                                         </td>
                                         <td class="remove-icon">
-                                            <form th:action="@{/cart/edit/{id}(id = ${detail.id})}" method="POST" style="display:inline;">
+                                            <form th:action="@{/cart/edit/{id}(id = ${detail.id})}" method="POST" style="margin-top: 30px">
                                                 <input type="hidden" name="quantity" class="quantity-input" th:value="${detail.quantity}">
                                                 <button type="submit" class="edit-btn">
                                                     <img src="/img/cart/btn_edit.gif" alt="Edit">
