@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductDetailService {
@@ -29,6 +30,10 @@ public class ProductDetailService {
     public void save(ProductDetail productDetail) {
         productDetailRepository.save(productDetail);
     }
+    public Optional<ProductDetail> findProductDetailById(long productDetailId) {
+        return productDetailRepository.findById(productDetailId);
+    }
+
 
     public ProductDetail findByProductAndSize(Product product, int size) {
         return productDetailRepository.findByProductAndSize(product, size);

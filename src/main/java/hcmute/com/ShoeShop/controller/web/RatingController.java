@@ -9,25 +9,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RatingController {
     @Autowired
     private RatingService ratingService;
 
-    @GetMapping("/product/details/{id}/comment")
-    public String showFormComment(@PathVariable long id,Rating rating, ModelMap model) {
-        model.addAttribute("rating", rating);
-        model.addAttribute("id", id);
-        return "user/single-product";
-    }
-
     @PostMapping("/product/details/{id}/comment")
-    public String addComment(@PathVariable long id, BindingResult bindingResult, Rating rating) {
-        if (bindingResult.hasErrors()) {
-            return "comment";
-        }
-        ratingService.addRating(rating);
+    public String addComment(@PathVariable long id, @RequestParam String comment, @RequestParam int star) {
+        Rating rating = new Rating();
+        rating.setComment(comment);
+        rating.setStar(star);
         return "redirect:/product/details/{id}";
     }
 }

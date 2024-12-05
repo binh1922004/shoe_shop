@@ -1,23 +1,24 @@
+
 <!doctype html>
 <html class="no-js" lang="" xmlns:th="http://www.thymeleaf.org">
-    
+
 <!-- Mirrored from htmldemo.net/james/james/single-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:15 GMT -->
 <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Single Shop || James </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Single Shop || James </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- favicon
-        ============================================ -->
-        <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <!-- favicon
+    ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
 
-        <!-- Google Fonts
-        ============================================ -->
-        <link href='https://fonts.googleapis.com/css?family=Norican' rel='stylesheet' type='text/css'>
-        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Google Fonts
+    ============================================ -->
+    <link href='https://fonts.googleapis.com/css?family=Norican' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 
         <!-- Bootstrap CSS
         ============================================ -->
@@ -91,260 +92,280 @@
                                 <li><strong> Product details</strong></li>
                             </ul>
                         </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- single product area end -->
+<!-- single product details start -->
+<div class="single-product-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="single-product-img tab-content">
+                    <div class="single-pro-main-image tab-pane active" id="pro-large-img-1">
+                        <a href="#"><img class="optima_zoom" th:src="${product.image}"
+                                         data-zoom-image="img/product/7.png" alt="optima"/></a>
+                    </div>
+                    <div class="single-pro-main-image tab-pane" id="pro-large-img-2">
+                        <a href="#"><img class="optima_zoom" src="img/product/2.png" data-zoom-image="img/product/2.png"
+                                         alt="optima"/></a>
+                    </div>
+                    <div class="single-pro-main-image tab-pane" id="pro-large-img-3">
+                        <a href="#"><img class="optima_zoom" src="img/product/8.png" data-zoom-image="img/product/8.png"
+                                         alt="optima"/></a>
+                    </div>
+                    <div class="single-pro-main-image tab-pane" id="pro-large-img-4">
+                        <a href="#"><img class="optima_zoom" src="img/product/1.png" data-zoom-image="img/product/1.png"
+                                         alt="optima"/></a>
+                    </div>
+                    <div class="single-pro-main-image tab-pane" id="pro-large-img-5">
+                        <a href="#"><img class="optima_zoom" src="img/product/9.png" data-zoom-image="img/product/9.png"
+                                         alt="optima"/></a>
+                    </div>
+                </div>
+                <div class="nav product-page-slider">
+                    <div class="single-product-slider">
+                        <a class="active" href="#pro-large-img-1" data-bs-toggle="tab">
+                            <img src="img/product/28.png" alt="">
+                        </a>
+                    </div>
+                    <div class="single-product-slider">
+                        <a href="#pro-large-img-2" data-bs-toggle="tab">
+                            <img src="img/product/30.png" alt="">
+                        </a>
+                    </div>
+                    <div class="single-product-slider">
+                        <a href="#pro-large-img-3" data-bs-toggle="tab">
+                            <img src="img/product/29.png" alt="">
+                        </a>
+                    </div>
+                    <div class="single-product-slider">
+                        <a href="#pro-large-img-4" data-bs-toggle="tab">
+                            <img src="img/product/31.png" alt="">
+                        </a>
+                    </div>
+                    <div class="single-product-slider">
+                        <a href="#pro-large-img-5" data-bs-toggle="tab">
+                            <img src="img/product/29.png" alt="">
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- single product area end -->
-        <!-- single product details start -->
-        <div class="single-product-details">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="single-product-img tab-content">
-                            <div class="single-pro-main-image tab-pane active" id="pro-large-img-1">
-                                <a href="#"><img class="optima_zoom" th:src="${product.image}" data-zoom-image="img/product/7.png" alt="optima"/></a>
-                            </div>
-                            <div class="single-pro-main-image tab-pane" id="pro-large-img-2">
-                                <a href="#"><img class="optima_zoom" src="img/product/2.png" data-zoom-image="img/product/2.png" alt="optima"/></a>
-                            </div>
-                            <div class="single-pro-main-image tab-pane" id="pro-large-img-3">
-                                <a href="#"><img class="optima_zoom" src="img/product/8.png" data-zoom-image="img/product/8.png" alt="optima"/></a>
-                            </div>
-                            <div class="single-pro-main-image tab-pane" id="pro-large-img-4">
-                                <a href="#"><img class="optima_zoom" src="img/product/1.png" data-zoom-image="img/product/1.png" alt="optima"/></a>
-                            </div>
-                            <div class="single-pro-main-image tab-pane" id="pro-large-img-5">
-                                <a href="#"><img class="optima_zoom" src="img/product/9.png" data-zoom-image="img/product/9.png" alt="optima"/></a>
-                            </div>
-                        </div>
-                        <div class="nav product-page-slider">
-                            <div class="single-product-slider">
-                                <a class="active" href="#pro-large-img-1" data-bs-toggle="tab">
-                                    <img src="img/product/28.png" alt="">
-                                </a>
-                            </div>
-                            <div class="single-product-slider">
-                                <a href="#pro-large-img-2" data-bs-toggle="tab">
-                                    <img src="img/product/30.png" alt="">
-                                </a>
-                            </div>
-                            <div class="single-product-slider">
-                                <a href="#pro-large-img-3" data-bs-toggle="tab">
-                                    <img src="img/product/29.png" alt="">
-                                </a>
-                            </div>
-                            <div class="single-product-slider">
-                                <a href="#pro-large-img-4" data-bs-toggle="tab">
-                                    <img src="img/product/31.png" alt="">
-                                </a>
-                            </div>
-                            <div class="single-product-slider">
-                                <a href="#pro-large-img-5" data-bs-toggle="tab">
-                                    <img src="img/product/29.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="single-product-details">
-                            <a href="#" class="product-name" th:text="${product.title}"></a>
-                            <div class="list-product-info">
-                                <div class="price-rating">
-                                    <div class="ratings">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
-                                        <a href="#" class="review">1 Review(s)</a>
-                                        <a href="#" class="add-review">Add Your Review</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="avalable">
-                                <p>Availability:<span> In stock</span></p>
-                            </div>
-                            <div class="item-price">
-                                <span th:text="${product.price}"></span>
-                            </div>
-                            <div class="single-product-info">
-                                <p>Description: <span th:text="${product.description}"></span></p>
-                                <div class="share">
-                                    <img src="img/product/share.png" alt="">
-                                </div>
-                            </div>
-                            <div class="action">
-                                <ul class="add-to-links">
-                                    <li>
-                                        <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">
-                                            <i class="fa"
-                                               th:class="${wishlist.contains(product) ? ' fa fa-heart' : 'fa fa-heart-o'}">
-                                            </i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-refresh"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-envelope"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="select-catagory">
-                                <div class="size-select">
-                                    <label class="required">
-                                        <em>*</em> Size
-                                    </label>
-                                    <div class="input-box">
-                                        <select id="select-2">
-                                            <option value="">-- Please Select --</option>
-                                            <option th:each="productDetail : ${productDetails}"
-                                                    th:value="${productDetail.priceadd}"
-                                                    th:text="'Size: ' + ${productDetail.size} + ' - $' + ${productDetail.priceadd}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="cart-item">
-                                <div class="price-box">
-                                    <!-- Giá cuối cùng sẽ được hiển thị ở đây -->
-                                    <span id="final-price" th:text="${product.price}"></span>
-                                </div>
-                                <div class="single-cart">
-                                    <div class="cart-plus-minus">
-                                        <label>Qty: </label>
-                                        <input class="cart-plus-minus-box" type="text" name="qtybutton" value="0">
-                                    </div>
-                                    <button class="cart-btn" type="submit">Add to cart</button>
+            <form th:action="@{/cart/add}" method="post">
+                <div class="col-lg-6">
+                    <div class="single-product-details">
+                        <a href="#" class="product-name" th:text="${product.title}"></a>
+                        <div class="list-product-info">
+                            <div class="price-rating">
+                                <div class="ratings">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <a href="#" class="review">1 Review(s)</a>
+                                    <a href="#" class="add-review">Add Your Review</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- single product details end -->
-        <!-- single product tab start -->
-        <div class="single-product-tab-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="single-product-tab">
-                            <ul class="nav single-product-tab-navigation" role="tablist">
-                                <li role="presentation">
-                                    <a class="active" href="#tab1" aria-controls="tab1" role="tab" data-bs-toggle="tab">Product Description</a>
+                        <div class="avalable">
+                            <p>Availability:<span> In stock</span></p>
+                        </div>
+                        <div class="item-price">
+                            <span th:text="${product.price}"></span>
+                        </div>
+                        <div class="single-product-info">
+                            <p>Description: <span th:text="${product.description}"></span></p>
+                            <div class="share">
+                                <img src="img/product/share.png" alt="">
+                            </div>
+                        </div>
+                        <div class="action">
+                            <ul class="add-to-links">
+                                <li>
+                                    <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">
+                                        <i class="fa"
+                                           th:class="${wishlist.contains(product) ? ' fa fa-heart' : 'fa fa-heart-o'}">
+                                        </i>
+                                    </a>
                                 </li>
-                                <li role="presentation">
-                                    <a href="#tab2" aria-controls="tab2" role="tab" data-bs-toggle="tab">Reviews</a>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
                                 </li>
-                                <li role="presentation">
-                                    <a href="#tab3" aria-controls="tab3" role="tab" data-bs-toggle="tab">product tag</a>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
                                 </li>
                             </ul>
-
-                            <!-- Tab panes -->
-                            <div class="tab-content single-product-page">
-                                <div role="tabpanel" class="tab-pane fade show active" id="tab1">
-                                    <div class="single-p-tab-content">
-                                        <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer enim purus, posuere at ultricies eu, placerat a felis. Suspendisse aliquet urna pretium eros convallis interdum. Quisque in arcu id dui vulputate mollis eget non arcu. Aenean et nulla purus. Mauris vel tellus non nunc mattis lobortis. </p>
-                                    </div>
+                        </div>
+                        <div class="select-catagory">
+                            <div class="size-select">
+                                <label class="required">
+                                    <em>*</em> Size
+                                </label>
+                                <div class="input-box">
+                                    <select id="select-2" name="productDetailId" required>
+<!--                                        <option value="">&#45;&#45; Please Select &#45;&#45;</option>-->
+                                        <option th:each="productDetail : ${productDetails}"
+                                                th:value="${productDetail.id}"
+                                                th:data-priceadd="${productDetail.priceadd}"
+                                                th:text="'Size: ' + ${productDetail.size} + ' + $' + ${productDetail.priceadd}">
+                                        </option>
+                                    </select>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="tab2-tab">
-                                    <div class="single-p-tab-content">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="rate-product hidden-xs">
-                                                    <div class="rate-product-heading">
-                                                        <h3>You're reviewing: Fusce aliquam</h3>
-                                                        <h3>How do you rate this product? <em>*</em></h3>
-                                                    </div>
-                                                    <form action="#">
-                                                        <table class="product-review-table">
-                                                            <thead>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th>1 star</th>
-                                                                <th>2 star</th>
-                                                                <th>3 star</th>
-                                                                <th>4 star</th>
-                                                                <th>5 star</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <th>Quality</th>
-                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                                <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <ul class="form-list">
-                                                            <li>
-                                                                <label>Nickname <em>*</em></label>
-                                                                <input type="text">
-                                                            </li>
-                                                            <li>
-                                                                <label>Review <em>*</em></label>
-                                                                <textarea cols="3" rows="5"></textarea>
-                                                            </li>
-                                                        </ul>
-                                                        <button type="submit">Submit Review</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="product-review">
-                                                    <p><a href="#"> plaza</a> <span>Review by</span> plaza</p>
-                                                    <div class="product-rating-info">
-                                                        <p>Quality</p>
-                                                        <div class="ratings">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review-date">
-                                                        <p>plaza <em>(Posted on 8/27/2015)</em></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="cart-item">
+                            <div class="price-box">
+                                <!-- Giá cuối cùng sẽ được hiển thị ở đây -->
+                                <span id="final-price" th:text="${product.price}"></span>
+                            </div>
+                            <div class="single-cart">
+                                <div class="cart-plus-minus">
+                                    <label>Qty: </label>
+                                    <input class="cart-plus-minus-box" type="text" name="quantity" value="1">
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab3">
-                                    <div class="single-p-tab-content">
-                                        <div class="add-tab-title">
-                                            <p> add your tag </p>
-                                        </div>
-                                        <div class="add-tag">
+                                <!-- Hidden input để lưu productDetailId -->
+                                <input type="hidden" id="productDetailId" name="productDetailId" value="">
+                                <button class="cart-btn" type="submit">Add to cart</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- single product details end -->
+<!-- single product tab start -->
+<div class="single-product-tab-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="single-product-tab">
+                    <ul class="nav single-product-tab-navigation" role="tablist">
+                        <li role="presentation">
+                            <a class="active" href="#tab1" aria-controls="tab1" role="tab" data-bs-toggle="tab">Product
+                                Description</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#tab2" aria-controls="tab2" role="tab" data-bs-toggle="tab">Reviews</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#tab3" aria-controls="tab3" role="tab" data-bs-toggle="tab">product tag</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content single-product-page">
+                        <div role="tabpanel" class="tab-pane fade show active" id="tab1">
+                            <div class="single-p-tab-content">
+                                <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate,
+                                    tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus
+                                    orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue.
+                                    Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.
+                                    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+                                    himenaeos. Integer enim purus, posuere at ultricies eu, placerat a felis.
+                                    Suspendisse aliquet urna pretium eros convallis interdum. Quisque in arcu id dui
+                                    vulputate mollis eget non arcu. Aenean et nulla purus. Mauris vel tellus non nunc
+                                    mattis lobortis. </p>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="tab2-tab">
+                            <div class="single-p-tab-content">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="rate-product hidden-xs">
+                                            <div class="rate-product-heading">
+                                                <h3>You're reviewing: Fusce aliquam</h3>
+                                                <h3>How do you rate this product? <em>*</em></h3>
+                                            </div>
                                             <form action="#">
-                                                <input type="text">
-                                                <button type="submit">add tags</button>
+                                                <table class="product-review-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>1 star</th>
+                                                        <th>2 star</th>
+                                                        <th>3 star</th>
+                                                        <th>4 star</th>
+                                                        <th>5 star</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>Quality</th>
+                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="form-list">
+                                                    <li>
+                                                        <label>Nickname <em>*</em></label>
+                                                        <input type="text">
+                                                    </li>
+                                                    <li>
+                                                        <label>Review <em>*</em></label>
+                                                        <textarea cols="3" rows="5"></textarea>
+                                                    </li>
+                                                </ul>
+                                                <button type="submit">Submit Review</button>
                                             </form>
                                         </div>
-                                        <p class="tag-rules">Use spaces to separate tags. Use single quotes (') for phrases.</p>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="product-review">
+                                            <p><a href="#"> plaza</a> <span>Review by</span> plaza</p>
+                                            <div class="product-rating-info">
+                                                <p>Quality</p>
+                                                <div class="ratings">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-half-o"></i>
+                                                </div>
+                                            </div>
+                                            <div class="review-date">
+                                                <p>plaza <em>(Posted on 8/27/2015)</em></p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab3">
+                            <div class="single-p-tab-content">
+                                <div class="add-tab-title">
+                                    <p> add your tag </p>
+                                </div>
+                                <div class="add-tag">
+                                    <form action="#">
+                                        <input type="text">
+                                        <button type="submit">add tags</button>
+                                    </form>
+                                </div>
+                                <p class="tag-rules">Use spaces to separate tags. Use single quotes (') for phrases.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- single product tab end -->
-        <!-- upsell product area start-->
+    </div>
+</div>
+<!-- single product tab end -->
+<!-- upsell product area start-->
 <!--        <div class="upsell-product home2">-->
 <!--            <div class="container">-->
 <!--                <div class="row">-->
@@ -608,8 +629,8 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
-        <!-- upsell product area end-->
-        <!-- related product area start-->
+<!-- upsell product area end-->
+<!-- related product area start-->
 <!--        <div class="related-product home2">-->
 <!--            <div class="container">-->
 <!--                <div class="row">-->
@@ -769,216 +790,227 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
-        <!-- related product area end-->
-        <!-- footer top area start -->
-        <div class="footer-top-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-contact">
-                            <img src="img/logo-white.png" alt="">
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.</p>
-                            <ul class="address">
-                                <li>
-                                    <span class="fa fa-fax"></span>
-                                    (800) 123 456 789
-                                </li>
-                                <li>
-                                    <span class="fa fa-phone"></span>
-                                    (800) 123 456 789
-                                </li>
-                                <li>
-                                    <span class="fa fa-envelope-o"></span>
-                                    admin@bootexperts.com
-                                </li>
-                            </ul>
-                        </div>
+<!-- related product area end-->
+<!-- footer top area start -->
+<div class="footer-top-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-contact">
+                    <img src="img/logo-white.png" alt="">
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                        tincidunt.</p>
+                    <ul class="address">
+                        <li>
+                            <span class="fa fa-fax"></span>
+                            (800) 123 456 789
+                        </li>
+                        <li>
+                            <span class="fa fa-phone"></span>
+                            (800) 123 456 789
+                        </li>
+                        <li>
+                            <span class="fa fa-envelope-o"></span>
+                            admin@bootexperts.com
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-tweets">
+                    <div class="footer-title">
+                        <h3>Latest tweets</h3>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-tweets">
-                            <div class="footer-title">
-                                <h3>Latest tweets</h3>
+                    <div class="twitter-feed">
+                        <div class="twitter-article">
+                            <div class="twitter-img">
+                                <a href="#">
+                                    <img src="img/twitter/twitter-1.png" alt="">
+                                </a>
                             </div>
-                            <div class="twitter-feed">
-                                <div class="twitter-article">
-                                    <div class="twitter-img">
-                                        <a href="#">
-                                            <img src="img/twitter/twitter-1.png" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="twitter-text">
-                                        <p>Raboda Fashion #Magento #Theme comes up with pure white and grey, which great show your products. Check it: </p>
-                                        <a href="#">https://t.co/iu0OYBwti8</a>
-                                        <div class="twitter-time">
-                                            <a href="#">16h</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="twitter-article">
-                                    <div class="twitter-img">
-                                        <a href="#">
-                                            <img src="img/twitter/twitter-1.png" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="twitter-text">
-                                        <p>Raboda Fashion #Magento #Theme comes up with pure white and grey, which great show your products. Check it: </p>
-                                        <a href="#">https://t.co/iu0OYBwti8</a>
-                                        <div class="twitter-time">
-                                            <a href="#">16h</a>
-                                        </div>
-                                    </div>
+                            <div class="twitter-text">
+                                <p>Raboda Fashion #Magento #Theme comes up with pure white and grey, which great show
+                                    your products. Check it: </p>
+                                <a href="#">https://t.co/iu0OYBwti8</a>
+                                <div class="twitter-time">
+                                    <a href="#">16h</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-support">
-                            <div class="footer-title">
-                                <h3>Our support</h3>
+                        <div class="twitter-article">
+                            <div class="twitter-img">
+                                <a href="#">
+                                    <img src="img/twitter/twitter-1.png" alt="">
+                                </a>
                             </div>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="#">Sitemap</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Your Account</a></li>
-                                    <li><a href="#">Advanced Search</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-info">
-                            <div class="footer-title">
-                                <h3>Our information</h3>
-                            </div>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="about-us.html">About Us</a></li>
-                                    <li><a href="#">Customer Service</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Orders and Returns</a></li>
-                                    <li><a href="#">Site Map</a></li>
-                                </ul>
+                            <div class="twitter-text">
+                                <p>Raboda Fashion #Magento #Theme comes up with pure white and grey, which great show
+                                    your products. Check it: </p>
+                                <a href="#">https://t.co/iu0OYBwti8</a>
+                                <div class="twitter-time">
+                                    <a href="#">16h</a>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-support">
+                    <div class="footer-title">
+                        <h3>Our support</h3>
+                    </div>
+                    <div class="footer-menu">
+                        <ul>
+                            <li><a href="#">Sitemap</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Your Account</a></li>
+                            <li><a href="#">Advanced Search</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-info">
+                    <div class="footer-title">
+                        <h3>Our information</h3>
+                    </div>
+                    <div class="footer-menu">
+                        <ul>
+                            <li><a href="about-us.html">About Us</a></li>
+                            <li><a href="#">Customer Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Orders and Returns</a></li>
+                            <li><a href="#">Site Map</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- footer top area end -->
-        <!-- footer area start -->
-        <footer class="footer-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="footer-copyright">
-                            <p>Copyright &copy; 2022 <a href="#"> Bootexperts</a>. All Rights Reserved</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="payment-icon">
-                            <img src="img/payment.png" alt="">
-                        </div>
-                    </div>
+    </div>
+</div>
+<!-- footer top area end -->
+<!-- footer area start -->
+<footer class="footer-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="footer-copyright">
+                    <p>Copyright &copy; 2022 <a href="#"> Bootexperts</a>. All Rights Reserved</p>
                 </div>
             </div>
-            <a href="#" id="scrollUp"><i class="fa fa fa-arrow-up"></i></a>
-        </footer>
-        <!-- footer area end -->
+            <div class="col-md-6">
+                <div class="payment-icon">
+                    <img src="img/payment.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" id="scrollUp"><i class="fa fa fa-arrow-up"></i></a>
+</footer>
+<!-- footer area end -->
 
-        <!-- jquery
-        ============================================ -->
-        <script src="/js/vendor/jquery-1.12.4.min.js"></script>
-        <!-- bootstrap JS
-        ============================================ -->
-        <script src="/js/bootstrap.min.js"></script>
-        <!-- wow JS
-        ============================================ -->
-        <script src="/js/wow.min.js"></script>
-        <!-- price-slider JS
-        ============================================ -->
-        <script src="/js/jquery-price-slider.js"></script>
-        <!-- nivoslider JS
-        ============================================ -->
-        <script src="/lib/js/jquery.nivo.slider.js"></script>
-        <script src="/lib/home.js"></script>
-        <!-- meanmenu JS
-        ============================================ -->
-        <script src="js/jquery.meanmenu.js"></script>
-        <!-- owl.carousel JS
-        ============================================ -->
-        <script src="/js/owl.carousel.min.js"></script>
-        <!-- elevatezoom JS
-        ============================================ -->
-        <script src="/js/jquery.elevatezoom.js"></script>
-        <!-- scrollUp JS
-        ============================================ -->
-        <script src="/js/jquery.scrollUp.min.js"></script>
-        <!-- plugins JS
-        ============================================ -->
-        <script src="/js/plugins.js"></script>
-        <!-- main JS
-        ============================================ -->
-        <script src="/js/main.js"></script>
+<!-- jquery
+============================================ -->
+<script src="/js/vendor/jquery-1.12.4.min.js"></script>
+<!-- bootstrap JS
+============================================ -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- wow JS
+============================================ -->
+<script src="/js/wow.min.js"></script>
+<!-- price-slider JS
+============================================ -->
+<script src="/js/jquery-price-slider.js"></script>
+<!-- nivoslider JS
+============================================ -->
+<script src="/lib/js/jquery.nivo.slider.js"></script>
+<script src="/lib/home.js"></script>
+<!-- meanmenu JS
+============================================ -->
+<script src="js/jquery.meanmenu.js"></script>
+<!-- owl.carousel JS
+============================================ -->
+<script src="/js/owl.carousel.min.js"></script>
+<!-- elevatezoom JS
+============================================ -->
+<script src="/js/jquery.elevatezoom.js"></script>
+<!-- scrollUp JS
+============================================ -->
+<script src="/js/jquery.scrollUp.min.js"></script>
+<!-- plugins JS
+============================================ -->
+<script src="/js/plugins.js"></script>
+<!-- main JS
+============================================ -->
+<script src="/js/main.js"></script>
         <script>
             // Lấy giá sản phẩm gốc từ HTML
-            const basePrice = parseFloat(document.getElementById('final-price').textContent);
-            const selectBox = document.getElementById('select-2');
-            const finalPriceSpan = document.getElementById('final-price');
+            const basePrice = parseFloat(document.getElementById('final-price').textContent);  // Giá ban đầu
+            const selectBox = document.getElementById('select-2');  // Select box chứa các lựa chọn size
+            const finalPriceSpan = document.getElementById('final-price');  // Span hiển thị giá cuối cùng
+            const hiddenInputProductDetailId = document.getElementById('productDetailId'); // Hidden input để lưu id sản phẩm
 
             // Xử lý sự kiện thay đổi size
             selectBox.addEventListener('change', function () {
-                // Lấy giá cộng thêm từ thuộc tính value
-                const priceAdd = parseFloat(this.value) || 0; // Giá cộng thêm, mặc định là 0 nếu không chọn gì
-                const totalPrice = basePrice + priceAdd; // Tính tổng giá
-                finalPriceSpan.textContent = totalPrice.toFixed(1); // Cập nhật giá hiển thị
+                const selectedOption = this.options[this.selectedIndex];  // Lấy option được chọn
+                const priceAdd = parseFloat(selectedOption.getAttribute('data-priceadd')) || 0;  // Giá cộng thêm từ attribute 'data-priceadd'
+                const productDetailId = selectedOption.value;  // Lấy id của productDetail từ 'value' của option
+
+                // Cập nhật giá hiển thị
+                const totalPrice = basePrice + priceAdd;  // Tính tổng giá (giá gốc + giá cộng thêm)
+                finalPriceSpan.textContent = totalPrice.toFixed(1);  // Hiển thị giá cuối cùng
+
+                // Lưu id của productDetail vào hidden input để gửi về server
+                hiddenInputProductDetailId.value = productDetailId;
             });
         </script>
-        <script>
-            $(document).ready(function () {
-                // Bắt sự kiện khi nhấn vào liên kết "add-to-wishlist"
-                $('.add-to-wishlist').click(function (e) {
-                    e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+    <script>
+        $(document).ready(function () {
+            // Bắt sự kiện khi nhấn vào liên kết "add-to-wishlist"
+            $('.add-to-wishlist').click(function (e) {
+                e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
 
-                    var productIdStr = $(this).data('product-id'); // Lấy productId từ thuộc tính data-product-id
-                    var productId = parseInt(productIdStr, 10); // Chuyển đổi productId sang số nguyên
-                    if (isNaN(productId) || productId <= 0) {
-                        alert('ID sản phẩm không hợp lệ');
-                        return;
-                    }
+                var productIdStr = $(this).data('product-id'); // Lấy productId từ thuộc tính data-product-id
+                var productId = parseInt(productIdStr, 10); // Chuyển đổi productId sang số nguyên
+                if (isNaN(productId) || productId <= 0) {
+                    alert('ID sản phẩm không hợp lệ');
+                    return;
+                }
 
-                    var heartIcon = $(this).find('i'); // Lấy thẻ <i> chứa biểu tượng trái tim
+                var heartIcon = $(this).find('i'); // Lấy thẻ <i> chứa biểu tượng trái tim
 
-                    // Gửi yêu cầu AJAX đến server
-                    $.ajax({
-                        url: '/wishlist/toggle', // URL của endpoint thêm/xóa sản phẩm vào wishlist
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify({ productId: productId }), // Gửi productId dưới dạng JSON
-                        success: function (response) {
-                            if (response === 'ADDED') {
-                                // Nếu thêm thành công, thay đổi biểu tượng trái tim thành màu đỏ
-                                heartIcon.removeClass('fa-heart-o').addClass('fa-heart');
-                                heartIcon.css('color', 'red');
-                            } else if (response === 'REMOVED') {
-                                // Nếu bị xóa, đổi biểu tượng trái tim thành không màu
-                                heartIcon.removeClass('fa-heart').addClass('fa-heart-o');
-                                heartIcon.css('color', '');
-                            } else if (response === 'LOGIN_REQUIRED') {
-                                alert('Vui lòng đăng nhập để thêm sản phẩm vào wishlist');
-                            } else if (response === 'ALREADY_EXISTS') {
-                                alert('Sản phẩm đã có trong wishlist');
-                            }
-                        },
-                        error: function () {
-                            alert('Đã có lỗi xảy ra, vui lòng thử lại sau');
+                // Gửi yêu cầu AJAX đến server
+                $.ajax({
+                    url: '/wishlist/toggle', // URL của endpoint thêm/xóa sản phẩm vào wishlist
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ productId: productId }), // Gửi productId dưới dạng JSON
+                    success: function (response) {
+                        if (response === 'ADDED') {
+                            // Nếu thêm thành công, thay đổi biểu tượng trái tim thành màu đỏ
+                            heartIcon.removeClass('fa-heart-o').addClass('fa-heart');
+                            heartIcon.css('color', 'red');
+                        } else if (response === 'REMOVED') {
+                            // Nếu bị xóa, đổi biểu tượng trái tim thành không màu
+                            heartIcon.removeClass('fa-heart').addClass('fa-heart-o');
+                            heartIcon.css('color', '');
+                        } else if (response === 'LOGIN_REQUIRED') {
+                            alert('Vui lòng đăng nhập để thêm sản phẩm vào wishlist');
+                        } else if (response === 'ALREADY_EXISTS') {
+                            alert('Sản phẩm đã có trong wishlist');
                         }
-                    });
+                    },
+                    error: function () {
+                        alert('Đã có lỗi xảy ra, vui lòng thử lại sau');
+                    }
                 });
             });
-        </script>
-    </body>
+        });
+    </script>
+
+</body>
 
 <!-- Mirrored from htmldemo.net/james/james/single-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Nov 2024 02:19:16 GMT -->
 </html>
