@@ -14,11 +14,6 @@ public class ManagerHomeController {
 
     @GetMapping
     public String managerHome(RedirectAttributes redirectAttributes, HttpSession session) {
-        Users u = (Users) session.getAttribute(Constant.SESSION_USER);
-        if (u == null) {
-            return "redirect:/login";
-        }
-        redirectAttributes.addFlashAttribute("user", u);
         return "manager/manager_home";
     }
 

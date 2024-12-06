@@ -5,5 +5,5 @@ public enum ShipmentStatus {
         SHIPPED,
         DELIVERED,
         CANCEL,
-        ROLLBACK
+        RETURN
 }

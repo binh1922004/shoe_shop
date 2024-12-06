@@ -8,5 +8,5 @@ public class OrderStaticDto {
         private long shipping;
         private long delivered;
         private long cancel;
-        private long rollBack;
+        private long preturn;
 }

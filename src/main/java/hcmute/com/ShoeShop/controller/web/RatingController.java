@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class RatingController {
 
     @PostMapping("/add")
     public String addComment(@RequestParam String email, @RequestParam String comment,
+                             @RequestParam(name = "image", required = false) MultipartFile image,
                              @RequestParam int star, @RequestParam long productId, HttpSession session) {
 
         // kiem tra khach hang co dang nhap khong
@@ -37,7 +39,7 @@ public class RatingController {
             return "redirect:/login";
         }
 
-        ratingService.addRating(email, comment, star, productId);
+        ratingService.addRating(email, comment, star, image, productId);
 
         return "redirect:/product/details/" + productId;
     }
@@ -48,6 +50,15 @@ public class RatingController {
                                 @RequestParam(defaultValue = "6") int size) {
 
         Page<Rating> ratingsPage = ratingService.getAllRatingsWithPaginationByProductId(productId, PageRequest.of(page, size));
+        List<Rating> ratings = ratingService.getAllRatingsByProductId(productId);
+
+        int totalRating = ratingService.countRatingsByProductId(productId);
+        model.addAttribute("totalRating", totalRating);
+
+        // Tính trung bình số sao
+        double averageStar = ratings.stream().mapToInt(Rating::getStar).average().orElse(0.0);
+        averageStar = Math.round(averageStar * 10) / 10.0;
+        model.addAttribute("avgrating", averageStar);
         model.addAttribute("ratings", ratingsPage);
         model.addAttribute("currentPage", ratingsPage.getNumber());
         model.addAttribute("totalPages", ratingsPage.getTotalPages());

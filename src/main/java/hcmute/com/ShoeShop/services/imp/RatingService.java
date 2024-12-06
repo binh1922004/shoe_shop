@@ -4,10 +4,12 @@ import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.entity.Rating;
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.repository.RatingRepository;
+import hcmute.com.ShoeShop.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,7 +25,10 @@ public class RatingService {
     @Autowired
     private ProductService productService;
 
-    public void addRating(String email, String comment, int star, long productId) {
+    @Autowired
+    private StorageService storageService;
+
+    public void addRating(String email, String comment, int star, MultipartFile image, long productId) {
         // lấy thong tin khach hang
         Users user = userService.findUserByEmail(email);
 
@@ -40,6 +45,12 @@ public class RatingService {
         rating.setStar(star);
         rating.setUser(user);
         rating.setProduct(product);
+
+        if (image != null) {
+            String fileName = "pro_" + System.currentTimeMillis();
+            fileName = storageService.uploadFile(image, fileName);
+            rating.setImage(fileName);
+        }
 
         ratingRepository.save(rating);
     }
@@ -92,5 +103,9 @@ public class RatingService {
 
     public Page<Rating> getAllRatingsWithPaginationByProductId(long productId, Pageable pageable) {
         return ratingRepository.findAllByProductId(productId, pageable);
+    }
+
+    public int countRatingsByProductId(long productId) {
+        return ratingRepository.countRatingByProductId(productId);
     }
 }

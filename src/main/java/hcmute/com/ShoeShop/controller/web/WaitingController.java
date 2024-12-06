@@ -22,7 +22,7 @@ public class WaitingController {
             } else if (roleId == 3) {
                 return "redirect:/user/shop";
             } else {
-                return "redirect:/login";
+                return "redirect:/shipper/order/list";
             }
         } else {
             System.out.println("No account");
