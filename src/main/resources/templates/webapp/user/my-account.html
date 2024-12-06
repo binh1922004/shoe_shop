@@ -65,8 +65,7 @@
         <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-<!--        <div th:include="~{fragments/user/begin_header.html}"></div>-->
-        <!-- Add your site or application content here -->
+
         <!-- header area start -->
         <div th:include="~{fragments/user/header.html}"></div>
         <!-- header area end -->
@@ -83,42 +82,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="product-sidebar">
-                            <div class="sidebar-title">
-                                <h2>Shopping Options</h2>
-                            </div>
-                            <div class="single-sidebar">
-                                <div class="single-sidebar-title">
-                                    <h3>Category</h3>
-                                </div>
-                                <div class="single-sidebar-content">
-                                    <ul>
-                                        <li><a href="#">Dresses (4)</a></li>
-                                        <li><a href="#">shoes (6)</a></li>
-                                        <li><a href="#">Handbags (1)</a></li>
-                                        <li><a href="#">Clothing (3)</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="single-sidebar">
-                                <div class="single-sidebar-title">
-                                    <h3>Color</h3>
-                                </div>
-                                <div class="single-sidebar-content">
-                                    <ul>
-                                        <li><a href="#">Black (2)</a></li>
-                                        <li><a href="#">Blue (2)</a></li>
-                                        <li><a href="#">Green (4)</a></li>
-                                        <li><a href="#">Grey (2)</a></li>
-                                        <li><a href="#">Red (2)</a></li>
-                                        <li><a href="#">White (2)</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" style="display: flex; justify-content: center; align-items: center;" >
                     <div class="col-lg-9">
                         <div class="my-account-accordion">
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -452,7 +416,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="payment-icon">
-                            <img src="img/payment.png" alt="">
+                            <img src="/img/payment.png" alt="">
                         </div>
                     </div>
                 </div>
