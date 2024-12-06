@@ -66,11 +66,9 @@
                                                             </h4>
                                                             <p class="mb-0">Created date: <span th:text="${#dates.format(order.createdDate, 'MMM dd, yyyy')}"></span></p>
                                                        </div>
-                                                       <div>
-                                                            <a href="#!" class="btn btn-outline-secondary">Refund</a>
-                                                            <a href="#!" class="btn btn-outline-secondary">Return</a>
-                                                            <a href="#!" class="btn btn-primary">Edit Order</a>
-                                                       </div>
+                                                       <a th:onclick="'popUpClick(' + ${order.id} + ')'" class="btn btn-primary" style="margin-right: 100%">Cancel</a>
+                                                       <!-- Order cancel fragment-->
+                                                       <div th:include="~{fragments/order/order_cancel.html}"></div>
                                                   </div>
 
                                              </div>
@@ -194,7 +192,7 @@
                               <div class="card-header">
                                    <h4 class="card-title">Shipping detail</h4>
                               </div>
-                              <div class="card-body" th:if="${order.status != T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}">
+                              <div class="card-body" th:if="${order.status != T(hcmute.com.ShoeShop.utlis.ShipmentStatus).CANCEL && order.status != T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}">
                                    <div class="position-relative ms-2">
                                         <div>
                                              <span class="position-absolute start-0  top-0 border border-dashed h-100"></span>

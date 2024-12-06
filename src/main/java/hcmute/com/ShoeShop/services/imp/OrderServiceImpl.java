@@ -26,7 +26,9 @@ public class OrderServiceImpl implements IOrderService {
         }
 
         public void cancelOrder(int orderId) {
-                orderRepository.deleteById(orderId);
+                Order order = findById(orderId);
+                order.setStatus(ShipmentStatus.CANCEL);
+                orderRepository.save(order);
         }
 
         public OrderStaticDto getStatic(){
