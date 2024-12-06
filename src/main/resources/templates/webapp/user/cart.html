@@ -218,41 +218,16 @@
                             <form action="#">
                                 <div class="form-box">
                                     <div class="form-name">
-                                        <label> country <em>*</em> </label>
-                                        <select>
-                                            <option value="1">Afghanistan</option>
-                                            <option value="1">Algeria</option>
-                                            <option value="1">American Samoa</option>
-                                            <option value="1">Australia</option>
-                                            <option value="1">Bangladesh</option>
-                                            <option value="1">Belgium</option>
-                                            <option value="1">Bosnia and Herzegovina</option>
-                                            <option value="1">Chile</option>
-                                            <option value="1">China</option>
-                                            <option value="1">Egypt</option>
-                                            <option value="1">Finland</option>
-                                            <option value="1">France</option>
-                                            <option value="1">United State</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-box">
-                                    <div class="form-name">
-                                        <label> State/Province </label>
-                                        <select>
-                                            <option value="1">Please select region, state or province</option>
-                                            <option value="1">Arizona</option>
-                                            <option value="1">Armed Forces Africa</option>
-                                            <option value="1">California</option>
-                                            <option value="1">Florida</option>
-                                            <option value="1">Indiana</option>
-                                            <option value="1">Marshall Islands</option>
-                                            <option value="1">Minnesota</option>
-                                            <option value="1">New Mexico</option>
-                                            <option value="1">Utah</option>
-                                            <option value="1">Virgin Islands</option>
-                                            <option value="1">West Virginia</option>
-                                            <option value="1">Wyoming</option>
+                                        <label>Address <em>*</em></label>
+                                        <select name="addressId" required style="width: 100%; max-width: 400px;">
+                                            <!-- Lặp qua danh sách địa chỉ -->
+                                            <th:block th:each="address : ${adr}">
+                                                <option th:value="${address.id}" th:text="${address.address}" th:if="${address.isDefault}" selected></option>
+                                                <option th:value="${address.id}"
+                                                        th:text="${address.address}"
+                                                        th:unless="${address.isDefault}">
+                                                </option>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </div>

@@ -14,4 +14,13 @@ public class RoleService {
     public Role findRoleById(int id) {
         return roleRepository.findById(id).orElse(null);
     }
+
+    public void insertRole(Role role) {
+        roleRepository.save(role);
+    }
+
+    public Role findRoleByName(String name) {
+        return roleRepository.findRoleByRoleName(name);
+    }
+
 }
