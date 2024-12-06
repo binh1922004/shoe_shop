@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html class="no-js" lang="" xmlns:th="http://www.thymeleaf.org">
 
@@ -20,78 +19,79 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 
-        <!-- Bootstrap CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <!-- Bootstrap CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/font-awesome.min.css">
-        <!-- owl.carousel CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/owl.carousel.css">
-        <link rel="stylesheet" href="/css/owl.theme.css">
-        <link rel="stylesheet" href="/css/owl.transitions.css">
-        <!-- jquery-ui CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/jquery-ui.css">
-        <!-- meanmenu CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/meanmenu.min.css">
-        <!-- nivoslider CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/lib/css/nivo-slider.css">
-        <link rel="stylesheet" href="/lib/css/preview.css">
-        <!-- animate CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/animate.css">
-        <!-- magic CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/magic.css">
-        <!-- normalize CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/normalize.css">
-        <!-- main CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/main.css">
-        <!-- style CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/style.css">
-        <!-- responsive CSS
-        ============================================ -->
-        <link rel="stylesheet" href="/css/responsive.css">
-        <!-- modernizr JS
-        ============================================ -->
-        <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
-        <style>
-            .fa-heart {
-                color: red; /* Trái tim đỏ khi yêu thích */
-            }
+    <!-- Bootstrap CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- Bootstrap CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- owl.carousel CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/owl.carousel.css">
+    <link rel="stylesheet" href="/css/owl.theme.css">
+    <link rel="stylesheet" href="/css/owl.transitions.css">
+    <!-- jquery-ui CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <!-- meanmenu CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/meanmenu.min.css">
+    <!-- nivoslider CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/lib/css/nivo-slider.css">
+    <link rel="stylesheet" href="/lib/css/preview.css">
+    <!-- animate CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/animate.css">
+    <!-- magic CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/magic.css">
+    <!-- normalize CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/normalize.css">
+    <!-- main CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- style CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/style.css">
+    <!-- responsive CSS
+    ============================================ -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- modernizr JS
+    ============================================ -->
+    <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+    <style>
+        .fa-heart {
+            color: red; /* Trái tim đỏ khi yêu thích */
+        }
 
-            .fa-heart-o {
-                color: #ccc; /* Trái tim xám khi chưa yêu thích */
-            }
-        </style>
-    </head>
-    <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+        .fa-heart-o {
+            color: #ccc; /* Trái tim xám khi chưa yêu thích */
+        }
+    </style>
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
 
-        <!-- Add your site or application content here -->
-        <!-- header area start -->
-        <div th:include="~{fragments/web/header.html}"></div>
-        <!-- header area end -->
-        <!-- single product area start -->
-        <div class="Single-product-location home2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="location">
-                            <ul>
-                                <li><a href="/user/shop" title="go to homepage">Home<span>/</span></a>  </li>
-                                <li><strong> Product details</strong></li>
-                            </ul>
-                        </div>
+<!-- header area start -->
+<header th:replace="/fragments/user/header :: header"></header>
+<!-- header area end -->
+
+<!-- single product area start -->
+<div class="Single-product-location home2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="location">
+                    <ul>
+                        <li><a href="/user/shop" title="go to homepage">Home<span>/</span></a></li>
+                        <li><strong> Product details</strong></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -124,36 +124,9 @@
                                          alt="optima"/></a>
                     </div>
                 </div>
-                <div class="nav product-page-slider">
-                    <div class="single-product-slider">
-                        <a class="active" href="#pro-large-img-1" data-bs-toggle="tab">
-                            <img src="img/product/28.png" alt="">
-                        </a>
-                    </div>
-                    <div class="single-product-slider">
-                        <a href="#pro-large-img-2" data-bs-toggle="tab">
-                            <img src="img/product/30.png" alt="">
-                        </a>
-                    </div>
-                    <div class="single-product-slider">
-                        <a href="#pro-large-img-3" data-bs-toggle="tab">
-                            <img src="img/product/29.png" alt="">
-                        </a>
-                    </div>
-                    <div class="single-product-slider">
-                        <a href="#pro-large-img-4" data-bs-toggle="tab">
-                            <img src="img/product/31.png" alt="">
-                        </a>
-                    </div>
-                    <div class="single-product-slider">
-                        <a href="#pro-large-img-5" data-bs-toggle="tab">
-                            <img src="img/product/29.png" alt="">
-                        </a>
-                    </div>
-                </div>
             </div>
-            <form th:action="@{/cart/add}" method="post">
-                <div class="col-lg-6">
+            <div class="col-lg-6">
+                <form th:action="@{/cart/add}" method="post">
                     <div class="single-product-details">
                         <a href="#" class="product-name" th:text="${product.title}"></a>
                         <div class="list-product-info">
@@ -181,6 +154,7 @@
                                 <img src="img/product/share.png" alt="">
                             </div>
                         </div>
+                        <!-- them vao danh sach yeu thich-->
                         <div class="action">
                             <ul class="add-to-links">
                                 <li>
@@ -209,7 +183,6 @@
                                 </label>
                                 <div class="input-box">
                                     <select id="select-2" name="productDetailId" required>
-<!--                                        <option value="">&#45;&#45; Please Select &#45;&#45;</option>-->
                                         <option th:each="productDetail : ${productDetails}"
                                                 th:value="${productDetail.id}"
                                                 th:data-priceadd="${productDetail.priceadd}"
@@ -236,8 +209,8 @@
 
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -257,7 +230,7 @@
                             <a href="#tab2" aria-controls="tab2" role="tab" data-bs-toggle="tab">Reviews</a>
                         </li>
                         <li role="presentation">
-                            <a href="#tab3" aria-controls="tab3" role="tab" data-bs-toggle="tab">product tag</a>
+                            <a href="#tab3" aria-controls="tab3" role="tab" data-bs-toggle="tab" id="viewAllReview" th:attr="data-product-id=${product.id}">View all review</a>
                         </li>
                     </ul>
 
@@ -282,10 +255,10 @@
                                     <div class="col-md-12">
                                         <div class="rate-product hidden-xs">
                                             <div class="rate-product-heading">
-                                                <h3>You're reviewing: Fusce aliquam</h3>
+                                                <h3 th:text=" 'You are reviewing: ' + ${product.title}"></h3>
                                                 <h3>How do you rate this product? <em>*</em></h3>
                                             </div>
-                                            <form action="#">
+                                            <form th:action="@{/rating/add}" method="post">
                                                 <table class="product-review-table">
                                                     <thead>
                                                     <tr>
@@ -300,62 +273,39 @@
                                                     <tbody>
                                                     <tr>
                                                         <th>Quality</th>
-                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
-                                                        <td><input type="radio" class="radio" name="ratings[3]"></td>
+                                                        <td><input type="radio" class="radio" name="star" value="1" required></td>
+                                                        <td><input type="radio" class="radio" name="star" value="2" required></td>
+                                                        <td><input type="radio" class="radio" name="star" value="3" required></td>
+                                                        <td><input type="radio" class="radio" name="star" value="4" required></td>
+                                                        <td><input type="radio" class="radio" name="star" value="5" required></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                                 <ul class="form-list">
                                                     <li>
                                                         <label>Nickname <em>*</em></label>
-                                                        <input type="text">
+                                                        <input type="hidden" th:value="${product.id}" name="productId">
+                                                        <input type="text" th:value="${session.user != null ? session.user.email : ''}" name="email">
                                                     </li>
                                                     <li>
                                                         <label>Review <em>*</em></label>
-                                                        <textarea cols="3" rows="5"></textarea>
+                                                        <textarea cols="3" rows="5" name="comment" required></textarea>
                                                     </li>
                                                 </ul>
                                                 <button type="submit">Submit Review</button>
                                             </form>
+
+
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
-                                        <div class="product-review">
-                                            <p><a href="#"> plaza</a> <span>Review by</span> plaza</p>
-                                            <div class="product-rating-info">
-                                                <p>Quality</p>
-                                                <div class="ratings">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-half-o"></i>
-                                                </div>
-                                            </div>
-                                            <div class="review-date">
-                                                <p>plaza <em>(Posted on 8/27/2015)</em></p>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="tab3">
-                            <div class="single-p-tab-content">
-                                <div class="add-tab-title">
-                                    <p> add your tag </p>
-                                </div>
-                                <div class="add-tag">
-                                    <form action="#">
-                                        <input type="text">
-                                        <button type="submit">add tags</button>
-                                    </form>
-                                </div>
-                                <p class="tag-rules">Use spaces to separate tags. Use single quotes (') for phrases.</p>
+                            <div class="single-p-tab-content" id="reviewsContent">
+
                             </div>
                         </div>
                     </div>
@@ -929,7 +879,7 @@
 <script src="/lib/home.js"></script>
 <!-- meanmenu JS
 ============================================ -->
-<script src="js/jquery.meanmenu.js"></script>
+<script src="/js/jquery.meanmenu.js"></script>
 <!-- owl.carousel JS
 ============================================ -->
 <script src="/js/owl.carousel.min.js"></script>
@@ -945,70 +895,126 @@
 <!-- main JS
 ============================================ -->
 <script src="/js/main.js"></script>
-        <script>
-            // Lấy giá sản phẩm gốc từ HTML
-            const basePrice = parseFloat(document.getElementById('final-price').textContent);  // Giá ban đầu
-            const selectBox = document.getElementById('select-2');  // Select box chứa các lựa chọn size
-            const finalPriceSpan = document.getElementById('final-price');  // Span hiển thị giá cuối cùng
-            const hiddenInputProductDetailId = document.getElementById('productDetailId'); // Hidden input để lưu id sản phẩm
+<script>
+    // Lấy giá sản phẩm gốc từ HTML
+    const basePrice = parseFloat(document.getElementById('final-price').textContent);  // Giá ban đầu
+    const selectBox = document.getElementById('select-2');  // Select box chứa các lựa chọn size
+    const finalPriceSpan = document.getElementById('final-price');  // Span hiển thị giá cuối cùng
+    const hiddenInputProductDetailId = document.getElementById('productDetailId'); // Hidden input để lưu id sản phẩm
 
-            // Xử lý sự kiện thay đổi size
-            selectBox.addEventListener('change', function () {
-                const selectedOption = this.options[this.selectedIndex];  // Lấy option được chọn
-                const priceAdd = parseFloat(selectedOption.getAttribute('data-priceadd')) || 0;  // Giá cộng thêm từ attribute 'data-priceadd'
-                const productDetailId = selectedOption.value;  // Lấy id của productDetail từ 'value' của option
+    // Xử lý sự kiện thay đổi size
+    selectBox.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];  // Lấy option được chọn
+        const priceAdd = parseFloat(selectedOption.getAttribute('data-priceadd')) || 0;  // Giá cộng thêm từ attribute 'data-priceadd'
+        const productDetailId = selectedOption.value;  // Lấy id của productDetail từ 'value' của option
 
-                // Cập nhật giá hiển thị
-                const totalPrice = basePrice + priceAdd;  // Tính tổng giá (giá gốc + giá cộng thêm)
-                finalPriceSpan.textContent = totalPrice.toFixed(1);  // Hiển thị giá cuối cùng
+        // Cập nhật giá hiển thị
+        const totalPrice = basePrice + priceAdd;  // Tính tổng giá (giá gốc + giá cộng thêm)
+        finalPriceSpan.textContent = totalPrice.toFixed(1);  // Hiển thị giá cuối cùng
 
-                // Lưu id của productDetail vào hidden input để gửi về server
-                hiddenInputProductDetailId.value = productDetailId;
-            });
-        </script>
-    <script>
-        $(document).ready(function () {
-            // Bắt sự kiện khi nhấn vào liên kết "add-to-wishlist"
-            $('.add-to-wishlist').click(function (e) {
-                e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+        // Lưu id của productDetail vào hidden input để gửi về server
+        hiddenInputProductDetailId.value = productDetailId;
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Bắt sự kiện khi nhấn vào liên kết "add-to-wishlist"
+        $('.add-to-wishlist').click(function (e) {
+            e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
 
-                var productIdStr = $(this).data('product-id'); // Lấy productId từ thuộc tính data-product-id
-                var productId = parseInt(productIdStr, 10); // Chuyển đổi productId sang số nguyên
-                if (isNaN(productId) || productId <= 0) {
-                    alert('ID sản phẩm không hợp lệ');
-                    return;
-                }
+            var productIdStr = $(this).data('product-id'); // Lấy productId từ thuộc tính data-product-id
+            var productId = parseInt(productIdStr, 10); // Chuyển đổi productId sang số nguyên
+            if (isNaN(productId) || productId <= 0) {
+                alert('ID sản phẩm không hợp lệ');
+                return;
+            }
 
-                var heartIcon = $(this).find('i'); // Lấy thẻ <i> chứa biểu tượng trái tim
+            var heartIcon = $(this).find('i'); // Lấy thẻ <i> chứa biểu tượng trái tim
 
-                // Gửi yêu cầu AJAX đến server
-                $.ajax({
-                    url: '/wishlist/toggle', // URL của endpoint thêm/xóa sản phẩm vào wishlist
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ productId: productId }), // Gửi productId dưới dạng JSON
-                    success: function (response) {
-                        if (response === 'ADDED') {
-                            // Nếu thêm thành công, thay đổi biểu tượng trái tim thành màu đỏ
-                            heartIcon.removeClass('fa-heart-o').addClass('fa-heart');
-                            heartIcon.css('color', 'red');
-                        } else if (response === 'REMOVED') {
-                            // Nếu bị xóa, đổi biểu tượng trái tim thành không màu
-                            heartIcon.removeClass('fa-heart').addClass('fa-heart-o');
-                            heartIcon.css('color', '');
-                        } else if (response === 'LOGIN_REQUIRED') {
-                            alert('Vui lòng đăng nhập để thêm sản phẩm vào wishlist');
-                        } else if (response === 'ALREADY_EXISTS') {
-                            alert('Sản phẩm đã có trong wishlist');
-                        }
-                    },
-                    error: function () {
-                        alert('Đã có lỗi xảy ra, vui lòng thử lại sau');
+            // Gửi yêu cầu AJAX đến server
+            $.ajax({
+                url: '/wishlist/toggle', // URL của endpoint thêm/xóa sản phẩm vào wishlist
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({productId: productId}), // Gửi productId dưới dạng JSON
+                success: function (response) {
+                    if (response === 'ADDED') {
+                        // Nếu thêm thành công, thay đổi biểu tượng trái tim thành màu đỏ
+                        heartIcon.removeClass('fa-heart-o').addClass('fa-heart');
+                        heartIcon.css('color', 'red');
+                    } else if (response === 'REMOVED') {
+                        // Nếu bị xóa, đổi biểu tượng trái tim thành không màu
+                        heartIcon.removeClass('fa-heart').addClass('fa-heart-o');
+                        heartIcon.css('color', '');
+                    } else if (response === 'LOGIN_REQUIRED') {
+                        alert('Vui lòng đăng nhập để thêm sản phẩm vào wishlist');
+                    } else if (response === 'ALREADY_EXISTS') {
+                        alert('Sản phẩm đã có trong wishlist');
                     }
-                });
+                },
+                error: function () {
+                    alert('Đã có lỗi xảy ra, vui lòng thử lại sau');
+                }
             });
         });
-    </script>
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Hàm lấy ProductID từ URL
+        function getProductIdFromUrl() {
+            var path = window.location.pathname; // Lấy đường dẫn hiện tại
+            var parts = path.split('/'); // Tách đường dẫn thành mảng
+            return parts[parts.length - 1]; // Phần cuối cùng là ProductID
+        }
+
+        // Hàm load review dựa vào ProductID và số trang
+        function loadReviews(page) {
+            var productId = getProductIdFromUrl(); // Lấy ProductID từ URL
+
+            // Debug: kiểm tra giá trị
+            console.log('Product ID:', productId, 'Page:', page);
+
+            // Gửi request Ajax
+            $.get("/rating", { productId: productId, page: page }, function (data) {
+                // Cập nhật nội dung của reviewsContent
+                $('#reviewsContent').html(data);
+
+                // Gán lại sự kiện click cho các nút phân trang sau khi nội dung được cập nhật
+                bindPaginationLinks();
+            }).fail(function (error) {
+                console.error('Error loading reviews:', error);
+            });
+        }
+
+        // Hàm gắn sự kiện click cho các link phân trang
+        function bindPaginationLinks() {
+            // Lấy các link phân trang
+            $('.pagination-link').off('click').on('click', function (e) {
+                e.preventDefault(); // Ngăn chuyển hướng mặc định
+                var page = $(this).data('page'); // Lấy số trang từ thuộc tính data-page
+
+                // Kiểm tra số trang hợp lệ
+                if (!isNaN(page)) {
+                    loadReviews(page); // Gọi loadReviews để tải dữ liệu của trang mới
+                } else {
+                    console.error('Invalid page number');
+                }
+            });
+        }
+
+        // Sự kiện khi bấm vào nút "View all review"
+        $('#viewAllReview').click(function (e) {
+            e.preventDefault(); // Ngăn chuyển hướng mặc định
+
+            // Tải dữ liệu review từ trang đầu tiên (page = 0)
+            loadReviews(0);
+        });
+
+        // Gắn sự kiện click cho các nút phân trang (trường hợp nội dung ban đầu đã có sẵn)
+        bindPaginationLinks();
+    });
+</script>
 
 </body>
 

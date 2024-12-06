@@ -1,0 +1,33 @@
+<div class="col-md-12">
+    <!-- Hiển thị danh sách đánh giá -->
+    <div class="product-review" th:each="rating : ${ratings}">
+        <p><span th:text="'Review by ' + ${rating.user.fullname}"></span></p>
+        <div class="review-date">
+            <p>Created date: <em th:text="${#dates.format(rating.modified, 'HH:mm:ss dd-MM-yyyy')}"></em></p>
+        </div>
+        <div class="product-rating-info">
+            <p>Quality: <em th:text="${rating.star}"></em></p>
+            <p th:text="'Content: ' + ${rating.comment}"></p>
+            <br>
+        </div>
+    </div>
+
+    <!-- Phân trang -->
+    <ul class="pagination justify-content-center" style="margin-top: 100px">
+        <!-- Nút Previous -->
+        <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+            <a class="page-link pagination-link" href="#" th:data-page="${currentPage - 1}">Previous</a>
+        </li>
+
+        <!-- Các số trang -->
+        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+            th:classappend="${i == currentPage ? 'active' : ''}">
+            <a class="page-link pagination-link" href="#" th:data-page="${i}" th:text="${i + 1}"></a>
+        </li>
+
+        <!-- Nút Next -->
+        <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+            <a class="page-link pagination-link" href="#" th:data-page="${currentPage + 1}">Next</a>
+        </li>
+    </ul>
+</div>
