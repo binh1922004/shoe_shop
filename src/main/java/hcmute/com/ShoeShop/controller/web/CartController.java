@@ -1,8 +1,10 @@
 package hcmute.com.ShoeShop.controller.web;
 
+import hcmute.com.ShoeShop.entity.Address;
 import hcmute.com.ShoeShop.entity.Cart;
 import hcmute.com.ShoeShop.entity.CartDetail;
 import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.services.imp.AddressService;
 import hcmute.com.ShoeShop.services.imp.CartService;
 import hcmute.com.ShoeShop.utlis.Constant;
 import jakarta.servlet.http.HttpSession;
@@ -15,12 +17,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Iterator;
 import java.util.Set;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/cart")
 public class CartController {
 
     @Autowired
     CartService cartService;
+
+    @Autowired
+    private AddressService addressService;
 
     @GetMapping("/view")
     public String viewCart(HttpSession session, Model model) {
@@ -29,7 +36,8 @@ public class CartController {
         if (logginedUser == null) {
             return "redirect:/login";
         }
-
+        List<Address> adr = addressService.getAddressesByID(logginedUser.getId());
+        model.addAttribute("adr", adr);
         String email = logginedUser.getEmail();
 
         Cart cart = cartService.getCartByUser(email);

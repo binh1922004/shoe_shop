@@ -24,11 +24,6 @@ public class Shipment {
         @NotNull(message = "Shipper must not be null")
         private Users shipper;
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL')", nullable = false)
-        @NotNull(message = "Shipment status must not be null")
-        private ShipmentStatus status;
-
         @Column(name = "updated_date")
         private Date updatedDate;
 
