@@ -37,8 +37,6 @@ public class ShipmentService {
                 shipment.setShipper(user);
                 shipment.setNote("");
                 shipment.setUpdatedDate(new Date());
-                shipment.setStatus(ShipmentStatus.SHIPPED);
-
                 shipmentRepository.save(shipment);
 
                 order.setStatus(ShipmentStatus.SHIPPED);
@@ -61,5 +59,13 @@ public class ShipmentService {
                 Shipment shipment = shipmentRepository.findShipmentById(shipmentId);
                 shipment.setNote(note);
                 shipmentRepository.save(shipment);
+        }
+
+        public Page<Shipment> findByShipperIdAndStatus(int userid, ShipmentStatus shipmentStatus, Pageable pageable) {
+                return shipmentRepository.findByShipper_IdAndOrder_Status(userid, shipmentStatus, pageable);
+        }
+
+        public List<Shipment> findByShipperId(int userid) {
+                return shipmentRepository.findShipmentByShipper_Id(userid);
         }
 }

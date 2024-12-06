@@ -9,6 +9,7 @@ import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.OrderDetailServiceImpl;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
 import hcmute.com.ShoeShop.services.imp.ShipmentService;
+import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,16 +41,22 @@ public class ShipperController {
     @GetMapping("/order/list")
     public String orderList(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
                             @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
+                            @RequestParam(name = "status") String status,
             Model model, HttpSession session) {
         Pageable pageable = PageRequest.of(pageNum, pagesize);
 
         model.addAttribute("title", "Order");
 
         Users user = (Users) session.getAttribute("user");
-        Page<Shipment> shipmentPage = shipmentService.findByShipperID(2, pageable);
+        int userId = 2;
+        Page<Shipment> shipmentPage = null;
+        if (status.isEmpty())
+            shipmentPage = shipmentService.findByShipperID(userId, pageable);
+        else
+            shipmentPage = shipmentService.findByShipperIdAndStatus(userId, ShipmentStatus.valueOf(status), pageable);
+
         Page<Order> orderList = shipmentPage.map(Shipment::getOrder);
         model.addAttribute("listOrder", orderList);
-
         int totalPages = orderList.getTotalPages();
         model.addAttribute("totalPages", totalPages);
         if (totalPages > 0){
@@ -59,7 +66,8 @@ public class ShipperController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
-        OrderStaticDto orderStaticDto = orderService.getStatic(orderList.stream().toList());
+        OrderStaticDto orderStaticDto = orderService.getStatic(shipmentService.findByShipperId(userId)
+                .stream().map(Shipment::getOrder).collect(Collectors.toList()));
         model.addAttribute("static", orderStaticDto);
         return "shipper/orders-list";
     }
