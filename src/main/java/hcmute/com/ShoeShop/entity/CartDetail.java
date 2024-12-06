@@ -28,5 +28,5 @@ public class CartDetail {
 
         @NotNull(message = "Price cannot be null")
         @PositiveOrZero(message = "Total price must be greater than or equal to 0")
-        private double price;
+        private double price; // (gia sau khi chon size + gia goc)
 }
