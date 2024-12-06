@@ -1,14 +1,49 @@
+<style>
+    .avatar-img {
+        width: 30%;
+        height: 30%;
+        object-fit: cover; /* Giữ tỷ lệ và cắt ảnh nếu cần */
+    }
+
+</style>
+
 <div class="col-md-12">
+
+    <div class="price-rating">
+        <div class="ratings">
+            <span>
+                <i class="fa fa-star" style="color: gold;"></i>
+                <i class="fa fa-star" style="color: gold;"></i>
+                <i class="fa fa-star" style="color: gold;"></i>
+                <i class="fa fa-star" style="color: gold;"></i>
+                <i class="fa fa-star" style="color: gold;"></i>
+                <strong th:text="'Avg rating: ' + ${avgrating}"></strong>
+                <br>
+                <strong th:text=" 'Total reviews: ' + ${totalRating} + ' reviews'"></strong>
+                <br>
+            </span>
+        </div>
+    </div>
     <!-- Hiển thị danh sách đánh giá -->
     <div class="product-review" th:each="rating : ${ratings}">
         <p><span th:text="'Review by ' + ${rating.user.fullname}"></span></p>
         <div class="review-date">
-            <p>Created date: <em th:text="${#dates.format(rating.modified, 'HH:mm:ss dd-MM-yyyy')}"></em></p>
+            <p>Created date: <em th:text="${#dates.format(rating.modified, 'HH:mm dd-MM-yyyy')}"></em></p>
         </div>
         <div class="product-rating-info">
-            <p>Quality: <em th:text="${rating.star}"></em></p>
-            <p th:text="'Content: ' + ${rating.comment}"></p>
+            <p>Quality:
+                <span th:each="i : ${#numbers.sequence(1, rating.star)}">
+                <i class="fa fa-star" style="color: gold;"></i>
+            </span>
+            </p>
+            <div th:if="${rating.image != null}">
+                <img th:src="@{{fileName}(fileName=${rating.image})}" alt="" class="avatar-img">
+            </div>
+
+            <p th:if="${rating.comment != ''}" th:text="'Content: ' + ${rating.comment}"></p>
             <br>
+            <br>
+
         </div>
     </div>
 

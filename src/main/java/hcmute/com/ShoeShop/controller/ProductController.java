@@ -2,11 +2,8 @@ package hcmute.com.ShoeShop.controller;
 
 import hcmute.com.ShoeShop.dto.ProductDto;
 import hcmute.com.ShoeShop.entity.*;
-import hcmute.com.ShoeShop.services.imp.ProductService;
-import hcmute.com.ShoeShop.services.imp.ProductDetailService;
+import hcmute.com.ShoeShop.services.imp.*;
 import hcmute.com.ShoeShop.services.StorageService;
-import hcmute.com.ShoeShop.services.imp.CategoryService;
-import hcmute.com.ShoeShop.services.imp.WishlistService;
 import hcmute.com.ShoeShop.utlis.Constant;
 import jakarta.servlet.http.HttpSession;
 import org.apache.catalina.User;
@@ -37,6 +34,8 @@ public class ProductController {
 
     @Autowired
     private WishlistService wishListService;
+    @Autowired
+    private RatingService ratingService;
 
     @GetMapping("/insertProductPage")
     public String insertProductPage(Model model) {
@@ -86,7 +85,7 @@ public class ProductController {
     }
 
     @GetMapping("/details/{id}")
-    public String getProductDetails(@PathVariable long id, ModelMap model, Rating rating, HttpSession session) {
+    public String getProductDetails(@PathVariable long id, ModelMap model, HttpSession session) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
         if(u==null)
             return "redirect:/login";
@@ -97,7 +96,16 @@ public class ProductController {
         List<ProductDetail> productDetails = productDetailService.findProductByProductId(id);
         model.addAttribute("productDetails", productDetails);
         model.addAttribute("product", product);
-        model.addAttribute("rating", rating);
+
+        int totalRating = ratingService.countRatingsByProductId(id);
+        model.addAttribute("totalRating", totalRating);
+
+        List<Rating> ratings = ratingService.getAllRatingsByProductId(id);
+
+        // Tính trung bình số sao
+        double averageStar = ratings.stream().mapToInt(Rating::getStar).average().orElse(0.0);
+        averageStar = Math.round(averageStar * 10) / 10.0;
+        model.addAttribute("avgrating", averageStar);
         return "user/single-product";
     }
 
