@@ -21,7 +21,7 @@
                             </ul>
                         </div>
                         <div class="call-support">
-                            <p>Call support free: <span> (800) 123 456 789</span></p>
+                            <p>Hello, <span th:text="${session.user != null ? session.user.fullname : 'Welcome to my shop   '}"></span></p>
                         </div>
 
                     </div>
@@ -35,47 +35,32 @@
                                             <i class="fa fa-bars"></i>
                                         </a>
                                         <ul>
-                                            <li><a href="/user/my_account">my account</a></li>
-                                            <li><a href="/user/wishlist">my wishlist</a></li>
-                                            <li><a href="/cart/view">my cart</a></li>
-                                            <li><a href="checkout.html">Checkout</a></li>
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="/logout">Logout</a></li>
+                                            <div th:if="${session.user != null}">
+                                                <li><a href="/user/my_account">my account</a></li>
+                                                <li><a href="/user/wishlist">my wishlist</a></li>
+                                                <li><a href="/cart/view">my cart</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="blog.html">Blog</a></li>
+                                                <li><a href="/logout">Logout</a></li>
+                                            </div>
+
+                                            <div th:if="${session.user == null}">
+                                                <li><a href="/user/my_account">my account</a></li>
+                                                <li><a href="/user/wishlist">my wishlist</a></li>
+                                                <li><a href="/cart/view">my cart</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="blog.html">Blog</a></li>
+                                                <li><a href="/login">Login</a></li>
+                                            </div>
+
                                         </ul>
                                     </li>
                                 </ul>
                             </div>
                             <div class="cart-menu">
                                 <ul>
-                                    <li><a href="#"> <img src="/img/icon-cart.png" alt=""> <span>2</span> </a>
-                                        <div class="cart-info">
-                                            <ul>
-                                                <li>
-                                                    <div class="cart-img">
-                                                        <img src="/img/cart/1.png" alt="">
-                                                    </div>
-                                                    <div class="cart-details">
-                                                        <a href="#">Fusce aliquam</a>
-                                                        <p>1 x $174.00</p>
-                                                    </div>
-                                                    <div class="btn-edit"></div>
-                                                    <div class="btn-remove"></div>
-                                                </li>
-                                                <li>
-                                                    <div class="cart-img">
-                                                        <img src="/img/cart/2.png" alt="">
-                                                    </div>
-                                                    <div class="cart-details">
-                                                        <a href="#">Fusce aliquam</a>
-                                                        <p>1 x $777.00</p>
-                                                    </div>
-                                                    <div class="btn-edit"></div>
-                                                    <div class="btn-remove"></div>
-                                                </li>
-                                            </ul>
-                                            <h3>Subtotal: <span> $951.00</span></h3>
-                                            <a href="checkout.html" class="checkout">checkout</a>
-                                        </div>
+                                    <li>
+                                        <a th:href="@{/cart/view}"> <img src="/img/icon-cart.png" alt=""></a>
                                     </li>
                                 </ul>
                             </div>
