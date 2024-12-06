@@ -33,7 +33,6 @@ public class CartController {
         // Truyền thông báo nếu có
         String alert = (String) model.asMap().get("alert");
 
-        System.out.println(alert);
         model.addAttribute("alert", alert);
 
         model.addAttribute("cart", cart);

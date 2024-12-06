@@ -41,4 +41,20 @@ public class OrderServiceImpl implements IOrderService {
 
                 return orderStaticDto;
         }
+
+        public OrderStaticDto getStatic(List<Order> orders) {
+                OrderStaticDto orderStaticDto = new OrderStaticDto();
+                orderStaticDto.setShipping(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.SHIPPED).count());
+                orderStaticDto.setCancel(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.CANCEL).count());
+                orderStaticDto.setInStock(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.IN_STOCK).count());
+                orderStaticDto.setRollBack(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.ROLLBACK).count());
+                orderStaticDto.setDelivered(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.DELIVERED).count());
+                return orderStaticDto;
+        }
+
+        public void deliverOrder(int orderId) {
+                Order order = findById(orderId);
+                order.setStatus(ShipmentStatus.DELIVERED);
+                orderRepository.save(order);
+        }
 }

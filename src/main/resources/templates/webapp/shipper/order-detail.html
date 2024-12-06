@@ -75,90 +75,26 @@
                                              <div class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
                                                   <p class="border rounded mb-0 px-2 py-1 bg-body"><i class='bx bx-arrow-from-left align-middle fs-16'></i> Last updated date: <span class="text-dark fw-medium">Apr 25 , 2024</span></p>
                                                   <div>
-                                                       <button onclick="turnOnSearch()" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}" href="#!" class="btn btn-primary">Make As Ready To Ship</button>
+                                                       <button th:onclick="'delivered(' + ${order.id} + ')'" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).SHIPPED}" class="btn btn-primary">Delivered</button>
                                                   </div>
 
                                                   <script>
-                                                       function turnOnSearch(){
-                                                            const myDiv = document.getElementById('searchBox')
-                                                            myDiv.style.display='block'
-                                                       }
-                                                  </script>
-                                             </div>
-                                        </div>
-                                        <div class="card" style="display: none" id="searchBox">
-                                             <div class="card-body">
-                                                  <!-- App Search-->
-                                                  <div class="position-relative">
-                                                       <input id="searchInput" type="search" class="form-control" placeholder="Search..." autocomplete="off" value="">
-<!--                                                            <iconify-icon icon="solar:magnifer-linear" class="search-widget-icon"></iconify-icon>-->
-                                                       <button id="searchButton" class="btn btn-outline-secondary" style="margin-left: 50%">Search</button>
-                                                  </div>
-                                                  <!-- search result -->
-                                                  <div class="table-responsive" >
-                                                       <table id="resultSearch" class="table align-middle mb-0 table-hover table-centered">
-                                                            <thead class="bg-light-subtle border-bottom">
-                                                            <tr>
-                                                                 <th>ID</th>
-                                                                 <th>Name</th>
-                                                                 <th>Action</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-
-                                                            </tbody>
-                                                       </table>
-                                                  </div>
-<!--                                                  script get api-->
-                                                  <script>
-                                                       $(document).ready(function() {
-                                                            // Khi người dùng nhấn nút Tìm kiếm
-                                                            var currentUrl = window.location.pathname;  // Lấy đường dẫn hiện tại
-                                                            var orderid = currentUrl.split('/')[4];
-                                                            $("#searchButton").click(function() {
-                                                                 // Lấy giá trị nhập vào ô tìm kiếm
-                                                                 var fullname = $("#searchInput").val();
-
-                                                                 // Kiểm tra nếu ô tìm kiếm không rỗng
-                                                                 if (fullname.trim() !== "") {
-                                                                      // Gửi yêu cầu AJAX tới API của Spring Boot
-                                                                      $.ajax({
-                                                                           url: "/api/shipper/search",   // Đường dẫn tới API
-                                                                           type: "GET",               // Phương thức HTTP là GET
-                                                                           data: {
-                                                                                name: fullname    // Gửi tham số fullname qua API
-                                                                           },
-                                                                           success: function(response) {   // Hàm xử lý khi API trả về dữ liệu thành công
-                                                                                // Làm sạch kết quả cũ mỗi lần người dùng tìm kiếm
-                                                                                $("#resultSearch tbody").empty();
-
-                                                                                // Kiểm tra nếu có kết quả trả về
-                                                                                if (response.length > 0) {
-                                                                                     // Lặp qua danh sách người dùng trả về từ API
-                                                                                     response.forEach(function(user) {
-                                                                                          // Thêm từng người dùng vào phần tử #result
-                                                                                          $("#resultSearch tbody")
-                                                                                                  .append("<tr>\n" +
-                                                                                                          "<td>" + user.id + "</td>\n" +
-                                                                                                          "<td>" + user.name +"</td>\n" +
-                                                                                                          "<td><a class=\"btn btn-primary\" href='/manager/order/shipping?orderid=" + orderid + "&userid=" + user.id + "'>Shipping</a></td>" +  // Thêm thẻ <a> với orderid lấy từ URL
-                                                                                                          " </tr>");
-                                                                                     });
-                                                                                } else {
-                                                                                     // Nếu không có người dùng nào, hiển thị thông báo không tìm thấy
-                                                                                     $("#resultSearch tbody").append("<tr><td colspan='2'>Không tìm thấy người dùng nào.</td></tr>");
-                                                                                }
-                                                                           },
-                                                                           error: function(error) {    // Hàm xử lý khi có lỗi xảy ra khi gọi API
-                                                                                console.error("Lỗi khi gọi API", error);
-                                                                           }
-                                                                      });
+                                                       function delivered(orderId){
+                                                            $.ajax({
+                                                                 url: "/api/order/delivered", // URL API hủy đơn hàng
+                                                                 type: "POST",
+                                                                 data: { orderId: orderId },
+                                                                 success: function (response) {
+                                                                      alert("The order with id: " + orderId + " was delivered");
+                                                                      $("#confirmModal").modal("hide"); // Đóng popup
+                                                                      // Thực hiện các hành động khác, ví dụ: làm mới bảng
+                                                                 },
+                                                                 error: function (error) {
+                                                                      alert("Some error " + selectedOrderId + ".");
                                                                  }
                                                             });
-                                                       });
+                                                       }
                                                   </script>
-
-
                                              </div>
                                         </div>
                                         <div class="card">
@@ -192,20 +128,15 @@
                               <div class="card-header">
                                    <h4 class="card-title">Shipping detail</h4>
                               </div>
-                              <div class="card-body" th:if="${order.status != T(hcmute.com.ShoeShop.utlis.ShipmentStatus).CANCEL && order.status != T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}">
+                              <div class="card-body">
                                    <div class="position-relative ms-2">
-                                        <div>
-                                             <span class="position-absolute start-0  top-0 border border-dashed h-100"></span>
-                                             <h5 class="">Shipper ID:</h5>
-                                             <p class="mb-1" th:text="${shipper.shipper.id}"></p>
-                                             <h5 class="">Shipper name:</h5>
-                                             <p class="mb-1" th:text="${shipper.shipper.fullname}">binh</p>
-                                             <h5 class="">Shipper note</h5>
-                                             <p class="mb-1" th:text="${shipper.note}"></p>
+                                        <div style="display: flex; align-content: center">
+                                             <textarea style="width: 30%" placeholder="Note..." th:text="${shipper.note}"> </textarea>
+                                             <button class="fc-button">Send</button>
                                         </div>
                                    </div>
                               </div>
-                              <div class="card-body" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}">
+                              <div class="card-body" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).SHIPPED}">
                                    <div class="position-relative ms-2">
                                         <p class="mb-1" >Need shipper for this order</p>
                                    </div>

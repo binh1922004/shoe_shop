@@ -31,4 +31,9 @@ public class ApiController {
         public void cancelOrder(@RequestParam("orderId") int orderId){
                 orderService.cancelOrder(orderId);
         }
+
+        @PostMapping("/order/delivered")
+        public void deliverOrder(@RequestParam("orderId") int orderId){
+                orderService.deliverOrder(orderId);
+        }
 }

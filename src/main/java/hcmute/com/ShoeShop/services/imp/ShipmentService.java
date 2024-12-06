@@ -7,11 +7,13 @@ import hcmute.com.ShoeShop.repository.OrderRepository;
 import hcmute.com.ShoeShop.repository.ShipmentRepository;
 import hcmute.com.ShoeShop.repository.UserRepository;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ShipmentService {
@@ -42,5 +44,9 @@ public class ShipmentService {
                 order.setStatus(ShipmentStatus.SHIPPED);
 
                 orderRepository.save(order);
+        }
+
+        public Page<Shipment> findByShipperID(int userid, Pageable pageable) {
+                return shipmentRepository.findShipmentByShipper_Id(userid, pageable);
         }
 }
