@@ -69,6 +69,21 @@
         .fa-heart-o {
             color: #ccc; /* Trái tim xám khi chưa yêu thích */
         }
+
+        .rating-container {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star {
+            font-size: 30px;
+            color: #ccc; /* Màu sao chưa được chọn */
+            cursor: pointer;
+        }
+
+        .star.selected, .star.hover {
+            color: gold; /* Màu sao được chọn hoặc hover */
+        }
     </style>
 </head>
 <body>
@@ -136,9 +151,14 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-o"></i>
-                                    <a href="#" class="review">1 Review(s)</a>
-                                    <a href="#" class="add-review">Add Your Review</a>
+                                    <i class="fa fa-star"></i>
+                                    <strong th:text="'Avg rating: ' + ${avgrating}"></strong>
+                                    <br>
+                                    <strong th:text="${totalRating} + ' reviews'"></strong>
+<!--                                    <i class="fa fa-star-half-o"></i>-->
+<!--                                    <a href="#tab3" class="review" id="reviewsLink"><em ></em></a>-->
+
+<!--                                    <a href="#" class="add-review">Add Your Review</a>-->
                                 </div>
                             </div>
                         </div>
@@ -222,10 +242,10 @@
             <div class="col-md-12">
                 <div class="single-product-tab">
                     <ul class="nav single-product-tab-navigation" role="tablist">
-                        <li role="presentation">
-                            <a class="active" href="#tab1" aria-controls="tab1" role="tab" data-bs-toggle="tab">Product
-                                Description</a>
-                        </li>
+<!--                        <li role="presentation">-->
+<!--                            <a class="active" href="#tab1" aria-controls="tab1" role="tab" data-bs-toggle="tab">Product-->
+<!--                                Description</a>-->
+<!--                        </li>-->
                         <li role="presentation">
                             <a href="#tab2" aria-controls="tab2" role="tab" data-bs-toggle="tab">Reviews</a>
                         </li>
@@ -236,19 +256,19 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content single-product-page">
-                        <div role="tabpanel" class="tab-pane fade show active" id="tab1">
-                            <div class="single-p-tab-content">
-                                <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate,
-                                    tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus
-                                    orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue.
-                                    Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.
-                                    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                    himenaeos. Integer enim purus, posuere at ultricies eu, placerat a felis.
-                                    Suspendisse aliquet urna pretium eros convallis interdum. Quisque in arcu id dui
-                                    vulputate mollis eget non arcu. Aenean et nulla purus. Mauris vel tellus non nunc
-                                    mattis lobortis. </p>
-                            </div>
-                        </div>
+<!--                        <div role="tabpanel" class="tab-pane fade show active" id="tab1">-->
+<!--                            <div class="single-p-tab-content">-->
+<!--                                <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate,-->
+<!--                                    tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus-->
+<!--                                    orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue.-->
+<!--                                    Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.-->
+<!--                                    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos-->
+<!--                                    himenaeos. Integer enim purus, posuere at ultricies eu, placerat a felis.-->
+<!--                                    Suspendisse aliquet urna pretium eros convallis interdum. Quisque in arcu id dui-->
+<!--                                    vulputate mollis eget non arcu. Aenean et nulla purus. Mauris vel tellus non nunc-->
+<!--                                    mattis lobortis. </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="tab2-tab">
                             <div class="single-p-tab-content">
                                 <div class="row">
@@ -258,38 +278,29 @@
                                                 <h3 th:text=" 'You are reviewing: ' + ${product.title}"></h3>
                                                 <h3>How do you rate this product? <em>*</em></h3>
                                             </div>
-                                            <form th:action="@{/rating/add}" method="post">
-                                                <table class="product-review-table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th></th>
-                                                        <th>1 star</th>
-                                                        <th>2 star</th>
-                                                        <th>3 star</th>
-                                                        <th>4 star</th>
-                                                        <th>5 star</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>Quality</th>
-                                                        <td><input type="radio" class="radio" name="star" value="1" required></td>
-                                                        <td><input type="radio" class="radio" name="star" value="2" required></td>
-                                                        <td><input type="radio" class="radio" name="star" value="3" required></td>
-                                                        <td><input type="radio" class="radio" name="star" value="4" required></td>
-                                                        <td><input type="radio" class="radio" name="star" value="5" required></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                            <form th:action="@{/rating/add}" method="post" enctype="multipart/form-data">
+                                                <div class="rating-container">
+                                                    <span class="star" data-value="1"><i class="fa fa-star" title="Rất tệ"></i></span>
+                                                    <span class="star" data-value="2"><i class="fa fa-star" title="Không hài lòng"></i></span>
+                                                    <span class="star" data-value="3"><i class="fa fa-star" title="Bình thường"></i></span>
+                                                    <span class="star" data-value="4"><i class="fa fa-star" title="Hài lòng"></i></span>
+                                                    <span class="star" data-value="5"><i class="fa fa-star" title="Rất hài lòng"></i></span>
+                                                </div>
+                                                <input type="hidden" id="rating" name="star" required>
                                                 <ul class="form-list">
                                                     <li>
                                                         <label>Nickname <em>*</em></label>
                                                         <input type="hidden" th:value="${product.id}" name="productId">
-                                                        <input type="text" th:value="${session.user != null ? session.user.email : ''}" name="email">
+                                                        <input type="text" th:value="${session.user != null ? session.user.fullname : ''}" name="fullname" readonly>
+                                                        <input type="hidden" th:value="${session.user != null ? session.user.email : ''}" name="email">
                                                     </li>
                                                     <li>
-                                                        <label>Review <em>*</em></label>
-                                                        <textarea cols="3" rows="5" name="comment" required></textarea>
+                                                        <label for="image">Thêm hình ảnh kèm theo(nếu có)</label>
+                                                        <input type="file" id="image" name="image" placeholder="Ảnh kèm theo">
+                                                    </li>
+                                                    <li>
+                                                        <label>Review description<em>*</em></label>
+                                                        <textarea cols="3" rows="5" name="comment"></textarea>
                                                     </li>
                                                 </ul>
                                                 <button type="submit">Submit Review</button>
@@ -898,6 +909,45 @@
 
         // Gắn sự kiện click cho các nút phân trang (trường hợp nội dung ban đầu đã có sẵn)
         bindPaginationLinks();
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('rating');
+
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                // Gán giá trị rating vào input ẩn
+                ratingInput.value = star.dataset.value;
+
+                // Đổi trạng thái các sao thành "đã chọn"
+                stars.forEach((s, i) => {
+                    if (i <= index) {
+                        s.classList.add('selected');
+                    } else {
+                        s.classList.remove('selected');
+                    }
+                });
+            });
+
+            // Tạo hiệu ứng hover từ trái sang phải
+            star.addEventListener('mouseover', () => {
+                stars.forEach((s, i) => {
+                    if (i <= index) {
+                        s.classList.add('hover');
+                    } else {
+                        s.classList.remove('hover');
+                    }
+                });
+            });
+
+            // Khôi phục trạng thái khi chuột rời
+            star.addEventListener('mouseout', () => {
+                stars.forEach((s) => s.classList.remove('hover'));
+            });
+        });
     });
 </script>
 

@@ -23,4 +23,6 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     List<Rating> findAllByUser(Users user);
 
     Page<Rating> findAllByProductId(long productId, Pageable pageable);
+
+    int countRatingByProductId(long productId);
 }

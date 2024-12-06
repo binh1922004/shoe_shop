@@ -28,6 +28,8 @@ public class Rating {
     @Column(nullable = false)
     private String comment;
 
+    private String image;
+
 
     @CreationTimestamp
     @Column(name = "created_dte", updatable = false)
