@@ -62,39 +62,21 @@
                                                             <h4 class="fw-medium text-dark d-flex align-items-center gap-2">
                                                                  <span th:text="${order.id}"></span>
                                                                  <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13" th:text="${order.payOption}">hehe</span>
-                                                                 <span class="border border-warning text-warning fs-13 px-2 py-1 rounded" th:text="${order.status}"></span>
+                                                                 <span id="status" class="border border-warning text-warning fs-13 px-2 py-1 rounded" th:text="${order.status}"></span>
                                                             </h4>
                                                             <p class="mb-0">Created date: <span th:text="${#dates.format(order.createdDate, 'MMM dd, yyyy')}"></span></p>
                                                        </div>
-                                                       <a th:onclick="'popUpClick(' + ${order.id} + ')'" class="btn btn-primary" style="margin-right: 100%">Cancel</a>
-                                                       <!-- Order cancel fragment-->
-                                                       <div th:include="~{fragments/order/order_cancel.html}"></div>
+
+                                                       <div>
+                                                            <a th:href="@{/shipper/delivered(orderid=${order.id})}" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).SHIPPED}" class="btn btn-outline-secondary">Delivered</a>
+                                                            <a th:href="@{/shipper/return(orderid=${order.id})}" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).SHIPPED}" class="btn btn-primary">Product return</a>
+                                                       </div>
+
                                                   </div>
 
                                              </div>
                                              <div class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
-                                                  <p class="border rounded mb-0 px-2 py-1 bg-body"><i class='bx bx-arrow-from-left align-middle fs-16'></i> Last updated date: <span class="text-dark fw-medium">Apr 25 , 2024</span></p>
-                                                  <div>
-                                                       <button th:onclick="'delivered(' + ${order.id} + ')'" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).SHIPPED}" class="btn btn-primary">Delivered</button>
-                                                  </div>
-
-                                                  <script>
-                                                       function delivered(orderId){
-                                                            $.ajax({
-                                                                 url: "/api/order/delivered", // URL API hủy đơn hàng
-                                                                 type: "POST",
-                                                                 data: { orderId: orderId },
-                                                                 success: function (response) {
-                                                                      alert("The order with id: " + orderId + " was delivered");
-                                                                      $("#confirmModal").modal("hide"); // Đóng popup
-                                                                      // Thực hiện các hành động khác, ví dụ: làm mới bảng
-                                                                 },
-                                                                 error: function (error) {
-                                                                      alert("Some error " + selectedOrderId + ".");
-                                                                 }
-                                                            });
-                                                       }
-                                                  </script>
+                                                  <p class="border rounded mb-0 px-2 py-1 bg-body"><i class='bx bx-arrow-from-left align-middle fs-16'></i> Last updated date: <span class="text-dark fw-medium" th:text="${#dates.format(shipper.updatedDate, 'MMM dd, yyyy')}"></span></p>
                                              </div>
                                         </div>
                                         <div class="card">
@@ -131,7 +113,7 @@
                               <div class="card-body">
                                    <div class="position-relative ms-2">
                                         <div style="display: flex; align-content: center">
-                                             <textarea style="width: 30%" placeholder="Note..." th:text="${shipper.note}"> </textarea>
+                                             <textarea class="fc-text-arrow" placeholder="Note..." th:text="${shipper.note}"> </textarea>
                                              <button class="fc-button">Send</button>
                                         </div>
                                    </div>

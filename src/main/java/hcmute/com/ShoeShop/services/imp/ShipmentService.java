@@ -49,4 +49,11 @@ public class ShipmentService {
         public Page<Shipment> findByShipperID(int userid, Pageable pageable) {
                 return shipmentRepository.findShipmentByShipper_Id(userid, pageable);
         }
+
+        public void updateDate(int orderId){
+                Shipment shipment = findShipmentByOrderId(orderId);
+                shipment.setUpdatedDate(new Date());
+
+                shipmentRepository.save(shipment);
+        }
 }

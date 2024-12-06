@@ -90,4 +90,24 @@ public class ShipperController {
 
         return "shipper/order-detail";
     }
+
+    @GetMapping("/delivered")
+    public String deliveredOrder(@RequestParam("orderid") int orderId,
+                            Model model){
+        orderService.deliverOrder(orderId);
+        updateShipmentDate(orderId);
+        return "redirect:/shipper/order/detail/" + orderId;
+    }
+    @GetMapping("/return")
+    public String returnOrder(@RequestParam("orderid") int orderId,
+                            Model model){
+        orderService.returnOrder(orderId);
+        updateShipmentDate(orderId);
+        return "redirect:/shipper/order/detail/" + orderId;
+    }
+
+
+    void updateShipmentDate(int orderId){
+        shipmentService.updateDate(orderId);
+    }
 }

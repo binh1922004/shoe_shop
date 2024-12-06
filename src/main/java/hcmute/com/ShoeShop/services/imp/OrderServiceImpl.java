@@ -2,6 +2,7 @@ package hcmute.com.ShoeShop.services.imp;
 
 import hcmute.com.ShoeShop.dto.OrderStaticDto;
 import hcmute.com.ShoeShop.entity.Order;
+import hcmute.com.ShoeShop.entity.Shipment;
 import hcmute.com.ShoeShop.repository.OrderRepository;
 import hcmute.com.ShoeShop.services.IOrderService;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
@@ -36,7 +37,7 @@ public class OrderServiceImpl implements IOrderService {
                 orderStaticDto.setShipping(orderRepository.countByStatus(ShipmentStatus.SHIPPED));
                 orderStaticDto.setCancel(orderRepository.countByStatus(ShipmentStatus.CANCEL));
                 orderStaticDto.setInStock(orderRepository.countByStatus(ShipmentStatus.IN_STOCK));
-                orderStaticDto.setRollBack(orderRepository.countByStatus(ShipmentStatus.ROLLBACK));
+                orderStaticDto.setPreturn(orderRepository.countByStatus(ShipmentStatus.RETURN));
                 orderStaticDto.setDelivered(orderRepository.countByStatus(ShipmentStatus.DELIVERED));
 
                 return orderStaticDto;
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements IOrderService {
                 orderStaticDto.setShipping(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.SHIPPED).count());
                 orderStaticDto.setCancel(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.CANCEL).count());
                 orderStaticDto.setInStock(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.IN_STOCK).count());
-                orderStaticDto.setRollBack(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.ROLLBACK).count());
+                orderStaticDto.setPreturn(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.RETURN).count());
                 orderStaticDto.setDelivered(orders.stream().filter(order -> order.getStatus() == ShipmentStatus.DELIVERED).count());
                 return orderStaticDto;
         }
@@ -55,6 +56,12 @@ public class OrderServiceImpl implements IOrderService {
         public void deliverOrder(int orderId) {
                 Order order = findById(orderId);
                 order.setStatus(ShipmentStatus.DELIVERED);
+                orderRepository.save(order);
+        }
+
+        public void returnOrder(int orderId) {
+                Order order = findById(orderId);
+                order.setStatus(ShipmentStatus.RETURN);
                 orderRepository.save(order);
         }
 }

@@ -36,4 +36,9 @@ public class ApiController {
         public void deliverOrder(@RequestParam("orderId") int orderId){
                 orderService.deliverOrder(orderId);
         }
+
+        @PostMapping("/order/return")
+        public void returnOrder(@RequestParam("orderId") int orderId){
+                orderService.returnOrder(orderId);
+        }
 }

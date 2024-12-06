@@ -35,7 +35,7 @@ public class Order {
         private Date createdDate;
 
         @Enumerated(EnumType.STRING)
-        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL', 'ROLLBACK')", nullable = false)
+        @Column(name = "status", columnDefinition = "ENUM('IN_STOCK', 'SHIPPED', 'DELIVERED', 'CANCEL', 'RETURN')", nullable = false)
         private ShipmentStatus status;
 
         @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
