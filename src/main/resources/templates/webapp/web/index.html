@@ -76,63 +76,12 @@
 <!--        <div th:include="~{fragments/web/begin_header_guest.html}"></div>-->
 
         <!-- header area start -->
-        <div th:include="~{fragments/web/header.html}"></div>
+        <div th:include="~{fragments/user/header.html}"></div>
         <!-- header area end -->
 
         <!-- slider area start -->
         <div th:include="~{fragments/web/slider.html}"></div>
         <!-- slider area end -->
-
-        <!-- banner area start -->
-        <div class="banner-area">
-            <div class="single-banner">
-                <div class="part-1">
-                    <div class="box-1 box">
-                        <h4>nike ari max 2015</h4>
-                        <h2>air superiority</h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <a href="#">shopping now</a>
-                    </div>
-                    <div class="box-2">
-                        <a href="#">
-                            <img src="img/banner/banner-2.jpg" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="part-2">
-                    <div class="search-box">
-                        <form action="#">
-                            <input type="text">
-                            <button type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="box-3">
-                        <a href="#">
-                            <img src="img/banner/banner-1.jpg" alt="">
-                        </a>
-                    </div>
-                    <div class="box-4 box">
-                        <h4>nike ari max 2015</h4>
-                        <h2>air superiority</h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <a href="#">shopping now</a>
-                    </div>
-                    <div class="box-5">
-                        <a href="#">
-                            <img src="img/banner/banner-3.jpg" alt="">
-                        </a>
-                    </div>
-                    <div class="box-6">
-                        <a href="#">
-                            <img src="img/banner/banner-4.jpg" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- banner area end -->
 
         <!-- products area start -->
         <div class="products-area">
@@ -142,7 +91,7 @@
                         <div class="col-lg-3">
                             <div class="product-menu">
                                 <div class="menu-title">
-                                    <h2>Best seller <strong>Products</strong></h2>
+                                    <h2><strong>Products</strong></h2>
                                 </div>
                                 <div class="side-menu">
                                      <!-- Nav tabs -->
@@ -181,51 +130,51 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade show active" id="tab1">
-                                        <div class="product-slider carousel-margin">
-                                            <div class="single-product" th:each="product : ${products}">
-                                                <div class="level-pro-new">
-                                                    <span>new</span>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-6" th:each="product : ${products}">
+                                                <div class="single-product" >
+                                                    <div class="level-pro-new">
+                                                        <span>new</span>
+                                                    </div>
 
-                                                <div class="product-img">
-                                                    <a th:href="@{/product/details/{id}(id=${product.id})}">
-                                                        <img th:src="${product.image}" alt="Image" class="primary-img">
-                                                    </a>
-                                                </div>
-                                                <div class="product-name">
-                                                    <a th:href="@{/product/details/{id}(id=${product.id})}" th:title="${product.title}" th:text="${product.title}"></a>
-<!--                                                            <p th:text="${product.description}"></p>-->
-                                                </div>
-                                                <div class="price-rating">
-                                                    <span th:text="'$' + ${product.price}"></span>
-<!--                                                                <div class="ratings">-->
-<!--                                                                    <i class="fa fa-star" th:each="star, iterStat : ${#numbers.sequence(1, product.rating)}"></i>-->
-<!--                                                                    <i class="fa fa-star-half-o" th:if="${product.rating - #numbers.floor(product.rating) > 0}"></i>-->
-<!--                                                                </div>-->
-                                                    <div class="ratings">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-half-o"></i>
+                                                    <div class="product-img">
+                                                        <a th:href="@{/product/details/{id}(id=${product.id})}">
+                                                            <img th:src="${product.image}" alt="Image" class="primary-img">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-name">
+                                                        <a th:href="@{/product/details/{id}(id=${product.id})}" th:title="${product.title}" th:text="${product.title}"></a>
+                                                        <!--                                                            <p th:text="${product.description}"></p>-->
+                                                    </div>
+                                                    <div class="price-rating">
+                                                        <span th:text="'$' + ${product.price}"></span>
+                                                        <!--                                                                <div class="ratings">-->
+                                                        <!--                                                                    <i class="fa fa-star" th:each="star, iterStat : ${#numbers.sequence(1, product.rating)}"></i>-->
+                                                        <!--                                                                    <i class="fa fa-star-half-o" th:if="${product.rating - #numbers.floor(product.rating) > 0}"></i>-->
+                                                        <!--                                                                </div>-->
+                                                        <div class="ratings">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="actions">
+                                                        <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>
+                                                        <ul class="add-to-link">
+                                                            <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
+                                                            <li><a href="#" onclick="toggleHeart(this);  return false;">
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </a></li>
+                                                            <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                                <div class="actions">
-                                                    <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>
-                                                    <ul class="add-to-link">
-                                                        <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
-                                                        <li><a href="#" onclick="toggleHeart(this);  return false;">
-                                                            <i class="fa fa-heart-o"></i>
-                                                        </a></li>
-                                                        <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
 
-                                    </div>
-                                        <!-- Phân trang -->
-                                        <div class="pagination mt-3">
-                                            <nav aria-label="Page navigation">
+                                            </div>
+                                            <!-- Phân trang -->
+                                            <div class="col-md-12">
                                                 <ul class="pagination justify-content-center">
                                                     <!-- Nút Previous -->
                                                     <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
@@ -243,7 +192,7 @@
                                                         <a class="page-link" th:href="@{/(page=${currentPage + 1}, size=6)}">Next</a>
                                                     </li>
                                                 </ul>
-                                            </nav>
+                                            </div>
                                         </div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane fade" id="tab2">
@@ -3194,155 +3143,6 @@
             </div>
         </div>
         <!-- new products area end -->
-
-        <!-- testimonial area start -->
-        <div class="testimonial-area">
-            <div class="container">
-                <div class="row">
-                    <div class="testimonial-slider">
-                        <div class="single-testimonial">
-                            <div class="spech">
-                                <a href="#">“ Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat ”</a>
-                            </div>
-                            <div class="avater">
-                                <img src="img/testimonial/1.jpg" alt="">
-                            </div>
-                            <div class="post-by">
-                                <span>Salim Rana</span>
-                            </div>
-                        </div>
-                        <div class="single-testimonial">
-                            <div class="spech">
-                                <a href="#">“ Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat ”</a>
-                            </div>
-                            <div class="avater">
-                                <img src="img/testimonial/2.jpg" alt="">
-                            </div>
-                            <div class="post-by">
-                                <span>Hridoy Roy</span>
-                            </div>
-                        </div>
-                        <div class="single-testimonial">
-                            <div class="spech">
-                                <a href="#">“ Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat ”</a>
-                            </div>
-                            <div class="avater">
-                                <img src="img/testimonial/3.jpg" alt="">
-                            </div>
-                            <div class="post-by">
-                                <span>themesplaza</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- testimonial area end -->
-
-        <!-- blog area start -->
-        <div class="blog-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="blog-heading">
-                            <h2>From <strong> The Blog</strong></h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="blog-post">
-                        <div class="single-blog-post">
-                            <div class="blog-img">
-                                <a href="blog-details.html">
-                                    <img src="img/blog/1.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="blog-content">
-                                <a href="blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                <a href="blog-details.html" class="readmore">read more ></a>
-                            </div>
-                        </div>
-                            <div class="single-blog-post">
-                            <div class="blog-img">
-                                <a href="blog-details.html">
-                                    <img src="img/blog/2.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="blog-content">
-                                <a href="blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                <a href="blog-details.html" class="readmore">read more ></a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="single-blog-post">
-                            <div class="blog-img">
-                                <a href="blog-details.html">
-                                    <img src="img/blog/3.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="blog-content">
-                                <a href="blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                <a href="blog-details.html" class="readmore">read more ></a>
-                            </div>
-                        </div>
-                        <div class="single-blog-post">
-                            <div class="blog-img">
-                                <a href="blog-details.html">
-                                    <img src="img/blog/4.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="blog-content">
-                                <a href="blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                <a href="blog-details.html" class="readmore">read more ></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- blog area end -->
-
-        <!-- newsleter area start -->
-        <div class="newsleter-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="newsleter">
-                            <h3>newsletter</h3>
-                            <p>Subscribe to the james mailing list to receive updates on new arrivals, special offers and other discount information.</p>
-                            <div class="Subscribe">
-                                <form action="#">
-                                    <input type="text" title="Sign up">
-                                    <button type="submit" title="Subscribe">Subscribe</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="follow">
-                            <h3>follow</h3>
-                            <p>Subscribe to the james mailing list to receive updates on new arrivals, special offers and other discount information.</p>
-                            <ul class="follow-link">
-                                <li><a href="#"> <i class="fa fa-facebook"></i> </a></li>
-                                <li><a href="#"> <i class="fa fa-rss"></i> </a></li>
-                                <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
-                                <li><a href="#"> <i class="fa fa-google-plus"></i> </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- newsleter area end -->
 
         <!-- footer area start -->
         <div th:include="~{fragments/web/footer.html}"></div>

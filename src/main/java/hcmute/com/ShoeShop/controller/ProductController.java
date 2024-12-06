@@ -87,8 +87,8 @@ public class ProductController {
     @GetMapping("/details/{id}")
     public String getProductDetails(@PathVariable long id, ModelMap model, HttpSession session) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
-        if(u==null)
-            return "redirect:/login";
+//        if(u==null)
+//            return "redirect:/login";
         model.addAttribute("user", u);
         List<Product> wishlist = wishListService.getWishlist(u.getId());
         model.addAttribute("wishlist", wishlist);

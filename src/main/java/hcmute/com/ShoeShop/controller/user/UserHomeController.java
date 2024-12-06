@@ -70,6 +70,17 @@ public class UserHomeController {
         }
     }
 
+//    @GetMapping("/shop")
+//    public String getShop(HttpSession session, Model model) {
+//        Users u = (Users) session.getAttribute(Constant.SESSION_USER);
+//        if (u == null) {
+//            return "redirect:/login";
+//        }
+//        List<Category> categories = categoryService.findAll();
+//        model.addAttribute("categories", categories);
+//        return "user/shop";
+//    }
+
     @GetMapping("/my_account")
     public String myAccount(HttpSession session, Model model) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);

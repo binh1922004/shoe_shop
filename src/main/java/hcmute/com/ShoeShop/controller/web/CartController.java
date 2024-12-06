@@ -1,6 +1,7 @@
 package hcmute.com.ShoeShop.controller.web;
 
 import hcmute.com.ShoeShop.entity.Cart;
+import hcmute.com.ShoeShop.entity.CartDetail;
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.CartService;
 import hcmute.com.ShoeShop.utlis.Constant;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Iterator;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/cart")
@@ -29,6 +33,10 @@ public class CartController {
         String email = logginedUser.getEmail();
 
         Cart cart = cartService.getCartByUser(email);
+
+        // duyet qua set cartDetail kiem tra product isdelete = true thi xoa khoi cart
+        Set<CartDetail> cartDetails = cart.getOrderDetailSet();
+        cartService.cleanCart(cartDetails, cart);
 
         // Truyền thông báo nếu có
         String alert = (String) model.asMap().get("alert");
@@ -55,7 +63,7 @@ public class CartController {
         // goi ham add to cart
         cartService.addToCart(email, productDetailId, quantity);
 
-        String alert = "Thêm vào giỏ hàng thành công";
+        String alert = "Add product successful!";
         // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
         redirectAttributes.addFlashAttribute("alert", alert);
 
@@ -76,7 +84,7 @@ public class CartController {
         // xoa khoi gio hang
         cartService.removeFromCart(email, cartDetailId);
 
-        String alert = "Xóa khỏi giỏ hàng thành công";
+        String alert = "Delete product successful!";
         // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
         redirectAttributes.addFlashAttribute("alert", alert);
 
@@ -101,12 +109,11 @@ public class CartController {
         // update gio hang
         cartService.updateMyCart(email, cartDetailId, quantity);
 
-        String alert = "Chỉnh sửa giỏ hàng thành công";
+        String alert = "Update product successful!";
         // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
         redirectAttributes.addFlashAttribute("alert", alert);
 
         return "redirect:/cart/view";
     }
-
 
 }

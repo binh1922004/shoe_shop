@@ -9,6 +9,9 @@ import hcmute.com.ShoeShop.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
+import java.util.Set;
+
 @Service
 public class CartService {
 
@@ -146,7 +149,6 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-
     public Cart getCartByUser(String email) {
 
         // kiem tra nguoi dung co ton tai khong
@@ -166,5 +168,22 @@ public class CartService {
             return cartRepository.save(cart);
         });
 
+    }
+
+    public void cleanCart(Set<CartDetail> cartDetails, Cart cart) {
+        // Sử dụng Iterator để duyệt qua và xóa phần tử trong Set
+        Iterator<CartDetail> iterator = cartDetails.iterator();
+        while (iterator.hasNext()) {
+            CartDetail cartDetail = iterator.next();
+            if (cartDetail.getProduct().getProduct().isDelete()) {
+                iterator.remove(); // Xóa khỏi Set
+                cartDetailRepository.delete(cartDetail);
+            }
+        }
+        // cap nhat gia tri gio hang
+        double totalPrice = cart.getOrderDetailSet().stream().mapToDouble(CartDetail::getPrice).sum();
+        cart.setTotalPrice(totalPrice);
+        // luu gio hang sau khi xoa
+        cartRepository.save(cart);
     }
 }

@@ -134,4 +134,8 @@ public class ProductService {
         productDto.setCategoryName(product.getCategory().getType());
         return productDto;
     }
+
+    public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest pageRequest) {
+        return productRepository.findAllByCategoryId(categoryId, pageRequest);
+    }
 }
