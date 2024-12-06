@@ -31,6 +31,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         session.setAttribute(Constant.SESSION_USER, userS);
         //chuyen huong dang nhap
         response.sendRedirect("/waiting");
-    }.
-￼
+    }
+
 }

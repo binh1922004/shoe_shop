@@ -100,7 +100,7 @@
                                     <span>Please login using account detail bellow.</span>
                                 </div>
                                 <div class="login-form">
-                                    <form th:action="/login" method="post">
+                                    <form action="/login" method="post">
                                         <input type="text" name="username"  placeholder="Username" th:value="${username}" required>
                                         <input type="password" name="password" placeholder="Password" required minlength="6" title="Password must be at least 6 characters long">
                                         <div class="button-box">
