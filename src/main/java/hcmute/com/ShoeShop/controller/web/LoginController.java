@@ -57,7 +57,7 @@ public class LoginController {
                         System.out.println("no");
                     }
                     session.setAttribute(Constant.SESSION_USER, users);
-                    return "redirect:/waiting";
+                    return "redirect:/waigiting";
                 } else {
                     model.addAttribute("mess", "Incorrect password");
                 }
