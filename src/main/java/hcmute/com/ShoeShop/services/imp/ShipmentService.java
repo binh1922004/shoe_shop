@@ -56,4 +56,10 @@ public class ShipmentService {
 
                 shipmentRepository.save(shipment);
         }
+
+        public void updateNote(int shipmentId, String note){
+                Shipment shipment = shipmentRepository.findShipmentById(shipmentId);
+                shipment.setNote(note);
+                shipmentRepository.save(shipment);
+        }
 }

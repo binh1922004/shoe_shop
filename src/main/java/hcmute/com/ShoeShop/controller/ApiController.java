@@ -1,8 +1,10 @@
 package hcmute.com.ShoeShop.controller;
 
 import hcmute.com.ShoeShop.dto.ShipperDto;
+import hcmute.com.ShoeShop.entity.Shipment;
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
+import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.services.imp.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ public class ApiController {
         UserService userService;
         @Autowired
         OrderServiceImpl orderService;
+        @Autowired
+        ShipmentService shipmentService;
+
         @GetMapping("/shipper/search")
         public List<ShipperDto> searchUser(@RequestParam(value = "name") String name){
                 List<Users> listUser = userService.findByFullnameAndRole(name, 4);
@@ -32,13 +37,10 @@ public class ApiController {
                 orderService.cancelOrder(orderId);
         }
 
-        @PostMapping("/order/delivered")
-        public void deliverOrder(@RequestParam("orderId") int orderId){
-                orderService.deliverOrder(orderId);
-        }
 
-        @PostMapping("/order/return")
-        public void returnOrder(@RequestParam("orderId") int orderId){
-                orderService.returnOrder(orderId);
+        @PostMapping("/shipper/note")
+        public void addNote(@RequestParam("note") String note,
+                            @RequestParam("shipmentId") int shipmentId){
+                shipmentService.updateNote(shipmentId, note);
         }
 }

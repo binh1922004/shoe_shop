@@ -113,8 +113,27 @@
                               <div class="card-body">
                                    <div class="position-relative ms-2">
                                         <div style="display: flex; align-content: center">
-                                             <textarea class="fc-text-arrow" placeholder="Note..." th:text="${shipper.note}"> </textarea>
-                                             <button class="fc-button">Send</button>
+                                             <textarea id = "note" class="fc-text-arrow" placeholder="Note..." th:text="${shipper.note}"> </textarea>
+                                             <button th:onclick="'sendNote(' + ${shipper.id} +')'" class="fc-button">Send</button>
+                                             <script>
+                                                  function sendNote(shipment){
+                                                       let note = document.getElementById("note").value;
+
+                                                       console.log("note: " + note)
+                                                       $.ajax({
+                                                            url: "/api/shipper/note", // URL API hủy đơn hàng
+                                                            type: "POST",
+                                                            data: {note: note, shipmentId: shipment},
+                                                            success: function (response) {
+                                                                 $("#confirmModal").modal("hide"); // Đóng popup
+                                                                 // Thực hiện các hành động khác, ví dụ: làm mới bảng
+                                                            },
+                                                            error: function (error) {
+                                                                 alert("Some error have occurr.");
+                                                            }
+                                                       })
+                                                  }
+                                             </script>
                                         </div>
                                    </div>
                               </div>

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
+        public Shipment findShipmentById(int id);
         public Shipment findShipmentByOrderId(int orderId);
         public Page<Shipment> findShipmentByShipper_Id(int userId, Pageable pageable);
 }
