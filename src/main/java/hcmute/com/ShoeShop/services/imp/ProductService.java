@@ -108,6 +108,7 @@ public class ProductService {
     @Transactional
     public void deleteProduct(Long id) {
         wishlistService.deleteByProductId(id);
+        //khong xoa -> isdelete = true
         productRepository.deleteById(id);
     }
 
