@@ -40,38 +40,10 @@ public class LoginController {
         return "web/login";
     }
 
-    @PostMapping("/login")
-    public String loginPost(@RequestParam("username") String username,
-                            @RequestParam("password") String password,
-                            @RequestParam(value = "rememberMe", required = false) Boolean rememberMe,
-                            Model model, HttpSession session, HttpServletResponse response) {
-        try{
-            Users users = userService.findUserByEmail(username);
-            if(users != null) {
-                if (passwordEncoder.matches(password, users.getPass())) {
-                    if (rememberMe != null && rememberMe) {
-                        saveRemeberMe(response,users.getEmail());
-                        System.out.println("yes");
-                    }
-                    else {
-                        System.out.println("no");
-                    }
-                    session.setAttribute(Constant.SESSION_USER, users);
-                    return "redirect:/waigiting";
-                } else {
-                    model.addAttribute("mess", "Incorrect password");
-                }
-            }
-            else {
-                System.out.println("Not found");
-                model.addAttribute("mess", "Not found account");
-            }
-        }
-        catch (Exception e) {
-            model.addAttribute("mess", "An error occurred. Please try again later.");
-            e.printStackTrace();
-        }
-        return "web/login";
+    @PostMapping("/login-process")
+    public String loginPost(Model model) {
+        model.addAttribute("mess", "Incorrect password or email");
+        return "/web/login";
     }
 
     private void saveRemeberMe(HttpServletResponse resp, String username) {

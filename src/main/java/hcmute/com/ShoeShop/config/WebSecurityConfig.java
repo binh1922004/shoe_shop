@@ -1,11 +1,15 @@
 package hcmute.com.ShoeShop.config;
 
+import hcmute.com.ShoeShop.component.CustomAuthenticationProvider;
 import hcmute.com.ShoeShop.component.CustomAuthenticationSuccessHandler;
 import hcmute.com.ShoeShop.services.imp.CustomUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -24,11 +29,13 @@ public class WebSecurityConfig {
                 "/auth/token", "/auth/introspect"};
         private final String[] PUBLIC_CSS = {"/assets/**", "/css/**", "/fonts/**", "/img/**", "/js/**", "/lib/**",
                 "/style.css"};
-
+        @Autowired
+        @Lazy
         CustomAuthenticationSuccessHandler successHandler;
-        public WebSecurityConfig(CustomAuthenticationSuccessHandler successHandler) {
-                this.successHandler = successHandler;
-        }
+        @Autowired
+        @Lazy
+        private CustomAuthenticationProvider customAuthenticationProvider;
+
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
                 httpSecurity.authorizeHttpRequests(request ->
@@ -40,10 +47,13 @@ public class WebSecurityConfig {
                         .formLogin(formLogin ->
                                 formLogin.loginPage("/login")
                                         .successHandler(successHandler)
+                                        .failureHandler(new SimpleUrlAuthenticationFailureHandler("/login?error=true"))
                                         .permitAll()
                         )
                         //config cho trang logout
-                        .logout(logout -> logout.logoutUrl("/logout").permitAll());
+                        .logout(logout ->
+                                logout.logoutUrl("/logout").permitAll()
+                        );
                         //config cho remember me 1 day
                 //cai nay tu bat nen phai tat
                 httpSecurity.csrf(AbstractHttpConfigurer::disable);
@@ -61,11 +71,9 @@ public class WebSecurityConfig {
                 return new CustomUserDetailService();
         }
 
-        @Bean
-        public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
-                AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-                authenticationManagerBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
-                return authenticationManagerBuilder.build();
+        @Autowired
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+                auth.authenticationProvider(customAuthenticationProvider);
         }
 
 }

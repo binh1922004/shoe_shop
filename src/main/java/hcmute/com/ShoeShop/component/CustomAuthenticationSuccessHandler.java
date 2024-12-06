@@ -23,14 +23,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        User user = (User) authentication.getPrincipal();
+        String email = authentication.getPrincipal().toString();
         HttpSession session = request.getSession();
 
-        Users userS = userRepository.findByEmail(user.getUsername());
-        System.out.println(userS.getEmail());
+        Users userS = userRepository.findByEmail(email);
         //luu session
         session.setAttribute(Constant.SESSION_USER, userS);
         //chuyen huong dang nhap
         response.sendRedirect("/waiting");
-    }
+    }.
+￼
 }
