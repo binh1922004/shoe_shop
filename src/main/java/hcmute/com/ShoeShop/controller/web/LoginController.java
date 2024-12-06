@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginController {
     @Autowired
     private UserService userService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String login(HttpServletRequest req, Model model) {
@@ -37,38 +40,10 @@ public class LoginController {
         return "web/login";
     }
 
-    @PostMapping("/login")
-    public String loginPost(@RequestParam("user-name") String username,
-                            @RequestParam("user-password") String password,
-                            @RequestParam(value = "rememberMe", required = false) Boolean rememberMe,
-                            Model model, HttpSession session, HttpServletResponse response) {
-        try{
-            Users users = userService.findUserByEmail(username);
-            if(users != null) {
-                if (password.equals(users.getPass())) {
-                    if (rememberMe != null && rememberMe) {
-                        saveRemeberMe(response,users.getEmail());
-                        System.out.println("yes");
-                    }
-                    else {
-                        System.out.println("no");
-                    }
-                    session.setAttribute(Constant.SESSION_USER, users);
-                    return "redirect:/waiting";
-                } else {
-                    model.addAttribute("mess", "Incorrect password");
-                }
-            }
-            else {
-                System.out.println("Not found");
-                model.addAttribute("mess", "Not found account");
-            }
-        }
-        catch (Exception e) {
-            model.addAttribute("mess", "An error occurred. Please try again later.");
-            e.printStackTrace();
-        }
-        return "web/login";
+    @PostMapping("/login-process")
+    public String loginPost(Model model) {
+        model.addAttribute("mess", "Incorrect password or email");
+        return "/web/login";
     }
 
     private void saveRemeberMe(HttpServletResponse resp, String username) {

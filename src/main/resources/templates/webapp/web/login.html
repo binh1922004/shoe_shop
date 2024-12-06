@@ -86,8 +86,8 @@
                 </div>
             </div>
         </div>
-        <div th:if="${mess}" style="color: red; text-align: center; font-size: larger">
-            <p th:text="${mess}"></p>
+        <div th:if="${param.error}" style="color: red; text-align: center; font-size: larger">
+            <p>Invalid email or password</p>
         </div>
         <div class="login-area">
             <div class="container">
@@ -101,11 +101,11 @@
                                 </div>
                                 <div class="login-form">
                                     <form action="/login" method="post">
-                                        <input type="text" name="user-name"  placeholder="Username" th:value="${username}" required>
-                                        <input type="password" name="user-password" placeholder="Password" required minlength="6" title="Password must be at least 6 characters long">
+                                        <input type="text" name="username"  placeholder="Username" th:value="${username}" required>
+                                        <input type="password" name="password" placeholder="Password" required minlength="6" title="Password must be at least 6 characters long">
                                         <div class="button-box">
                                             <div class="login-toggle-btn">
-                                                <input type="checkbox" id="remember" name="rememberMe">
+                                                <input type="checkbox" id="remember" name="remember-me">
                                                 <label for="remember">Remember me</label>
                                                 <a href="/reset_password">Forgot Password?</a>
                                             </div>

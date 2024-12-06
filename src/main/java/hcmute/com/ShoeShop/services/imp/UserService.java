@@ -6,6 +6,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 public class UserService{
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public long count() {
         return userRepository.count();
@@ -32,6 +36,7 @@ public class UserService{
     }
 
     public void saveUser(Users user) {
+        user.setPass(passwordEncoder.encode(user.getPass()));
         userRepository.save(user);
     }
 
