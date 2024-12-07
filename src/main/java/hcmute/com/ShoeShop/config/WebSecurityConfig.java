@@ -29,11 +29,7 @@ public class WebSecurityConfig {
         private final String[] PUBLIC_CSS = {"/assets/**", "/css/**", "/fonts/**", "/img/**", "/js/**", "/lib/**",
                 "/style.css"};
         @Autowired
-        @Lazy
         CustomAuthenticationSuccessHandler successHandler;
-        @Autowired
-        @Lazy
-        private CustomAuthenticationProvider customAuthenticationProvider;
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -69,11 +65,6 @@ public class WebSecurityConfig {
         @Bean
         public UserDetailsService userDetailsService() {
                 return new CustomUserDetailService();
-        }
-
-        @Autowired
-        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-                auth.authenticationProvider(customAuthenticationProvider);
         }
 
 }
