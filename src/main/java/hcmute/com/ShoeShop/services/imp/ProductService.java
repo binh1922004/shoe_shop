@@ -145,5 +145,15 @@ public class ProductService {
         // Tiến hành lấy sản phẩm từ cơ sở dữ liệu theo danh sách ids
         return productRepository.findAllById(ids);
     }
+public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest pageRequest) {
+        return productRepository.findAllByCategoryId(categoryId, pageRequest);
+    }
 
-}
+    public List<Product> getTopRatedProducts() {
+        List<Product> ratedProducts = productRepository.findTop20ByAvgRating();
+
+        if(ratedProducts.size() > 20){
+            ratedProducts = ratedProducts.subList(0, 20);
+        }
+        return ratedProducts;
+    }}

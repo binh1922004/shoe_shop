@@ -86,8 +86,8 @@ public class ProductController {
     @GetMapping("/details/{id}")
     public String getProductDetails(@PathVariable long id, ModelMap model, HttpSession session) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
-        if(u==null)
-            return "redirect:/login";
+        
+
         List<Long> viewedProductIds = (List<Long>) session.getAttribute(Constant.VIEW_PRODUCT);
 
         if (viewedProductIds == null) {
@@ -100,11 +100,9 @@ public class ProductController {
 
         // Lưu lại vào session
         session.setAttribute(Constant.VIEW_PRODUCT, viewedProductIds);
-
-        model.addAttribute("user", u);
+		model.addAttribute("user", u);
         List<Product> wishlist = wishListService.getWishlist(u.getId());
-        model.addAttribute("wishlist", wishlist);
-        Product product = productService.getProductById(id);
+        model.addAttribute("wishlist", wishlist);        Product product = productService.getProductById(id);
         List<ProductDetail> productDetails = productDetailService.findProductByProductId(id);
         model.addAttribute("productDetails", productDetails);
         model.addAttribute("product", product);

@@ -46,10 +46,15 @@ public class RatingService {
         rating.setUser(user);
         rating.setProduct(product);
 
-        if (image != null) {
+        product.getRatings().add(rating);
+
+        // Kiểm tra nếu có file ảnh được chọn
+        if (image != null && !image.isEmpty()) {
             String fileName = "pro_" + System.currentTimeMillis();
             fileName = storageService.uploadFile(image, fileName);
             rating.setImage(fileName);
+        } else {
+            System.out.println("No image file uploaded, skipping image saving.");
         }
 
         ratingRepository.save(rating);
