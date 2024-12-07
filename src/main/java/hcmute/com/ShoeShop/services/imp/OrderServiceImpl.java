@@ -8,6 +8,7 @@ import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,5 +67,8 @@ public class OrderServiceImpl implements IOrderService {
 
         public Page<Order> findOrderByStatus(ShipmentStatus shipmentStatus, Pageable pageable) {
                 return orderRepository.findOrderByStatus(shipmentStatus, pageable);
+        }
+        public Page<Order> findOrderByUserId(int usreId, Pageable pageable) {
+                return orderRepository.findOrderByUser_Id(usreId, pageable);
         }
 }
