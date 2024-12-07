@@ -1,6 +1,5 @@
 package hcmute.com.ShoeShop.controller;
 
-import hcmute.com.ShoeShop.dto.CategoryDto;
 import hcmute.com.ShoeShop.entity.Category;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

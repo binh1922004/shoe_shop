@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- Mirrored from techzaa.in/larkon/admin/product-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Nov 2024 14:46:41 GMT -->
 <head>
     <!-- Title Meta -->
     <meta charset="utf-8"/>
@@ -1377,6 +1375,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mb-3">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search by name or category" onkeyup="searchTable()">
+                        </div>
                         <div>
                             <div class="table-responsive">
                                 <table class="table align-middle mb-0 table-hover table-centered">
@@ -1470,40 +1471,43 @@
             </div>
 
         </div>
-        <!-- End Container Fluid -->
-
-        <!-- ========== Footer Start ========== -->
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by
-                        <iconify-icon icon="iconamoon:heart-duotone"
-                                      class="fs-18 align-middle text-danger"></iconify-icon>
-                        <a
-                                href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- ========== Footer End ========== -->
-
     </div>
-    <!-- ==================================================== -->
-    <!-- End Page Content -->
-    <!-- ==================================================== -->
-
 </div>
-<!-- END Wrapper -->
-
 <!-- Vendor Javascript (Require in all Page) -->
 <script src="assets/js/vendor.js"></script>
 
 <!-- App Javascript (Require in all Page) -->
 <script src="assets/js/app.js"></script>
+<script>
+    function searchTable() {
+        var input, filter, table, tr, td, i, j, txtValue, match;
+        input = document.getElementById("searchInput");
+        filter = input.value.toLowerCase();
+        table = document.querySelector(".table");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 1; i < tr.length; i++) { // Bắt đầu từ 1 để bỏ qua tiêu đề
+            tr[i].style.display = "none"; // Ẩn tất cả các hàng
+            td = tr[i].getElementsByTagName("td");
+
+            match = false; // Đặt mặc định là không có kết quả
+
+            // Duyệt qua các cột (tên và loại)
+            for (j = 1; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        match = true; // Nếu tìm thấy, thay đổi trạng thái
+                    }
+                }
+            }
+
+            if (match) {
+                tr[i].style.display = ""; // Hiển thị hàng nếu có kết quả
+            }
+        }
+    }
+</script>
 
 </body>
-
-
-<!-- Mirrored from techzaa.in/larkon/admin/product-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Nov 2024 14:46:45 GMT -->
 </html>

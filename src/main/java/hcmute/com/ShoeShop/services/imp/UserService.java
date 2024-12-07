@@ -2,7 +2,6 @@ package hcmute.com.ShoeShop.services.imp;
 
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.repository.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
