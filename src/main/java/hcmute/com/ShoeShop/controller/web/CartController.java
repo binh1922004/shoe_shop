@@ -69,14 +69,20 @@ public class CartController {
         String email = logginedUser.getEmail();
 
         // goi ham add to cart
-        cartService.addToCart(email, productDetailId, quantity);
+        if(!cartService.addToCart(email, productDetailId, quantity)){
+            String alert = "Product is sold out!";
+            redirectAttributes.addFlashAttribute("alert", alert);
+            return "redirect:/cart/view";
+        }
+        else {
+            String alert = "Add product successful!";
+            // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
+            redirectAttributes.addFlashAttribute("alert", alert);
 
-        String alert = "Add product successful!";
-        // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
-        redirectAttributes.addFlashAttribute("alert", alert);
+            // return ve trang view gio hang
+            return "redirect:/cart/view";
+        }
 
-        // return ve trang view gio hang
-        return "redirect:/cart/view";
     }
 
     @GetMapping("/delete/{id}")

@@ -139,4 +139,5 @@ public class ProductService {
     public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest pageRequest) {
         return productRepository.findAllByCategoryId(categoryId, pageRequest);
     }
+
 }

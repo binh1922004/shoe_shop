@@ -81,12 +81,15 @@ public class CategoryController {
             return "Can not find by category ID: " + id;
         }
         List<Product> wishlist = wishlistService.getWishlist(u.getId());
-        Page<Product> products = productService.getPaginatedProductsByCategory(id, PageRequest.of(page, size));
-        model.addAttribute("products", products);
         model.addAttribute("wishlist", wishlist);
-        model.addAttribute("currentPage", products.getNumber());
-        model.addAttribute("totalPages", products.getTotalPages());
-        return "user/product-content";
+        Page<Product> products = productService.getPaginatedProductsByCategory(id, PageRequest.of(page, size));
+//        model.addAttribute("products", products);
+//        model.addAttribute("currentPage", products.getNumber());
+//        model.addAttribute("totalPages", products.getTotalPages());
+        // Thêm dữ liệu vào model
+        model.addAttribute("products", products.getContent());
+        model.addAttribute("pagination", products);
+        return "fragments/product-list :: productContent";
     }
 
 }

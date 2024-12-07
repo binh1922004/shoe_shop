@@ -27,7 +27,7 @@ public class CartService {
     @Autowired
     private UserService userService;
 
-    public void addToCart(String email, int productDetailId, int quantity) {
+    public boolean addToCart(String email, int productDetailId, int quantity) {
 
         // lấy thong tin khach hang
         Users user = userService.findUserByEmail(email);
@@ -43,6 +43,10 @@ public class CartService {
         // lay thong tin san pham
         ProductDetail productDetail = productDetailService.findProductDetailById(productDetailId).orElse(null);
 
+        // kiem tra neu san pham isdelete = true thi ko them
+        if(productDetail.getProduct().isDelete()) {
+            return false;
+        }
         // tinh gia cua product dua tren size da chon ( gia goc + gia size)
         double finalPrice = productDetail.getProduct().getPrice() + productDetail.getPriceadd();
 
@@ -79,6 +83,8 @@ public class CartService {
 
         // luu thong tin gio hang
         cartRepository.save(cart);
+
+        return true;
     }
 
     public void updateMyCart(String email, long cartDetailId, int quantity) {
