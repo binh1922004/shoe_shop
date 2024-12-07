@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -135,4 +137,13 @@ public class ProductService {
         productDto.setCategoryName(product.getCategory().getType());
         return productDto;
     }
+
+    public List<Product> getProductsByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        // Tiến hành lấy sản phẩm từ cơ sở dữ liệu theo danh sách ids
+        return productRepository.findAllById(ids);
+    }
+
 }

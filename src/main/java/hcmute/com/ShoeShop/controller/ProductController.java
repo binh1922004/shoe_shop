@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -87,6 +88,19 @@ public class ProductController {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
         if(u==null)
             return "redirect:/login";
+        List<Long> viewedProductIds = (List<Long>) session.getAttribute(Constant.VIEW_PRODUCT);
+
+        if (viewedProductIds == null) {
+            viewedProductIds = new ArrayList<>();
+        }
+        // Thêm sản phẩm vào danh sách nếu chưa có
+        if (!viewedProductIds.contains(id)) {
+            viewedProductIds.add(id);
+        }
+
+        // Lưu lại vào session
+        session.setAttribute(Constant.VIEW_PRODUCT, viewedProductIds);
+
         model.addAttribute("user", u);
         List<Product> wishlist = wishListService.getWishlist(u.getId());
         model.addAttribute("wishlist", wishlist);
