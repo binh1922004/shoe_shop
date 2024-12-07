@@ -39,9 +39,10 @@ public class WebSecurityConfig {
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
                 httpSecurity.authorizeHttpRequests(request -> request
                                 .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
-                                .requestMatchers("/manager/**").hasRole("MANAGER")
+                                .requestMatchers("/manager/**").hasRole("manager")
+                                .requestMatchers("/shipper/**").hasRole("shipper")
                                 .requestMatchers(PUBLIC_CSS).permitAll() // Cho phép truy cập tài nguyên tĩnh
-                                .anyRequest().permitAll())
+                                .anyRequest().authenticated())
                         //config cho trang login
                         .formLogin(formLogin ->
                                 formLogin.loginPage("/login")

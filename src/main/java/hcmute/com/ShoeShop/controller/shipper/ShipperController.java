@@ -39,9 +39,9 @@ public class ShipperController {
     OrderDetailServiceImpl orderDetailService;
 
     @GetMapping("/order/list")
-    public String orderList(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
+    public String orderList(@RequestParam(value = "page-size", defaultValue = "2")int pagesize,
                             @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
-                            @RequestParam(name = "status") String status,
+                            @RequestParam(name = "status", defaultValue = "") String status,
             Model model, HttpSession session) {
         Pageable pageable = PageRequest.of(pageNum, pagesize);
 
@@ -50,14 +50,19 @@ public class ShipperController {
         Users user = (Users) session.getAttribute("user");
         int userId = 2;
         Page<Shipment> shipmentPage = null;
+
         if (status.isEmpty())
             shipmentPage = shipmentService.findByShipperID(userId, pageable);
         else
             shipmentPage = shipmentService.findByShipperIdAndStatus(userId, ShipmentStatus.valueOf(status), pageable);
 
         Page<Order> orderList = shipmentPage.map(Shipment::getOrder);
+
+        //add order list
         model.addAttribute("listOrder", orderList);
         int totalPages = orderList.getTotalPages();
+
+        //add page
         model.addAttribute("totalPages", totalPages);
         if (totalPages > 0){
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -66,9 +71,12 @@ public class ShipperController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
+        //add static to view
         OrderStaticDto orderStaticDto = orderService.getStatic(shipmentService.findByShipperId(userId)
                 .stream().map(Shipment::getOrder).collect(Collectors.toList()));
         model.addAttribute("static", orderStaticDto);
+
+        model.addAttribute("stt", status);
         return "shipper/orders-list";
     }
 
