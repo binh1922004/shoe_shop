@@ -33,25 +33,30 @@ public class HomeController {
 
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
 
-        if(u!=null){
-            if(u.getRole().getRoleId()==3)
-            {
-                return "redirect:/user/shop";
-            }
-        }
-        List<String> role = List.of("admin","manager","user","shipper");
-        for(int i = 0; i < role.size(); i++){
-            if(roleService.findRoleByName(role.get(i))==null){
-                Role ro = new Role();
-                ro.setRoleName(role.get(i));
-                roleService.insertRole(ro);
-            }
-        }
+//        if(u!=null){
+//            if(u.getRole().getRoleId()==3)
+//            {
+//                return "redirect:/user/shop";
+//            }
+//        }
+//        List<String> role = List.of("admin","manager","user","shipper");
+//        for(int i = 0; i < role.size(); i++){
+//            if(roleService.findRoleByName(role.get(i))==null){
+//                Role ro = new Role();
+//                ro.setRoleName(role.get(i));
+//                roleService.insertRole(ro);
+//            }
+//        }
 
         Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
+
+
+        // lay ra list 20 san pham co rating cao nhat
+        List<Product> ratedProducts = productService.getTopRatedProducts();
+        model.addAttribute("ratedProducts", ratedProducts);
         return "web/index";
     }
 

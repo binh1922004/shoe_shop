@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -138,6 +139,15 @@ public class ProductService {
 
     public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest pageRequest) {
         return productRepository.findAllByCategoryId(categoryId, pageRequest);
+    }
+
+    public List<Product> getTopRatedProducts() {
+        List<Product> ratedProducts = productRepository.findTop20ByAvgRating();
+
+        if(ratedProducts.size() > 20){
+            ratedProducts = ratedProducts.subList(0, 20);
+        }
+        return ratedProducts;
     }
 
 }

@@ -103,7 +103,7 @@
             <div class="col-md-12">
                 <div class="location">
                     <ul>
-                        <li><a href="/user/shop" title="go to homepage">Home<span>/</span></a></li>
+                        <li><a th:href="${session.user != null ? '/user/shop' : '/'}" title="go to homepage">Home<span>/</span></a></li>
                         <li><strong> Product details</strong></li>
                     </ul>
                 </div>
@@ -175,13 +175,37 @@
                             </div>
                         </div>
                         <!-- them vao danh sach yeu thich-->
-                        <div class="action">
+                        <div class="action" th:if="${session.user != null}">
                             <ul class="add-to-links">
-                                <li>
+                                <li >
                                     <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">
                                         <i class="fa"
                                            th:class="${wishlist.contains(product) ? ' fa fa-heart' : 'fa fa-heart-o'}">
                                         </i>
+                                    </a>
+                                </li>
+<!--                                <li th:if="${session.user == null}">-->
+<!--                                    <a href="#" class="add-to-wishlist">-->
+<!--                                        <i class="fa" class="fa fa-heart-o"></i>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="action" th:if="${session.user == null}">
+                            <ul class="add-to-links">
+                                <li >
+                                    <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">
+                                        <i class="fa fa-heart-o"></i>
                                     </a>
                                 </li>
                                 <li>
