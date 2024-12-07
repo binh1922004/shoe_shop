@@ -133,7 +133,9 @@ public class ProductService {
     public void deleteProduct(Long id) {
         wishlistService.deleteByProductId(id);
         //khong xoa -> isdelete = true
-        productRepository.deleteById(id);
+        Product product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        product.setDelete(true);
+        productRepository.save(product);
     }
 
     // Get product by ID
