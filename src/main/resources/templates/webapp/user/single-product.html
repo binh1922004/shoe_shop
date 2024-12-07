@@ -166,7 +166,7 @@
                             <p>Availability:<span> In stock</span></p>
                         </div>
                         <div class="item-price">
-                            <span class="formatted-price" th:text="${product.price}"></span>
+                            <span th:text="${product.price}"></span>
                         </div>
                         <div class="single-product-info">
                             <p>Description: <span th:text="${product.description}"></span></p>
@@ -227,8 +227,8 @@
                                 </label>
                                 <div class="input-box">
                                     <select id="select-2" name="productDetailId" required>
-                                        <option class="formatted-price"
-                                                th:each="productDetail : ${productDetails}"
+                                        <option value="" disabled selected>-- Please choose size --</option>
+                                        <option th:each="productDetail : ${productDetails}"
                                                 th:value="${productDetail.id}"
                                                 th:data-priceadd="${productDetail.priceadd}"
                                                 th:text="'Size: ' + ${productDetail.size} + ' + $' + ${productDetail.priceadd}">
@@ -240,7 +240,7 @@
                         <div class="cart-item">
                             <div class="price-box">
                                 <!-- Giá cuối cùng sẽ được hiển thị ở đây -->
-                                <span class="formatted-price" id="final-price" th:text="${product.price}"></span>
+                                <span id="final-price" th:text="${product.price}"></span>
                             </div>
                             <div class="single-cart">
                                 <div class="cart-plus-minus">
@@ -973,12 +973,6 @@
                 stars.forEach((s) => s.classList.remove('hover'));
             });
         });
-    });
-</script>
-<script>
-    document.querySelectorAll('.formatted-price').forEach(function(priceElement) {
-        var price = parseFloat(priceElement.textContent);
-        priceElement.textContent = new Intl.NumberFormat().format(price);
     });
 </script>
 

@@ -60,11 +60,17 @@ public class ProductController {
             viewedProductIds.add(id);
         }
 
-        // Lưu lại vào session
-        session.setAttribute(Constant.VIEW_PRODUCT, viewedProductIds);
-		model.addAttribute("user", u);
-        List<Product> wishlist = wishListService.getWishlist(u.getId());
-        model.addAttribute("wishlist", wishlist);        Product product = productService.getProductById(id);
+        if(u != null) {
+
+            // Lưu lại vào session
+            session.setAttribute(Constant.VIEW_PRODUCT, viewedProductIds);
+            model.addAttribute("user", u);
+            List<Product> wishlist = wishListService.getWishlist(u.getId());
+            model.addAttribute("wishlist", wishlist);
+        }
+
+
+        Product product = productService.getProductById(id);
         List<ProductDetail> productDetails = productDetailService.findProductByProductId(id);
         model.addAttribute("productDetails", productDetails);
         model.addAttribute("product", product);

@@ -147,11 +147,14 @@ public class CartService {
         cartDetailRepository.delete(cartDetail);
 
         // cap nhat gia tri gio hang
-        double totalPrice = cart.getOrderDetailSet().stream().mapToDouble(CartDetail::getPrice).sum();
+        double totalPrice = cart.getOrderDetailSet().stream()
+                .mapToDouble(detail -> detail.getPrice() * detail.getQuantity()).sum();
         cart.setTotalPrice(totalPrice);
 
         // luu gio hang sau khi xoa
         cartRepository.save(cart);
+
+
     }
 
     public Cart getCartByUser(String email) {
@@ -190,7 +193,8 @@ public class CartService {
             }
         }
         // cap nhat gia tri gio hang
-        double totalPrice = cart.getOrderDetailSet().stream().mapToDouble(CartDetail::getPrice).sum();
+        double totalPrice = cart.getOrderDetailSet().stream()
+                .mapToDouble(detail -> detail.getPrice() * detail.getQuantity()).sum();
         cart.setTotalPrice(totalPrice);
         // luu gio hang sau khi xoa
         cartRepository.save(cart);
