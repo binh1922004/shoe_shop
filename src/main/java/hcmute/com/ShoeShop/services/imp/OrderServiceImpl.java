@@ -2,7 +2,6 @@ package hcmute.com.ShoeShop.services.imp;
 
 import hcmute.com.ShoeShop.dto.OrderStaticDto;
 import hcmute.com.ShoeShop.entity.Order;
-import hcmute.com.ShoeShop.entity.Shipment;
 import hcmute.com.ShoeShop.repository.OrderRepository;
 import hcmute.com.ShoeShop.services.IOrderService;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
