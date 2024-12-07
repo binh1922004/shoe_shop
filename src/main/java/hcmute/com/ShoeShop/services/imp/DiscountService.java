@@ -77,4 +77,42 @@ public class DiscountService {
             }
         }
     }
+
+    public List<Discount> findAllDiscountsCondition( double price) {
+        List<Discount> listDiscount = discountRepository.findAll();
+        LocalDate today = LocalDate.now();
+        for (Discount discount : listDiscount) {
+
+            if(!discount.getStatus().equals("EXPIRED")){
+                // Kiểm tra nếu quantity của discount bằng 0 thì set status là "INACTIVE"
+                if (discount.getQuantity() == 0) {
+                    discount.setStatus("INACTIVE");
+                }
+                else if (discount.getStartDate() != null && discount.getEndDate() != null) {
+                    if (!discount.getStartDate().isAfter(today) && !discount.getEndDate().isBefore(today)) {
+                        if (discount.getMinOrderValue() == null || discount.getMinOrderValue()<=price) {
+                            discount.setStatus("ACTIVE");  // Đặt trạng thái là ACTIVE (String)
+                        }
+                        else if(discount.getMinOrderValue()>price){
+                            discount.setStatus("INACTIVE");
+                        }
+                    }
+                    // Kiểm tra nếu ngày kết thúc trước ngày hiện tại
+                    else if (discount.getEndDate().isBefore(today)) {
+                        discount.setStatus("EXPIRED");  // Đặt trạng thái là EXPIRED (String)
+                    }
+                    // Nếu ngày bắt đầu trong tương lai
+                    else {
+                        discount.setStatus("COMING");
+                    }
+                } else {
+                    // Nếu ngày bắt đầu hoặc ngày kết thúc là null, có thể xem như là chưa xác định
+                    discount.setStatus("COMING");
+                }
+            }
+        }
+        discountRepository.saveAll(listDiscount);        // Lưu lại các thay đổi vào cơ sở dữ liệu
+        return listDiscount;
+    }
+
 }
