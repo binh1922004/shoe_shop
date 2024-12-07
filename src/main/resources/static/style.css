@@ -984,10 +984,35 @@ body {
 .level-pro-sale {
     background-color: #333333;
 }
+.product-img {
+    display: flex;
+    justify-content: center; /* Căn giữa hình ảnh */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    width: 270px;
+    height: 220px; /* Điều chỉnh chiều cao cố định của container */
+    max-width: 300px; /* Điều chỉnh chiều rộng tối đa */
+    padding: 0; /* Loại bỏ padding */
+    margin: 0 ; /* Loại bỏ margin */
+    box-sizing: border-box; /* Đảm bảo kích thước bao gồm padding và border */
+    background-color: #f9f9f9; /* Nền cho container */
+    overflow: hidden; /* Ẩn phần ảnh thừa nếu có */
+}
 .product-img a {
     display: block;
     position: relative;
+    width: 100%; /* Đảm bảo a chiếm 100% chiều rộng của phần tử chứa */
+    height: 100%; /* Đảm bảo a chiếm 100% chiều cao */
 }
+.product-img img {
+    width: 100%; /* Ảnh chiếm hết chiều rộng của container */
+    height: 100%; /* Ảnh chiếm hết chiều cao của container */
+    object-fit: cover; /* Giữ nguyên tỷ lệ và che phủ hết không gian */
+    object-position: center center; /* Căn giữa ảnh nếu ảnh bị cắt */
+    border: 1px solid #ddd; /* Viền màu xám nhạt */
+    border-radius: 5px; /* Bo góc nhẹ */
+    background-color: #f9f9f9; /* Nền để tránh khoảng trống */
+}
+
 .product-img a .secondary-img {
     height: 100%;
     left: 0;
@@ -1001,6 +1026,9 @@ body {
 }
 .product-img a .primary-img {
     transition: all 0.5s ease 0s;
+}
+.single-product {
+    padding-right: 50px; /* Khoảng cách bên trong bên phải */
 }
 .single-product:hover .product-img a .primary-img {
     transform: translate3d(-100%, 0px, 0px);
@@ -3376,9 +3404,22 @@ button.check-button:hover,
     color: #fff;
 }
 
-
+/*
 .single-product-img.tab-content {
   min-height: 560px;
+}*/
+.single-product-img.tab-content {
+    min-height: 400px;  /* Chiều cao tối thiểu của phần chứa hình ảnh */
+    display: flex;
+    justify-content: center;  /* Căn giữa hình ảnh */
+    align-items: center;  /* Căn giữa theo chiều dọc */
+    overflow: hidden;  /* Ẩn phần ảnh thừa ra ngoài */
+}
+
+.single-product-img.tab-content img {
+    width: 100%;
+    height: auto;  /* Chiều cao tự động điều chỉnh để giữ tỷ lệ */
+    object-fit: cover;  /* Đảm bảo ảnh phủ hết phần tử mà không bị méo */
 }
 
 
