@@ -182,7 +182,7 @@
                                                             </thead>
                                                             <tbody>
                                                             <tr th:each="detail: ${list}">
-                                                                 <td th:text="${detail.product_name}"></td>
+                                                                 <td th:text="${detail.product_name + ', size: ' + detail.size}"></td>
                                                                  <td th:text="${detail.quantity}"></td>
                                                                  <td th:text="${detail.price}"></td>
                                                                  <td th:text="${detail.amount}"></td>

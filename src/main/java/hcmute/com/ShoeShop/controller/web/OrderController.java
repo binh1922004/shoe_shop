@@ -3,6 +3,7 @@ package hcmute.com.ShoeShop.controller.web;
 import hcmute.com.ShoeShop.entity.Order;
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
+import hcmute.com.ShoeShop.utlis.PayOption;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class OrderController {
 
 
     @GetMapping()
-    public String order(@RequestParam(value = "page-size", defaultValue = "2")int pagesize,
+    public String order(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
                         @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
                         Model model,
                         HttpSession session) {
@@ -33,6 +34,7 @@ public class OrderController {
         Page<Order> orderPage = orderService.findOrderByUserId(userId, pageable);
 
         model.addAttribute("orderPage", orderPage);
+//        orderService.orderCart(2, 150, PayOption.COD);
         return "user/order";
     }
 }
