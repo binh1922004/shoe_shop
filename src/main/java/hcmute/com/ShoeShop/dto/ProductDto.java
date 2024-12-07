@@ -1,6 +1,8 @@
 package hcmute.com.ShoeShop.dto;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ProductDto {
 
@@ -15,4 +17,5 @@ public class ProductDto {
     private double price;
 
     private String categoryName;
+    private List<ProductDetailDto> productDetails;
 }
