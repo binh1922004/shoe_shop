@@ -2,10 +2,16 @@ package hcmute.com.ShoeShop.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class OrderDetail {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

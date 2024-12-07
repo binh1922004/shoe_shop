@@ -167,4 +167,8 @@ public class CartService {
         });
 
     }
+
+    public Cart getCartById(int cartId) {
+        return cartRepository.findCartsById(cartId);
+    }
 }
