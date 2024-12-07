@@ -60,22 +60,26 @@
                                                   <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
                                                        <div>
                                                             <h4 class="fw-medium text-dark d-flex align-items-center gap-2">
+                                                                 <span>Order id:</span>
                                                                  <span th:text="${order.id}"></span>
                                                                  <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13" th:text="${order.payOption}">hehe</span>
                                                                  <span class="border border-warning text-warning fs-13 px-2 py-1 rounded" th:text="${order.status}"></span>
                                                             </h4>
                                                             <p class="mb-0">Created date: <span th:text="${#dates.format(order.createdDate, 'MMM dd, yyyy')}"></span></p>
                                                        </div>
-                                                       <a th:onclick="'popUpClick(' + ${order.id} + ')'" class="btn btn-primary" style="margin-right: 100%">Cancel</a>
+<!--                                                       <a th:onclick="'popUpClick(' + ${order.id} + ')'" class="btn btn-primary" style="margin-right: 100%">Cancel</a>-->
                                                        <!-- Order cancel fragment-->
                                                        <div th:include="~{fragments/order/order_cancel.html}"></div>
                                                   </div>
 
                                              </div>
                                              <div class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
-                                                  <p class="border rounded mb-0 px-2 py-1 bg-body"><i class='bx bx-arrow-from-left align-middle fs-16'></i> Last updated date: <span class="text-dark fw-medium">Apr 25 , 2024</span></p>
+                                                  <p th:if="${order.status != T(hcmute.com.ShoeShop.utlis.ShipmentStatus).CANCEL && order.status != T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}" class="border rounded mb-0 px-2 py-1 bg-body">
+                                                       <i class='bx bx-arrow-from-left align-middle fs-16'>
+                                                       </i> Last updated date: <span class="text-dark fw-medium" th:text="${#dates.format(shipper.updatedDate, 'MMM dd, yyyy')}"></span>
+                                                  </p>
                                                   <div>
-                                                       <button onclick="turnOnSearch()" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}" href="#!" class="btn btn-primary">Make As Ready To Ship</button>
+                                                       <button onclick="turnOnSearch()" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}" href="#!" class="btn btn-primary" >Make as ready ship</button>
                                                   </div>
 
                                                   <script>
@@ -211,56 +215,6 @@
                                    </div>
                               </div>
                          </div>
-                              <div class="card bg-light-subtle">
-                                   <div class="card-body">
-                                        <div class="row g-3 g-lg-0">
-                                             <div class="col-lg-3 border-end">
-                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">
-                                                       <div>
-                                                            <p class="text-dark fw-medium fs-16 mb-1">Vender</p>
-                                                            <p class="mb-0">Catpiller</p>
-                                                       </div>
-                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">
-                                                            <iconify-icon icon="solar:shop-2-bold-duotone" class="fs-35 text-primary"></iconify-icon>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="col-lg-3 border-end">
-                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">
-                                                       <div>
-                                                            <p class="text-dark fw-medium fs-16 mb-1">Date</p>
-                                                            <p class="mb-0">April 23 , 2024</p>
-                                                       </div>
-                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">
-                                                            <iconify-icon icon="solar:calendar-date-bold-duotone" class="fs-35 text-primary"></iconify-icon>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="col-lg-3 border-end">
-                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">
-                                                       <div>
-                                                            <p class="text-dark fw-medium fs-16 mb-1">Paid By</p>
-                                                            <p class="mb-0">Gaston Lapierre</p>
-                                                       </div>
-                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">
-                                                            <iconify-icon icon="solar:user-circle-bold-duotone" class="fs-35 text-primary"></iconify-icon>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="col-lg-3">
-                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">
-                                                       <div>
-                                                            <p class="text-dark fw-medium fs-16 mb-1">Reference #IMEMO</p>
-                                                            <p class="mb-0">#0758267/90</p>
-                                                       </div>
-                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">
-                                                            <iconify-icon icon="solar:clipboard-text-bold-duotone" class="fs-35 text-primary"></iconify-icon>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
                          </div>
                     </div>
                          </div>

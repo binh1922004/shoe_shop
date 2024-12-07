@@ -12,6 +12,7 @@ import hcmute.com.ShoeShop.services.imp.OrderDetailServiceImpl;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
 import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.services.imp.UserService;
+import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,14 +43,23 @@ public class OrderManageController {
 
 
         @GetMapping("/list")
-        public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
+        public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "2")int pagesize,
                                         @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
+                                        @RequestParam(name = "status", defaultValue = "") String status,
                                         Model model){
                 Pageable pageable = PageRequest.of(pageNum, pagesize);
 
                 model.addAttribute("title", "Order");
 
-                Page<Order> listOder = orderService.findAll(pageable);
+                Page<Order> listOder = null;
+
+                if (status.isEmpty()){
+                        listOder = orderService.findAll(pageable);
+                }
+                else{
+                        listOder = orderService.findOrderByStatus(ShipmentStatus.valueOf(status), pageable);
+                }
+
                 model.addAttribute("listOrder", listOder);
 
                 int totalPages = listOder.getTotalPages();
@@ -64,11 +74,15 @@ public class OrderManageController {
                 OrderStaticDto orderStaticDto = orderService.getStatic();
                 model.addAttribute("static", orderStaticDto);
 
+
+                //add status
+                model.addAttribute("stt", status);
                 return "manager/order/orders-list";
         }
 
         @GetMapping("/detail/{id}")
-        public String getOrderDetail(@PathVariable("id") int orderId, Model model){
+        public String getOrderDetail(@PathVariable("id") int orderId,
+                                     Model model){
                 model.addAttribute("title", "Order detail");
 
                 //add list order detail to view

@@ -64,4 +64,8 @@ public class OrderServiceImpl implements IOrderService {
                 order.setStatus(ShipmentStatus.RETURN);
                 orderRepository.save(order);
         }
+
+        public Page<Order> findOrderByStatus(ShipmentStatus shipmentStatus, Pageable pageable) {
+                return orderRepository.findOrderByStatus(shipmentStatus, pageable);
+        }
 }
