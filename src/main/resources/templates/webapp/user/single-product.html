@@ -103,7 +103,7 @@
             <div class="col-md-12">
                 <div class="location">
                     <ul>
-                        <li><a href="/user/shop" title="go to homepage">Home<span>/</span></a></li>
+                        <li><a th:href="${session.user != null ? '/user/shop' : '/'}" title="go to homepage">Home<span>/</span></a></li>
                         <li><strong> Product details</strong></li>
                     </ul>
                 </div>
@@ -166,7 +166,7 @@
                             <p>Availability:<span> In stock</span></p>
                         </div>
                         <div class="item-price">
-                            <span th:text="${product.price}"></span>
+                            <span class="formatted-price" th:text="${product.price}"></span>
                         </div>
                         <div class="single-product-info">
                             <p>Description: <span th:text="${product.description}"></span></p>
@@ -175,13 +175,37 @@
                             </div>
                         </div>
                         <!-- them vao danh sach yeu thich-->
-                        <div class="action">
+                        <div class="action" th:if="${session.user != null}">
                             <ul class="add-to-links">
-                                <li>
+                                <li >
                                     <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">
                                         <i class="fa"
                                            th:class="${wishlist.contains(product) ? ' fa fa-heart' : 'fa fa-heart-o'}">
                                         </i>
+                                    </a>
+                                </li>
+<!--                                <li th:if="${session.user == null}">-->
+<!--                                    <a href="#" class="add-to-wishlist">-->
+<!--                                        <i class="fa" class="fa fa-heart-o"></i>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="action" th:if="${session.user == null}">
+                            <ul class="add-to-links">
+                                <li >
+                                    <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">
+                                        <i class="fa fa-heart-o"></i>
                                     </a>
                                 </li>
                                 <li>
@@ -203,7 +227,8 @@
                                 </label>
                                 <div class="input-box">
                                     <select id="select-2" name="productDetailId" required>
-                                        <option th:each="productDetail : ${productDetails}"
+                                        <option class="formatted-price"
+                                                th:each="productDetail : ${productDetails}"
                                                 th:value="${productDetail.id}"
                                                 th:data-priceadd="${productDetail.priceadd}"
                                                 th:text="'Size: ' + ${productDetail.size} + ' + $' + ${productDetail.priceadd}">
@@ -215,7 +240,7 @@
                         <div class="cart-item">
                             <div class="price-box">
                                 <!-- Giá cuối cùng sẽ được hiển thị ở đây -->
-                                <span id="final-price" th:text="${product.price}"></span>
+                                <span class="formatted-price" id="final-price" th:text="${product.price}"></span>
                             </div>
                             <div class="single-cart">
                                 <div class="cart-plus-minus">
@@ -948,6 +973,12 @@
                 stars.forEach((s) => s.classList.remove('hover'));
             });
         });
+    });
+</script>
+<script>
+    document.querySelectorAll('.formatted-price').forEach(function(priceElement) {
+        var price = parseFloat(priceElement.textContent);
+        priceElement.textContent = new Intl.NumberFormat().format(price);
     });
 </script>
 

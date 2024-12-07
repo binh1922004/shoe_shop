@@ -93,7 +93,7 @@
                     <div class="col-md-12">
                         <div class="location">
                             <ul>
-                                <li><a href="/user/shop" title="go to homepage">Home<span>/</span></a>  </li>
+                                <li><a href="/" title="go to homepage">Home<span>/</span></a>  </li>
                                 <li><strong> shop</strong></li>
                             </ul>
                         </div>
@@ -113,7 +113,7 @@
                                     <ul>
                                         <li th:if="${#lists.isEmpty(cate)}">Chưa có danh mục</li> <!-- Hiển thị khi danh sách trống -->
                                         <li th:each="category : ${cate}">
-                                            <a th:href="@{/category/{id}(id=${category.id})}">
+                                            <a href="#tab15" class="category-link" th:attr="data-category-id=${category.id}">
                                                 <span th:text="${category.type}">Category Name</span>
                                             </a>
                                         </li>
@@ -172,78 +172,17 @@
                                 <span id="current-time">Loading...</span>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="tab15">
                             <div class="product-content">
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active fade show home2" id="gird">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6" th:each="product : ${products}">
-                                                <div class="single-product" >
-                                                    <div class="level-pro-new">
-                                                        <span>new</span>
-                                                    </div>
-                                                    <div class="product-img">
-                                                        <a th:href="@{/product/details/{id}(id=${product.id})}">
-                                                            <img th:src="${product.image}" alt="Image" class="primary-img">
-                                                        </a>
-                                                    </div>
-                                                    <div class="actions">
-                                                        <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>
-                                                        <ul class="add-to-link">
-                                                            <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
-                                                            <li>
-                                                                <!-- Dùng th:attr để gán giá trị product.id vào data-product-id -->
-                                                                <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">
-                                                                    <!--<i class="fa fa-heart-o"></i>Trái tim xám ban đầu -->
-                                                                    <i class="fa"
-                                                                       th:class="${wishlist.contains(product) ? ' fa fa-heart' : 'fa fa-heart-o'}">
-                                                                    </i>
-                                                                </a>
-                                                            </li>
-                                                            <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="product-price">
-                                                        <div class="product-name">
-                                                            <a th:href="@{/product/details/{id}(id=${product.id})}" th:title="${product.title}" th:text="${product.title}"></a>
-                                                            <!--                                                            <p th:text="${product.description}"></p>-->
-                                                        </div>
-                                                        <div class="price-rating">
-                                                            <span th:text="'$' + ${product.price}"></span>
-                                                            <div class="ratings">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-o"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        <div id="productListContainer">
+                                            <div class="row" id="productList">
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Phân trang -->
-                            <div class="col-md-12">
-                                <ul class="pagination justify-content-center">
-                                    <!-- Nút Previous -->
-                                    <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-                                        <a class="page-link" th:href="@{/user/shop(page=${currentPage - 1}, size=6)}">Previous</a>
-                                    </li>
-
-                                    <!-- Các số trang -->
-                                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                                        th:classappend="${i == currentPage ? 'active' : ''}">
-                                        <a class="page-link" th:href="@{/user/shop(page=${i}, size=6)}" th:text="${i + 1}"></a>
-                                    </li>
-
-                                    <!-- Nút Next -->
-                                    <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                                        <a class="page-link" th:href="@{/user/shop(page=${currentPage + 1}, size=6)}">Next</a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -406,6 +345,41 @@
 
             // Cập nhật thời gian ngay khi trang được tải
             updateTime();
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                // Hàm load sản phẩm theo danh mục
+                function loadProducts(categoryId, page) {
+                    $.get("/category/" + categoryId, { page: page }, function (data) {
+                        console.log(data);  // Kiểm tra dữ liệu trả về
+                        $('#productListContainer').html(data);  // Đảm bảo rằng 'data' chứa phần HTML cần thiết
+                        bindPaginationLinks(categoryId);  // Gắn lại sự kiện cho các nút phân trang
+                    }).fail(function (error) {
+                        console.error("Error loading products:", error);
+                    });
+                }
+
+                // Gắn sự kiện click cho các danh mục
+                $(document).on('click', '.category-link', function (e) {
+                    e.preventDefault();
+                    const categoryId = $(this).data('category-id');
+                    loadProducts(categoryId, 0); // Load trang đầu tiên
+                });
+
+                // Gắn sự kiện click cho các nút phân trang
+                function bindPaginationLinks(categoryId) {
+                    $(document).on('click', '.page-link', function (e) {
+                        e.preventDefault();
+                        const page = $(this).data('page');
+                        if (!isNaN(page)) {
+                            loadProducts(categoryId, page);
+                        } else {
+                            console.error("Invalid page number");
+                        }
+                    });
+                }
+            });
         </script>
     </body>
 </html>

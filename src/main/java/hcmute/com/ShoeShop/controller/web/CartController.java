@@ -2,6 +2,7 @@ package hcmute.com.ShoeShop.controller.web;
 
 import hcmute.com.ShoeShop.entity.Address;
 import hcmute.com.ShoeShop.entity.Cart;
+import hcmute.com.ShoeShop.entity.CartDetail;
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.AddressService;
 import hcmute.com.ShoeShop.services.imp.CartService;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Iterator;
+import java.util.Set;
 
 import java.util.List;
 
@@ -38,9 +42,14 @@ public class CartController {
 
         Cart cart = cartService.getCartByUser(email);
 
+        // duyet qua set cartDetail kiem tra product isdelete = true thi xoa khoi cart
+        Set<CartDetail> cartDetails = cart.getOrderDetailSet();
+        cartService.cleanCart(cartDetails, cart);
+
         // Truyền thông báo nếu có
         String alert = (String) model.asMap().get("alert");
 
+        System.out.println(alert);
         model.addAttribute("alert", alert);
 
         model.addAttribute("cart", cart);
@@ -60,14 +69,20 @@ public class CartController {
         String email = logginedUser.getEmail();
 
         // goi ham add to cart
-        cartService.addToCart(email, productDetailId, quantity);
+        if(!cartService.addToCart(email, productDetailId, quantity)){
+            String alert = "Product is sold out!";
+            redirectAttributes.addFlashAttribute("alert", alert);
+            return "redirect:/cart/view";
+        }
+        else {
+            String alert = "Add product successful!";
+            // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
+            redirectAttributes.addFlashAttribute("alert", alert);
 
-        String alert = "Thêm vào giỏ hàng thành công";
-        // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
-        redirectAttributes.addFlashAttribute("alert", alert);
+            // return ve trang view gio hang
+            return "redirect:/cart/view";
+        }
 
-        // return ve trang view gio hang
-        return "redirect:/cart/view";
     }
 
     @GetMapping("/delete/{id}")
@@ -83,7 +98,7 @@ public class CartController {
         // xoa khoi gio hang
         cartService.removeFromCart(email, cartDetailId);
 
-        String alert = "Xóa khỏi giỏ hàng thành công";
+        String alert = "Delete product successful!";
         // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
         redirectAttributes.addFlashAttribute("alert", alert);
 
@@ -108,12 +123,11 @@ public class CartController {
         // update gio hang
         cartService.updateMyCart(email, cartDetailId, quantity);
 
-        String alert = "Chỉnh sửa giỏ hàng thành công";
+        String alert = "Update product successful!";
         // Dùng RedirectAttributes để giữ lại dữ liệu sau redirect
         redirectAttributes.addFlashAttribute("alert", alert);
 
         return "redirect:/cart/view";
     }
-
 
 }
