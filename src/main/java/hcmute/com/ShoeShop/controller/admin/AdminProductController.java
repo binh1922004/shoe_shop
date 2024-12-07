@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.controller;
+package hcmute.com.ShoeShop.controller.admin;
 
 import hcmute.com.ShoeShop.dto.ProductDto;
 import hcmute.com.ShoeShop.entity.*;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/product")
-public class ProductController {
+@RequestMapping("/admin/product")
+public class AdminProductController {
 
     @Autowired
     private ProductService productService;
@@ -39,7 +39,7 @@ public class ProductController {
     public String insertProductPage(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("product", new ProductDto());
-        return "admin/products/product-add";
+        return "/admin/products/product-add";
     }
 
     @PostMapping("/save")
@@ -47,28 +47,42 @@ public class ProductController {
                        @RequestParam(name = "image", required = false) MultipartFile image,
                        @RequestParam Map<String, String> productDetails) {
         productService.saveProduct(productDto, image, productDetails);
-        return "redirect:/product";
+        return "redirect:/admin/product";
     }
 
     @GetMapping("/updateProduct/{id}")
     public String getFormUpdateProduct(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("product", productService.getProductDtoById(id));
+        ProductDto productDto = productService.getProductDtoById(id);
+        model.addAttribute("product", productDto);
         model.addAttribute("categories", categoryService.findAll());
-        return "admin/products/product-edit";
+
+        Map<Integer, Double> sizePriceMap = productService.getSizePriceMap(id);
+        if (sizePriceMap != null) {
+            System.out.println("Size Price Map: " + sizePriceMap);
+        } else {
+            System.out.println("Size Price Map is null!");
+        }
+        model.addAttribute("sizePriceMap", sizePriceMap);
+
+
+        return "/admin/products/product-edit";
     }
+
+
 
     @PostMapping("/update")
     public String update(@ModelAttribute(name = "product") ProductDto productDto,
                          @RequestParam(name = "image", required = false) MultipartFile image,
                          @RequestParam Map<String, String> productDetails) {
         productService.updateProduct(productDto, image, productDetails);
-        return "redirect:/product";
+        return "redirect:/admin/product";
     }
+
 
     @GetMapping("/deleteProduct/{id}")
     public String delete(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
-        return "redirect:/product";
+        return "redirect:/admin/product";
     }
 
     @GetMapping("/web")
@@ -104,7 +118,7 @@ public class ProductController {
         double averageStar = ratings.stream().mapToInt(Rating::getStar).average().orElse(0.0);
         averageStar = Math.round(averageStar * 10) / 10.0;
         model.addAttribute("avgrating", averageStar);
-        return "user/single-product";
+        return "/user/single-product";
     }
 
     @GetMapping("")
@@ -115,6 +129,6 @@ public class ProductController {
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
-        return "admin/products/product-list";
+        return "/admin/products/product-list";
     }
 }

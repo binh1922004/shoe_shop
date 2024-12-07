@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.controller;
+package hcmute.com.ShoeShop.controller.admin;
 
 import hcmute.com.ShoeShop.entity.Category;
 import hcmute.com.ShoeShop.repository.CategoryRepository;
@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/admin/category")
+public class AdminCategoryController {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -30,7 +30,7 @@ public class CategoryController {
     public String save(@ModelAttribute(name = "category") Category category) {
         categoryRepository.save(category);
 
-        return "redirect:/category";
+        return "redirect:/admin/category";
     }
 
     @GetMapping("/updateCategory/{id}")
@@ -44,12 +44,12 @@ public class CategoryController {
     @PostMapping("/update")
     public String update(@ModelAttribute(name = "category") Category category) {
         categoryRepository.save(category);
-        return "redirect:/category";
+        return "redirect:/admin/category";
     }
     @GetMapping("/deleteCategory/{id}")
     public String delete(@PathVariable("id") Long id){
         categoryRepository.deleteById(id);
-        return "redirect:/category";
+        return "redirect:/admin/category";
     }
 
 }

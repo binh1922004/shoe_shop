@@ -1341,7 +1341,7 @@
 
             <div class="row">
 
-                <form th:object="${category}" method="post" th:action="@{/category/update}">
+                <form th:object="${category}" method="post" th:action="@{/admin/category/update}">
                     <input
                             type="hidden"
                             th:field="*{id}">
@@ -1378,7 +1378,7 @@
                                     <button type="submit" class="btn btn-outline-secondary w-100">Lưu thông tin</button>
                                 </div>
                                 <div class="col-lg-2">
-                                    <a  th:href="@{/category}" class="btn btn-primary w-100">Huỷ</a>
+                                    <a  th:href="@{/admin/category}" class="btn btn-primary w-100">Huỷ</a>
                                 </div>
                             </div>
                         </div>

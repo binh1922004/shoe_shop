@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.controller;
+package hcmute.com.ShoeShop.controller.admin;
 
 import hcmute.com.ShoeShop.dto.InventoryDto;
 import hcmute.com.ShoeShop.entity.Inventory;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping("/inventory")
-public class InventoryController {
+@RequestMapping("/admin/inventory")
+public class AdminInventoryController {
 
     @Autowired
     private InventoryRepository inventoryRepository;
@@ -31,7 +31,6 @@ public class InventoryController {
         InventoryDto inventory = new InventoryDto();
         model.addAttribute("inventory", inventory);
         model.addAttribute("products", productRepository.findAll());
-
         return "/admin/inventory/inventory-add";
     }
 
@@ -43,7 +42,7 @@ public class InventoryController {
         inventory.setProduct(product);
         inventory.setCreatedAt(LocalDateTime.now());
         inventoryRepository.save(inventory);
-        return "redirect:/inventory";
+        return "redirect:/admin/inventory";
     }
 
     @GetMapping("/update/{id}")
@@ -70,12 +69,12 @@ public class InventoryController {
         inventory.setProduct(product);
         inventory.setCreatedAt(LocalDateTime.now());
         inventoryRepository.save(inventory);
-        return "redirect:/inventory";
+        return "redirect:/admin/inventory";
     }
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id){
         inventoryRepository.deleteById(id);
-        return "redirect:/inventory";
+        return "redirect:/admin/inventory";
     }
 
 }

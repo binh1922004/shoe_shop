@@ -1,4 +1,4 @@
-package hcmute.com.ShoeShop.controller;
+package hcmute.com.ShoeShop.controller.admin;
 
 import hcmute.com.ShoeShop.entity.Role;
 import hcmute.com.ShoeShop.entity.Users;
@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/permission")
-public class PermissionController {
+@RequestMapping("/admin/permission")
+public class AdminPermissionController {
 
     @Autowired
     private UserRepository userRepository;

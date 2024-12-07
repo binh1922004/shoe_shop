@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -54,6 +55,7 @@ public class ProductService {
 
         for (int size = 38; size <= 45; size++) {
             String priceaddStr = productDetails.get("productDetails[" + size + "].priceadd");
+            System.out.println(priceaddStr);
             if (priceaddStr != null && !priceaddStr.isEmpty()) {
                 double priceadd = Double.parseDouble(priceaddStr);
 
@@ -70,10 +72,26 @@ public class ProductService {
         return productRepository.findAll(pageable); // Đây là phương thức đúng
     }
 
+    public Map<Integer, Double> getSizePriceMap(Long productId) {
+        Map<Integer, Double> sizePriceMap = new HashMap<>();
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        for (ProductDetail detail : product.getDetails()) {
+            sizePriceMap.put(detail.getSize(), detail.getPriceadd());
+            System.out.println(detail.getSize() + " " + detail.getPriceadd());
+        }
+
+
+        return sizePriceMap;
+    }
+
     // Update product
     @Transactional
     public void updateProduct(ProductDto productDto, MultipartFile image, Map<String, String> productDetails) {
-        Product product = productRepository.findById(productDto.getId()).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepository.findById(productDto.getId()).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
         product.setTitle(productDto.getTitle());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
@@ -88,22 +106,28 @@ public class ProductService {
 
         productRepository.save(product);
 
+        // Handle updating size and price details
         for (int size = 38; size <= 45; size++) {
             String priceaddStr = productDetails.get("productDetails[" + size + "].priceadd");
             if (priceaddStr != null && !priceaddStr.isEmpty()) {
                 double priceadd = Double.parseDouble(priceaddStr);
 
-                ProductDetail productDetail = productDetailService.findByProductAndSize(product, size);
-                if (productDetail == null) {
-                    productDetail = new ProductDetail();
+                // Check if the ProductDetail for this size exists
+                ProductDetail existingDetail = productDetailService.findByProductAndSize(product, size);
+                if (existingDetail != null) {
+                    existingDetail.setPriceadd(priceadd); // Update price
+                    productDetailService.save(existingDetail);
+                } else {
+                    ProductDetail productDetail = new ProductDetail();
                     productDetail.setProduct(product);
                     productDetail.setSize(size);
+                    productDetail.setPriceadd(priceadd);
+                    productDetailService.save(productDetail);
                 }
-                productDetail.setPriceadd(priceadd);
-                productDetailService.save(productDetail);
             }
         }
     }
+
     // Delete product
     @Transactional
     public void deleteProduct(Long id) {

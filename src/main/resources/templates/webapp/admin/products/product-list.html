@@ -1356,7 +1356,7 @@
                         <div class="card-header d-flex justify-content-between align-items-center gap-1">
                             <h4 class="card-title flex-grow-1">All Product List</h4>
 
-                            <a th:href="@{/product/insertProductPage}" class="btn btn-sm btn-primary">
+                            <a th:href="@{/admin/product/insertProductPage}" class="btn btn-sm btn-primary">
                                 Thêm sản phầm
                             </a>
 
@@ -1402,7 +1402,7 @@
                                                 </div>
 
                                                 <div>
-                                                    <a th:href="@{'/product/detail/' + ${product.id}}"
+                                                    <a th:href="@{'/admin/product/detail/' + ${product.id}}"
                                                        class="text-dark fw-medium fs-15" th:text="${product.title}"></a>
 <!--                                                    <p class="text-muted mb-0 mt-1 fs-13"><span>Size: </span>-->
 <!--                                                        S, M, L, XL</p>-->
@@ -1424,13 +1424,13 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a th:href="@{'/product/updateProduct/' + ${product.id}}"
+                                                <a th:href="@{'/admin/product/updateProduct/' + ${product.id}}"
                                                    class="btn btn-soft-primary btn-sm">
                                                     <iconify-icon icon="solar:pen-2-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
                                                 <!-- Delete button -->
-                                                <a th:href="@{'/product/deleteProduct/' + ${product.id}}"
+                                                <a th:href="@{'/admin/product/deleteProduct/' + ${product.id}}"
                                                    class="btn btn-soft-danger btn-sm">
                                                     <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
@@ -1449,17 +1449,17 @@
                                 <ul class="pagination justify-content-end mb-0">
                                     <!-- Previous button -->
                                     <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                                        <a class="page-link" th:href="@{'/product?page=' + ${currentPage - 1}}" href="javascript:void(0);">Previous</a>
+                                        <a class="page-link" th:href="@{'/admin/product?page=' + ${currentPage - 1}}" href="javascript:void(0);">Previous</a>
                                     </li>
 
                                     <!-- Page numbers -->
                                     <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                                        <a class="page-link" th:href="@{'/product?page=' + ${i}}" th:text="${i + 1}"></a>
+                                        <a class="page-link" th:href="@{'/admin/product?page=' + ${i}}" th:text="${i + 1}"></a>
                                     </li>
 
                                     <!-- Next button -->
                                     <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                                        <a class="page-link" th:href="@{'/product?page=' + ${currentPage + 1}}" href="javascript:void(0);">Next</a>
+                                        <a class="page-link" th:href="@{'/admin/product?page=' + ${currentPage + 1}}" href="javascript:void(0);">Next</a>
                                     </li>
                                 </ul>
                             </nav>
