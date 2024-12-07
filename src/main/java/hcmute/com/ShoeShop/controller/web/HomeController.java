@@ -1,8 +1,10 @@
 package hcmute.com.ShoeShop.controller.web;
 
+import hcmute.com.ShoeShop.entity.Category;
 import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.entity.Role;
 import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.services.imp.CategoryService;
 import hcmute.com.ShoeShop.services.imp.ProductService;
 import hcmute.com.ShoeShop.services.imp.RoleService;
 import hcmute.com.ShoeShop.utlis.Constant;
@@ -26,6 +28,9 @@ public class HomeController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("")
     public String getAllProducts(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "6") int size,
@@ -47,7 +52,8 @@ public class HomeController {
 //                roleService.insertRole(ro);
 //            }
 //        }
-
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories", categories);
         Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);

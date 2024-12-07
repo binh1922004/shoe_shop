@@ -72,23 +72,23 @@ public class CategoryController {
     @GetMapping("/{id}")
     public String getCategoryContent(@PathVariable("id") Long id, ModelMap model,
                                      @RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "6") int size, HttpSession session){
+                                     @RequestParam(defaultValue = "6") int size){
         Category cate = categoryRepository.findById(id).get();
-        Users u = (Users) session.getAttribute(Constant.SESSION_USER);
         if(cate == null){
 
             return "Can not find by category ID: " + id;
         }
-        List<Product> wishlist = wishlistService.getWishlist(u.getId());
-        model.addAttribute("wishlist", wishlist);
-        Page<Product> products = productService.getPaginatedProductsByCategory(id, PageRequest.of(page, size));
-//        model.addAttribute("products", products);
-//        model.addAttribute("currentPage", products.getNumber());
-//        model.addAttribute("totalPages", products.getTotalPages());
-        // Thêm dữ liệu vào model
-        model.addAttribute("products", products.getContent());
-        model.addAttribute("pagination", products);
-        return "fragments/product-list :: productContent";
+
+        Page<Product> productsPage = productService.getPaginatedProductsByCategory(id, PageRequest.of(page, size));
+        if (productsPage.isEmpty()) {
+
+            return "No products found for this category.";
+        }
+
+        model.addAttribute("products", productsPage);
+        model.addAttribute("currentPage", productsPage.getNumber());
+        model.addAttribute("totalPages", productsPage.getTotalPages());
+        return "user/product-list";
     }
 
 }
