@@ -29,48 +29,10 @@ public class ProductController {
     private ProductDetailService productDetailService;
 
     @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
     private WishlistService wishListService;
     @Autowired
     private RatingService ratingService;
 
-    @GetMapping("/insertProductPage")
-    public String insertProductPage(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("product", new ProductDto());
-        return "admin/products/product-add";
-    }
-
-    @PostMapping("/save")
-    public String save(@ModelAttribute(name = "product") ProductDto productDto,
-                       @RequestParam(name = "image", required = false) MultipartFile image,
-                       @RequestParam Map<String, String> productDetails) {
-        productService.saveProduct(productDto, image, productDetails);
-        return "redirect:/product";
-    }
-
-    @GetMapping("/updateProduct/{id}")
-    public String getFormUpdateProduct(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("product", productService.getProductDtoById(id));
-        model.addAttribute("categories", categoryService.findAll());
-        return "admin/products/product-edit";
-    }
-
-    @PostMapping("/update")
-    public String update(@ModelAttribute(name = "product") ProductDto productDto,
-                         @RequestParam(name = "image", required = false) MultipartFile image,
-                         @RequestParam Map<String, String> productDetails) {
-        productService.updateProduct(productDto, image, productDetails);
-        return "redirect:/product";
-    }
-
-    @GetMapping("/deleteProduct/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        productService.deleteProduct(id);
-        return "redirect:/product";
-    }
 
     @GetMapping("/web")
     public String getAllProducts(@RequestParam(defaultValue = "0") int page,
@@ -117,16 +79,5 @@ public class ProductController {
         averageStar = Math.round(averageStar * 10) / 10.0;
         model.addAttribute("avgrating", averageStar);
         return "user/single-product";
-    }
-
-    @GetMapping("")
-    public String getAllProduct(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "3") int size,
-                                Model model) {
-        Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
-        model.addAttribute("products", productPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", productPage.getTotalPages());
-        return "admin/products/product-list";
     }
 }

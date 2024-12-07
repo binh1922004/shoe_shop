@@ -3,6 +3,7 @@ package hcmute.com.ShoeShop.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
+@Builder
 public class Users {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
