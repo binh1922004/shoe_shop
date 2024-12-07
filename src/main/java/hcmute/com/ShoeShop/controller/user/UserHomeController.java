@@ -195,4 +195,8 @@ public class UserHomeController {
         return "user/wishlist";
     }
 
+    @GetMapping("/blog")
+    public String userBlog(){
+        return "user/blog";
+    }
 }

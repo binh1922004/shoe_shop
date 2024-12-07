@@ -26,6 +26,7 @@ public class PermissionController {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("admin", userRepository.countByRole(roleRepository.findById(1).get()));
         model.addAttribute("manager", userRepository.countByRole(roleRepository.findById(2).get()));
+        model.addAttribute("shipper", userRepository.countByRole(roleRepository.findById(4).get()));
         model.addAttribute("user", userRepository.countByRole(roleRepository.findById(3).get()));
         return "admin/permission/pages-permissions";
     }

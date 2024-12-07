@@ -1,7 +1,6 @@
 package hcmute.com.ShoeShop.services.imp;
 
 import hcmute.com.ShoeShop.entity.Address;
-import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.repository.AddressRepository;
 import hcmute.com.ShoeShop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
