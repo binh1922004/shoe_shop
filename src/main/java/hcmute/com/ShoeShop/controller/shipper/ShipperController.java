@@ -126,4 +126,11 @@ public class ShipperController {
     void updateShipmentDate(int orderId){
         shipmentService.updateDate(orderId);
     }
+
+    @GetMapping("/profile")
+    public String profile(Model model, HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        model.addAttribute("user", user);
+        return "shipper/pages-profile";
+    }
 }
