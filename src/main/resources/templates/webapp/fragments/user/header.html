@@ -9,7 +9,6 @@
                             <ul>
                                 <li class="currency"><a href="#">USD <i class="fa fa-angle-down"></i> </a>
                                     <ul class="sub-site-option">
-                                        <li><a href="#">Eur</a></li>
                                         <li><a href="#">Usd</a></li>
                                     </ul>
                                 </li>
@@ -85,12 +84,13 @@
                         <div class="mainmenu">
                             <nav>
                                 <ul>
-                                    <th:block th:unless="${session.user}">
-                                        <li><a href="/">Home</a></li>
-                                    </th:block>
-                                    <th:block th:if="${session.user}">
-                                        <li><a href="/user/shop">Home</a></li>
-                                    </th:block>
+<!--                                    <th:block th:unless="${session.user}">-->
+<!--                                        <li><a href="/">Home</a></li>-->
+<!--                                    </th:block>-->
+<!--                                    <th:block th:if="${session.user}">-->
+<!--                                        <li><a href="/user/shop">Home</a></li>-->
+<!--                                    </th:block>-->
+                                    <li><a href="/">Home</a></li>
 
                                     <li class="mega-women"><a href="/user/shop">Shop</a>
 

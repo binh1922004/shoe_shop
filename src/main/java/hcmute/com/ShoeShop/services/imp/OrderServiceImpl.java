@@ -1,21 +1,33 @@
 package hcmute.com.ShoeShop.services.imp;
 
 import hcmute.com.ShoeShop.dto.OrderStaticDto;
+import hcmute.com.ShoeShop.entity.Cart;
 import hcmute.com.ShoeShop.entity.Order;
+import hcmute.com.ShoeShop.entity.OrderDetail;
+import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.repository.CartRepository;
 import hcmute.com.ShoeShop.repository.OrderRepository;
 import hcmute.com.ShoeShop.services.IOrderService;
+import hcmute.com.ShoeShop.utlis.PayOption;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
         @Autowired
         OrderRepository orderRepository;
+        @Autowired
+        CartRepository cartRepository;
 
         public Page<Order> findAll(Pageable pageable) {
                 return orderRepository.findAll(pageable);
@@ -61,6 +73,55 @@ public class OrderServiceImpl implements IOrderService {
         public void returnOrder(int orderId) {
                 Order order = findById(orderId);
                 order.setStatus(ShipmentStatus.RETURN);
+                orderRepository.save(order);
+        }
+
+        public Page<Order> findOrderByStatus(ShipmentStatus shipmentStatus, Pageable pageable) {
+                return orderRepository.findOrderByStatus(shipmentStatus, pageable);
+        }
+        public Page<Order> findOrderByUserId(int usreId, Pageable pageable) {
+                return orderRepository.findOrderByUser_Id(usreId, pageable);
+        }
+
+        public void orderCart(Long cartId, double price, PayOption payOption){
+                Cart cart = cartRepository.findCartsById(cartId);
+                Order order = Order.builder()
+                        .user(cart.getUserId())
+                        .totalPrice(price)
+                        .createdDate(new Date())
+                        .payOption(payOption)
+                        .status(ShipmentStatus.IN_STOCK)
+                        .build();
+                Set<OrderDetail> orderDetails = new HashSet<>();
+                for (var cartItem: cart.getOrderDetailSet()){
+                        OrderDetail orderDetail = OrderDetail.builder()
+                                .order(order)
+                                .product(cartItem.getProduct())
+                                .quantity(cartItem.getQuantity())
+                                .price(cartItem.getPrice())
+                                .build();
+
+                        orderDetails.add(orderDetail);
+                }
+
+                order.setOrderDetailSet(orderDetails);
+
+                orderRepository.save(order);
+                cartRepository.delete(cart);
+        }
+
+        public boolean checkOrderByUser(Users user) {
+                return orderRepository.existsByUser(user.getId());
+        }
+        public long countOrder(){
+                return orderRepository.count();
+        }
+
+        public double totalPrice(){
+                return orderRepository.sumTotalPrice();
+        }
+
+        public void save(Order order) {
                 orderRepository.save(order);
         }
 }

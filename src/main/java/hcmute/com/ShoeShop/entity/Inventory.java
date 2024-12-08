@@ -10,10 +10,12 @@ import java.time.LocalDateTime;
 public class Inventory {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
+        private Long id;
         @ManyToOne
-        @JoinColumn(name = "product_id", nullable = false)
-        private Product product;
+        @JoinColumn(name = "product_detail_id", nullable = false)
+        private ProductDetail productDetail;
         private int quantity;
         private LocalDateTime createdAt;
+
+
 }

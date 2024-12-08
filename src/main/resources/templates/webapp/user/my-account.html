@@ -7,6 +7,7 @@
         <title>My account || James </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
         <!-- favicon
         ============================================ -->
@@ -76,7 +77,7 @@
                     <div class="col-md-12">
                         <div class="location">
                             <ul>
-                                <li><a href="/index.html" title="go to homepage">Home<span>/</span></a>  </li>
+                                <li><a href="/user/shop" title="go to homepage">Home<span>/</span></a>  </li>
                                 <li><strong> my account</strong></li>
                             </ul>
                         </div>
@@ -320,7 +321,7 @@
                                     <div class="panel-heading" role="tab" id="headingResetPassword">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-bs-toggle="collapse" href="#collapseResetPassword" aria-expanded="false" aria-controls="collapseFour">
-                                                <i class="fa fa-user"></i>
+                                                <i class="fa fa-lock"></i>
                                                 Reset password
                                             </a>
                                         </h4>
@@ -371,8 +372,8 @@
                                     <div class="panel-heading" role="tab" id="headingFive">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-bs-toggle="collapse" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                                <i class="fa fa-heart"></i>
-                                                My wishlists
+                                                <i class="bi bi-cart"></i>
+                                                Viewed Products
                                             </a>
                                         </h4>
                                     </div>
@@ -380,14 +381,34 @@
                                         <div class="panel-body">
                                             <div class="col-sm-12">
                                                 <div class="wishlist-container">
-                                                    <h3>New Wishlist</h3>
-                                                    <form action="#">
-                                                        <label>Name</label>
-                                                        <input type="text">
-                                                        <div class="save-button">
-                                                            <button type="submit">save</button>
+                                                    <h3>Viewed Products</h3>
+                                                    <div th:if="${viewedProducts != null and !viewedProducts.isEmpty()}">
+                                                        <div class="wishlist-container">
+                                                            <div class="d-flex flex-column">
+                                                                <!-- Lặp qua các sản phẩm trong viewedProducts -->
+                                                                <div th:each="product : ${viewedProducts}" class="product-item d-flex align-items-center mb-4">
+                                                                    <!-- Hình ảnh sản phẩm -->
+                                                                    <img th:src="@{${product.image}}" alt="product image" class="product-image img-fluid" style="width: 120px; height: auto;">
+
+                                                                    <!-- Thông tin sản phẩm -->
+                                                                    <div class="product-info ms-3" style="flex: 1;">
+                                                                        <h4 th:text="${product.title}"></h4>
+                                                                        <p th:text="${product.description}"></p>
+                                                                        <p th:text="'$' + ${product.price}"></p>
+                                                                    </div>
+
+                                                                    <!-- Nút View -->
+                                                                    <a th:href="@{/product/details/{id}(id=${product.id})}" class="save-button">View Product</a>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </form>
+                                                    </div>
+
+
+                                                    <!-- Nếu không có sản phẩm đã xem -->
+                                                    <div th:if="${viewedProducts == null or viewedProducts.isEmpty()}">
+                                                        <p>No products viewed yet.</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -395,7 +416,7 @@
                                 </div>
                             </div>
                             <div class="account-button">
-                                <div class="back-btn"> <a href="#">Back to your Account</a> </div>
+                                <div class="back-btn"> <a href="/user/my_account">Back to your Account</a> </div>
                                 <div class="home"> <a href="/user/shop"> home</a> </div>
                             </div>
                         </div>

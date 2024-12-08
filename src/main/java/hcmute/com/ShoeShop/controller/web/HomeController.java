@@ -44,16 +44,22 @@ public class HomeController {
 //                return "redirect:/user/shop";
 //            }
 //        }
-//        List<String> role = List.of("admin","manager","user","shipper");
-//        for(int i = 0; i < role.size(); i++){
-//            if(roleService.findRoleByName(role.get(i))==null){
-//                Role ro = new Role();
-//                ro.setRoleName(role.get(i));
-//                roleService.insertRole(ro);
-//            }
-//        }
+        List<String> role = List.of("admin","manager","user","shipper");
+        for(int i = 0; i < role.size(); i++){
+            if(roleService.findRoleByName(role.get(i))==null){
+                Role ro = new Role();
+                ro.setRoleName(role.get(i));
+                roleService.insertRole(ro);
+            }
+        }
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
+        if (!categories.isEmpty()) {
+            Category firstCategory = categories.get(0);
+            List<Product> products = productService.getProductByCategoryId(firstCategory.getId());
+            model.addAttribute("products", products);
+            model.addAttribute("selectedCategory", firstCategory.getId()); // Gửi danh mục được chọn
+        }
         Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
@@ -63,11 +69,11 @@ public class HomeController {
         // lay ra list 20 san pham co rating cao nhat
         List<Product> ratedProducts = productService.getTopRatedProducts();
         model.addAttribute("ratedProducts", ratedProducts);
-        return "web/index";
+        return "/web/index";
     }
 
     @GetMapping("/blog")
     public String blog(){
-        return "user/blog";
+        return "/user/blog";
     }
 }

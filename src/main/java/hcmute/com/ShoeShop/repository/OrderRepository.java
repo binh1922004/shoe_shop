@@ -2,6 +2,10 @@ package hcmute.com.ShoeShop.repository;
 
 import hcmute.com.ShoeShop.entity.Order;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +20,14 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
         public Order findOrderById(int orderId);
 
         long countByStatus(ShipmentStatus status);
+
+        public Page<Order> findOrderByStatus(ShipmentStatus status, Pageable pageable);
+
+        public Page<Order> findOrderByUser_Id(int userId, Pageable pageable);
+
+        @Query("SELECT COUNT(o) > 0 FROM Order o WHERE o.user.id = :userId")
+        boolean existsByUser(long userId);
+        @Query("select sum(o.totalPrice) from Order o")
+        public double sumTotalPrice();
+
 }

@@ -1,6 +1,6 @@
 package hcmute.com.ShoeShop.utlis;
 
 public enum PayOption {
-        Momo,
+        VNPAY,
         COD
 }

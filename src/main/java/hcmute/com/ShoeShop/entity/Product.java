@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,8 @@ public class Product {
 
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ProductDetail> details = new ArrayList<>();
 
     @Column(name = "is_delete", nullable = false, columnDefinition = "boolean default false")
@@ -54,8 +57,4 @@ public class Product {
     // Quan hệ OneToMany với Rating
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> ratings = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Inventory> inventories = new ArrayList<>();
-
 }

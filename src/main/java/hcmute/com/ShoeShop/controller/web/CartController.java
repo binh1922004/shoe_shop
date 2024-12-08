@@ -1,11 +1,10 @@
 package hcmute.com.ShoeShop.controller.web;
 
-import hcmute.com.ShoeShop.entity.Address;
-import hcmute.com.ShoeShop.entity.Cart;
-import hcmute.com.ShoeShop.entity.CartDetail;
-import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.services.imp.AddressService;
 import hcmute.com.ShoeShop.services.imp.CartService;
+import hcmute.com.ShoeShop.services.imp.DiscountService;
+import hcmute.com.ShoeShop.services.imp.ProductService;
 import hcmute.com.ShoeShop.utlis.Constant;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/cart")
@@ -28,6 +28,9 @@ public class CartController {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private DiscountService discountService;
 
     @GetMapping("/view")
     public String viewCart(HttpSession session, Model model) {
@@ -46,6 +49,10 @@ public class CartController {
         Set<CartDetail> cartDetails = cart.getOrderDetailSet();
         cartService.cleanCart(cartDetails, cart);
 
+        List<Discount> discounts = discountService.findAllDiscountsCondition(cart.getTotalPrice());
+        model.addAttribute("discounts", discounts);
+
+
         // Truyền thông báo nếu có
         String alert = (String) model.asMap().get("alert");
 
@@ -54,7 +61,7 @@ public class CartController {
 
         model.addAttribute("cart", cart);
 
-        return "user/cart";
+        return "/user/cart";
     }
 
     @PostMapping("/add")

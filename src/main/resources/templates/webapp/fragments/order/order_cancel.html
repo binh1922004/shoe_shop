@@ -39,6 +39,7 @@
                         alert("The order with id: " + selectedOrderId + " was canceled");
                         $("#confirmModal").modal("hide"); // Đóng popup
                         // Thực hiện các hành động khác, ví dụ: làm mới bảng
+                        location.reload();
                     },
                     error: function (error) {
                         alert("Some error " + selectedOrderId + ".");

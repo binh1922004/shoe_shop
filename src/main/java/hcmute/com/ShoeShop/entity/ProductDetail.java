@@ -14,7 +14,7 @@ import java.util.Set;
 public class ProductDetail {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
+        private Long id;
 
         @NotNull(message = "Product cannot be null")
         @ManyToOne
@@ -37,4 +37,9 @@ public class ProductDetail {
         @EqualsAndHashCode.Exclude
         @ToString.Exclude
         private Set<CartDetail> cartDetailSet;
+
+        @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL)
+        @EqualsAndHashCode.Exclude
+        @ToString.Exclude
+        private Set<Inventory> inventories;
 }

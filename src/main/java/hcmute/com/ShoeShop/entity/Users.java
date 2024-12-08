@@ -3,6 +3,7 @@ package hcmute.com.ShoeShop.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
+@Builder
 public class Users {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,4 +54,18 @@ public class Users {
         // Quan hệ OneToMany với Rating
         @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
         private List<Rating> ratings = new ArrayList<>();
+
+
+        @Override
+        public String toString() {
+                return "Users{" +
+                        "role=" + role +
+                        ", phone='" + phone + '\'' +
+                        ", address='" + address + '\'' +
+                        ", pass='" + pass + '\'' +
+                        ", email='" + email + '\'' +
+                        ", fullname='" + fullname + '\'' +
+                        ", id=" + id +
+                        '}';
+        }
 }
