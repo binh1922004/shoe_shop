@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -25,6 +26,17 @@ public class ApplicationInitConfig {
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
+            // Danh sách role mặc định
+            List<String> roles = List.of("admin", "manager", "user", "shipper");
+
+            // Kiểm tra và tạo các role nếu chưa tồn tại
+            roles.forEach(roleName -> {
+                if (roleRepository.findRoleByRoleName(roleName) == null) {
+                    Role role = Role.builder().roleName(roleName).build();
+                    roleRepository.save(role);
+                    log.info("Role '{}' has been created.", roleName);
+                }
+            });
             if (userRepository.findByEmail("admin@admin") == null) {
 
                 Users user = Users.builder()

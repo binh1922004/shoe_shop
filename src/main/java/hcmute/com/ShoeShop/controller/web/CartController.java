@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/cart")
@@ -49,7 +50,11 @@ public class CartController {
         cartService.cleanCart(cartDetails, cart);
 
         List<Discount> discounts = discountService.findAllDiscountsCondition(15);
-        model.addAttribute("discounts", discounts);
+        List<Discount> activeDiscounts = discounts.stream()
+                .filter(discount -> discount.getStatus().equals("ACTIVE"))
+                .collect(Collectors.toList());
+
+        model.addAttribute("discounts", activeDiscounts);
 
 
         // Truyền thông báo nếu có

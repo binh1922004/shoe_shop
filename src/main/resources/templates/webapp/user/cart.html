@@ -465,11 +465,11 @@
                 const listItem = this.closest('li');
                 const discountId = listItem.getAttribute('data-id');
                 const discountName = listItem.getAttribute('data-discount-code');
-                const  discountPer = listItem.getAttribute('data-percent');
+                const discountPer = listItem.getAttribute('data-percent');
 
                 // Cập nhật giá trị vào các input
                 document.getElementById('discountIdInput').value = discountId;
-                document.getElementById('couponCodeInput').value = discountName + " - "+discountPer+"% OFF";
+                document.getElementById('couponCodeInput').value = discountName + " - " + discountPer + "% OFF";
 
                 // Đóng modal
                 const modalElement = document.getElementById('discountModal');
@@ -478,6 +478,24 @@
             }
         });
     });
+
+    // Đảm bảo rằng cuộn chuột không bị chặn
+    window.addEventListener('wheel', function(e) {
+        // Cho phép cuộn chuột mà không ngừng lại
+    }, { passive: true });
+
+    // Đảm bảo rằng không có sự kiện nào gây cản trở việc cuộn trang khi modal đóng
+    const modalElement = document.getElementById('discountModal');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+
+    modalElement.addEventListener('hidden.bs.modal', function() {
+        // Cho phép cuộn trang lại sau khi modal đã đóng
+        document.body.style.overflow = 'auto'; // Cho phép cuộn trang
+    });
+
+    // Đảm bảo CSS không làm ngừng cuộn
+    document.body.style.overflow = 'auto'; // Đảm bảo cuộn trang không bị chặn
+
 
 </script>
 </html>
