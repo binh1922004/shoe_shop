@@ -75,6 +75,7 @@ public class OrderController {
 
     @PostMapping("/pay")
     public String handlePayment(@RequestParam("cartId") Long cartId,
+                                @RequestParam(value = "discountId",required = false) String discountIdInput,
                                 @RequestParam(value = "finalTotalPrice" , required = false) String finalPrice,
                                 @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
         // Lấy Cart từ CartId
@@ -88,6 +89,10 @@ public class OrderController {
             cart.setId(cartId.intValue());
             cart.setTotalPrice(cart.getTotalPrice()+5);
             cartService.save(cart);
+        }
+        if((discountIdInput)!=null && !discountIdInput.equals("") && (Integer.parseInt(discountIdInput) != -1)){
+            discountService.saveDiscount(discountService.findDiscountById(Integer.parseInt(discountIdInput)));
+
         }
         this.cartId = cartId;
         // Lấy người dùng từ cart

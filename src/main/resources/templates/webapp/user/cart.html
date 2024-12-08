@@ -230,7 +230,7 @@
                             <h3>Discount Codes</h3>
                             <p>Enter your coupon code if you have one.</p>
                             <!-- Giữ các input readonly để hiển thị thông tin đã chọn -->
-                            <input type="hidden" id="discountIdInput" name="discountId">
+
                             <input type="text" id="couponCodeInput" class="form-control" placeholder="Selected discount" readonly>
 
                             <div class="shopping-button mt-2">
@@ -342,6 +342,8 @@
                             <form action="/order/pay" method="post" id="form2">
                                 <input type="hidden" name="cartId" th:value="${cart.id}"/>
                                 <input type="hidden" name="finalTotalPrice" id="finalTotalPrice" th:value="${finalTotalPrice != null && finalTotalPrice != '' ? finalTotalPrice : 0}"/>
+                                <input type="hidden" id="discountIdInput" name="discountId"
+                                       th:value="${discountId != null && discountId != '' ? discountId : -1}">
                                 <label for="payOption">Payment Option:</label>
                                 <select name="payOption" id="payOption">
                                     <option value="COD">Cash on Delivery</option>
