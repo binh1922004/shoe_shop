@@ -457,7 +457,6 @@
     });
 </script>
 <script>
-    // Lắng nghe sự kiện nhấn nút Select
     document.querySelectorAll('.select-discount-btn').forEach(button => {
         button.addEventListener('click', function() {
             // Kiểm tra nếu nút không bị vô hiệu hóa
@@ -465,11 +464,19 @@
                 const listItem = this.closest('li');
                 const discountId = listItem.getAttribute('data-id');
                 const discountName = listItem.getAttribute('data-discount-code');
-                const  discountPer = listItem.getAttribute('data-percent');
+                const discountPer = parseFloat(listItem.getAttribute('data-percent')); // Tỷ lệ giảm giá (ví dụ: 0.2 cho 20%)
 
                 // Cập nhật giá trị vào các input
                 document.getElementById('discountIdInput').value = discountId;
-                document.getElementById('couponCodeInput').value = discountName + " - "+discountPer+"% OFF";
+                document.getElementById('couponCodeInput').value = discountName + " - " + discountPer+ "% OFF"; // Hiển thị tỷ lệ phần trăm trong input
+
+                // Cập nhật tổng giá
+                const totalPriceElement = document.getElementById('totalPrice');
+                let originalTotalPrice = parseFloat(totalPriceElement.innerText.replace(/[^0-9.-]+/g, "")); // Lấy giá trị tổng ban đầu
+                let newTotalPrice = originalTotalPrice * (1 - (discountPer/100.0)); // Tính toán tổng mới với discount
+
+                // Cập nhật giá trị mới vào phần tử #totalPrice
+                totalPriceElement.innerText = newTotalPrice.toFixed(2); // Cập nhật tổng giá mới với hai chữ số thập phân
 
                 // Đóng modal
                 const modalElement = document.getElementById('discountModal');
@@ -478,6 +485,24 @@
             }
         });
     });
+
+    // Đảm bảo rằng cuộn chuột không bị chặn
+    window.addEventListener('wheel', function(e) {
+        // Cho phép cuộn chuột mà không ngừng lại
+    }, { passive: true });
+
+    // Đảm bảo rằng không có sự kiện nào gây cản trở việc cuộn trang khi modal đóng
+    const modalElement = document.getElementById('discountModal');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+
+    modalElement.addEventListener('hidden.bs.modal', function() {
+        // Cho phép cuộn trang lại sau khi modal đã đóng
+        document.body.style.overflow = 'auto'; // Cho phép cuộn trang
+    });
+
+    // Đảm bảo CSS không làm ngừng cuộn
+    document.body.style.overflow = 'auto'; // Đảm bảo cuộn trang không bị chặn
+
 
 </script>
 </html>
