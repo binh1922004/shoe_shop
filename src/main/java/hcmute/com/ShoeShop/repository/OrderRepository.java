@@ -24,4 +24,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
         public Page<Order> findOrderByStatus(ShipmentStatus status, Pageable pageable);
 
         public Page<Order> findOrderByUser_Id(int userId, Pageable pageable);
+
+        @Query("select sum(o.totalPrice) from Order o")
+        public double sumTotalPrice();
 }

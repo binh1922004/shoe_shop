@@ -107,4 +107,12 @@ public class OrderServiceImpl implements IOrderService {
 
                 orderRepository.save(order);
         }
+
+        public long countOrder(){
+                return orderRepository.count();
+        }
+
+        public double totalPrice(){
+                return orderRepository.sumTotalPrice();
+        }
 }
