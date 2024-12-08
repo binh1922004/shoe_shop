@@ -21,9 +21,9 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-        private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register", "/product/**"};
+        private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register", "/product/**", "/category/**", "/send-code"};
         private final String[] PUBLIC_CSS = {"/assets/**", "/css/**", "/fonts/**", "/img/**", "/js/**", "/lib/**",
-                "/style.css"};
+                "/style.css", "uploads/**"};
         @Autowired
         CustomAuthenticationSuccessHandler successHandler;
 
@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/admin/**").hasRole("admin")
                                 .requestMatchers("/manager/**").hasAnyRole("manager", "admin")
                                 .requestMatchers("/shipper/**").hasRole("shipper")
-                                .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
+                                .requestMatchers(PUBLIC_ENDPOINT).permitAll()
                                 .requestMatchers(PUBLIC_CSS).permitAll() // Cho phép truy cập tài nguyên tĩnh
                                 .anyRequest().authenticated())
                         //config cho trang login

@@ -323,7 +323,7 @@
                     <div class="col-md-4">
                         <div class="totals">
                             <p>Created Date: <span th:text="${#dates.format(cart.createdDate, 'HH:mm:ss dd-MM-yyyy')}"></span></p>
-                            <h3>Grand Total <span id="totalPrice"  th:text="${cart.totalPrice+5}"></span></h3>
+                            <h3>Grand Total <span id="totalPrice" th:text="${cart.totalPrice > 0 ? cart.totalPrice + 5 : cart.totalPrice}"></span></h3>
                            
                            
 
@@ -513,7 +513,7 @@
                 document.getElementById('couponCodeInput').value = discountName + " - " + discountPer + "% OFF"; // Hiển thị tỷ lệ phần trăm trong input
 
                 // Tính toán giá mới dựa trên giá gốc cộng thêm 5
-                const newTotalPrice = (originalTotalPrice + 5) * (1 - (discountPer / 100.0));
+                const newTotalPrice = (originalTotalPrice) * (1 - (discountPer / 100.0));
 
                 // Cập nhật giá trị mới vào phần tử #totalPrice
                 const totalPriceElement = document.getElementById('totalPrice');

@@ -60,7 +60,7 @@ public class OrderController {
     private String transactionStatus;
     private Long cartId;
     @GetMapping()
-    public String order(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
+    public String order(@RequestParam(value = "page-size", defaultValue = "10")int pagesize,
                         @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
                         Model model,
                         HttpSession session) {
@@ -85,7 +85,7 @@ public class OrderController {
         Cart cart = cartService.findById(cartId);
         if((finalPrice != null) && (Double.parseDouble(finalPrice) != 0) && (!finalPrice.equals(""))){
             cart.setId(cartId.intValue());
-            cart.setTotalPrice(Double.parseDouble(finalPrice));
+            cart.setTotalPrice(Double.parseDouble(finalPrice)*1000);
             cartService.save(cart);
         }
         else{
