@@ -4,6 +4,7 @@ import hcmute.com.ShoeShop.dto.OrderStaticDto;
 import hcmute.com.ShoeShop.entity.Cart;
 import hcmute.com.ShoeShop.entity.Order;
 import hcmute.com.ShoeShop.entity.OrderDetail;
+import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.repository.CartRepository;
 import hcmute.com.ShoeShop.repository.OrderRepository;
 import hcmute.com.ShoeShop.services.IOrderService;
@@ -106,5 +107,16 @@ public class OrderServiceImpl implements IOrderService {
                 order.setOrderDetailSet(orderDetails);
 
                 orderRepository.save(order);
+        }
+
+        public boolean checkOrderByUser(Users user) {
+                return orderRepository.existsByUser(user.getId());
+        }
+        public long countOrder(){
+                return orderRepository.count();
+        }
+
+        public double totalPrice(){
+                return orderRepository.sumTotalPrice();
         }
 }

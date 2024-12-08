@@ -54,6 +54,12 @@ public class HomeController {
         }
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
+        if (!categories.isEmpty()) {
+            Category firstCategory = categories.get(0);
+            List<Product> products = productService.getProductByCategoryId(firstCategory.getId());
+            model.addAttribute("products", products);
+            model.addAttribute("selectedCategory", firstCategory.getId()); // Gửi danh mục được chọn
+        }
         Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);

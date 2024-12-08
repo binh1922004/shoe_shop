@@ -2,15 +2,18 @@ package hcmute.com.ShoeShop.controller.admin;
 
 import hcmute.com.ShoeShop.dto.DiscountDTO;
 import hcmute.com.ShoeShop.entity.Discount;
+import hcmute.com.ShoeShop.entity.Order;
 import hcmute.com.ShoeShop.entity.Product;
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.DiscountService;
+import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
 import hcmute.com.ShoeShop.utlis.Constant;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +28,27 @@ public class AdminHomeController {
     @Autowired
     DiscountService discountService;
 
+    @Autowired
+    OrderServiceImpl orderService;
+
     @GetMapping
-    public String adminHome(RedirectAttributes redirectAttributes, HttpSession session) {
+    public String adminHome(RedirectAttributes redirectAttributes, HttpSession session, Model model) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
         if(u == null) {
             return "redirect:/login";
         }
         redirectAttributes.addFlashAttribute("user", u);
-        return "admin/admin_home";
+        Pageable pageable = PageRequest.of(0, 5, Sort.by("createdDate").descending());
+        Page<Order> orderPage = orderService.findAll(pageable);
+        model.addAttribute("listOrder", orderPage);
+
+        long totalOrder = orderService.countOrder();
+        model.addAttribute("totalOrder", totalOrder);
+
+        double totalPrice = orderService.totalPrice();
+        model.addAttribute("totalPrice", totalPrice);
+
+        return "admin/index";
     }
 
     @GetMapping("/discount-list")

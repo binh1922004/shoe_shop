@@ -78,41 +78,38 @@ public class DiscountService {
         }
     }
 
-    public List<Discount> findAllDiscountsCondition( double price) {
+    public List<Discount> findAllDiscountsCondition(double price) {
         List<Discount> listDiscount = discountRepository.findAll();
         LocalDate today = LocalDate.now();
-        for (Discount discount : listDiscount) {
 
-            if(!discount.getStatus().equals("EXPIRED")){
-                // Kiểm tra nếu quantity của discount bằng 0 thì set status là "INACTIVE"
-                if (discount.getQuantity() == 0) {
-                    discount.setStatus("INACTIVE");
-                }
-                else if (discount.getStartDate() != null && discount.getEndDate() != null) {
-                    if (!discount.getStartDate().isAfter(today) && !discount.getEndDate().isBefore(today)) {
-                        if (discount.getMinOrderValue() == null || discount.getMinOrderValue()<=price) {
-                            discount.setStatus("ACTIVE");  // Đặt trạng thái là ACTIVE (String)
-                        }
-                        else if(discount.getMinOrderValue()>price){
-                            discount.setStatus("INACTIVE");
-                        }
-                    }
-                    // Kiểm tra nếu ngày kết thúc trước ngày hiện tại
-                    else if (discount.getEndDate().isBefore(today)) {
-                        discount.setStatus("EXPIRED");  // Đặt trạng thái là EXPIRED (String)
-                    }
-                    // Nếu ngày bắt đầu trong tương lai
-                    else {
-                        discount.setStatus("COMING");
+        for (Discount discount : listDiscount) {
+            // Kiểm tra trạng thái EXPIRED trước tiên
+            if (discount.getEndDate() != null && discount.getEndDate().isBefore(today)) {
+                discount.setStatus("EXPIRED");
+            }
+            // Nếu số lượng bằng 0, đặt INACTIVE
+            else if (discount.getQuantity() == 0) {
+                discount.setStatus("INACTIVE");
+            }
+            // Kiểm tra các điều kiện ngày và giá trị tối thiểu
+            else if (discount.getStartDate() != null && discount.getEndDate() != null) {
+                if (!discount.getStartDate().isAfter(today) && !discount.getEndDate().isBefore(today)) {
+                    if (discount.getMinOrderValue() == null || discount.getMinOrderValue() <= price) {
+                        discount.setStatus("ACTIVE");
+                    } else {
+                        discount.setStatus("INACTIVE");
                     }
                 } else {
-                    // Nếu ngày bắt đầu hoặc ngày kết thúc là null, có thể xem như là chưa xác định
-                    discount.setStatus("COMING");
+                    discount.setStatus("COMING"); // Ngày bắt đầu trong tương lai
                 }
             }
+            // Nếu không có ngày bắt đầu/kết thúc hoặc không thỏa mãn điều kiện nào khác
+            else {
+                discount.setStatus("COMING");
+            }
         }
-        discountRepository.saveAll(listDiscount);        // Lưu lại các thay đổi vào cơ sở dữ liệu
+
+        discountRepository.saveAll(listDiscount); // Lưu lại thay đổi
         return listDiscount;
     }
-
 }

@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/cart")
@@ -48,7 +49,7 @@ public class CartController {
         Set<CartDetail> cartDetails = cart.getOrderDetailSet();
         cartService.cleanCart(cartDetails, cart);
 
-        List<Discount> discounts = discountService.findAllDiscountsCondition(15);
+        List<Discount> discounts = discountService.findAllDiscountsCondition(cart.getTotalPrice());
         model.addAttribute("discounts", discounts);
 
 

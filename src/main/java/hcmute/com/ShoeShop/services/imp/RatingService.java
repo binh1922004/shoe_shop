@@ -28,6 +28,9 @@ public class RatingService {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    private OrderServiceImpl orderService;
+
     public void addRating(String email, String comment, int star, MultipartFile image, long productId) {
         // lấy thong tin khach hang
         Users user = userService.findUserByEmail(email);

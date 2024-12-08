@@ -153,7 +153,7 @@ public class ProductService {
         // Tiến hành lấy sản phẩm từ cơ sở dữ liệu theo danh sách ids
         return productRepository.findAllById(ids);
     }
-public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest pageRequest) {
+    public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest pageRequest) {
         return productRepository.findAllByCategoryId(categoryId, pageRequest);
     }
 
@@ -178,5 +178,8 @@ public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest
 
 
         return sizePriceMap;
+    }
+	public List<Product> getProductByCategoryId(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
     }
 }
