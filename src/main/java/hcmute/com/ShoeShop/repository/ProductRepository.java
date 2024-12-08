@@ -18,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // list 20 san pham co avg rating cao nhat
     @Query("SELECT p FROM Product p JOIN p.ratings r GROUP BY p.id ORDER BY AVG(r.star) DESC")
     List<Product> findTop20ByAvgRating();
+
+    List<Product> findByCategoryId(Long categoryId);
 }

@@ -156,4 +156,9 @@ public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest
             ratedProducts = ratedProducts.subList(0, 20);
         }
         return ratedProducts;
-    }}
+    }
+
+    public List<Product> getProductByCategoryId(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
+}

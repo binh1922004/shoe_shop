@@ -92,7 +92,7 @@
                                      <!-- Nav tabs -->
                                     <ul class="nav tab-navigation" role="tablist">
                                         <li th:if="${#lists.isEmpty(categories)}">Chưa có danh mục</li> <!-- Hiển thị khi danh sách trống -->
-                                        <li role="presentation" th:each="category : ${categories}">
+                                        <li role="presentation" th:each="category : ${categories}" th:classappend="${selectedCategory == category.id} ? 'active'">
                                             <a href="#tab1" aria-controls="tab1" role="tab" data-bs-toggle="tab" class="category-link" th:attr="data-category-id=${category.id}"
                                                th:text="${category.type}"></a>
                                         </li>
@@ -109,7 +109,67 @@
                                     <div role="tabpanel" class="tab-pane fade show active" id="tab1">
                                         <div id="productListContainer">
                                             <div class="row" id="productList">
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-6" th:each="product : ${products}">
+                                                        <div class="single-product" >
+                                                            <div class="level-pro-new">
+                                                                <span>new</span>
+                                                            </div>
 
+                                                            <div class="product-img">
+                                                                <a th:href="@{/product/details/{id}(id=${product.id})}">
+                                                                    <img th:src="${product.image}" alt="Image" class="primary-img">
+                                                                </a>
+                                                            </div>
+                                                            <div class="product-name">
+                                                                <a th:href="@{/product/details/{id}(id=${product.id})}" th:title="${product.title}" th:text="${product.title}"></a>
+                                                                <!--                                                            <p th:text="${product.description}"></p>-->
+                                                            </div>
+                                                            <div class="price-rating">
+                                                                <span th:text="'$' + ${product.price}"></span>
+                                                                <!--                                                                <div class="ratings">-->
+                                                                <!--                                                                    <i class="fa fa-star" th:each="star, iterStat : ${#numbers.sequence(1, product.rating)}"></i>-->
+                                                                <!--                                                                    <i class="fa fa-star-half-o" th:if="${product.rating - #numbers.floor(product.rating) > 0}"></i>-->
+                                                                <!--                                                                </div>-->
+                                                                <div class="ratings">
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="actions">
+                                                                <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>
+                                                                <ul class="add-to-link">
+                                                                    <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
+                                                                    <li><a href="#" onclick="toggleHeart(this);  return false;">
+                                                                        <i class="fa fa-heart-o"></i>
+                                                                    </a></li>
+                                                                    <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Phân trang -->
+                                                    <ul class="pagination justify-content-center" style="margin-top: 50px">
+                                                        <!-- Nút Previous -->
+                                                        <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                                                            <a class="page-link" th:href="@{/(page=${currentPage - 1}, size=6)}">Previous</a>
+                                                        </li>
+
+                                                        <!-- Các số trang -->
+                                                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                                            th:classappend="${i == currentPage ? 'active' : ''}">
+                                                            <a class="page-link" th:href="@{/(page=${i}, size=6)}" th:text="${i + 1}"></a>
+                                                        </li>
+
+                                                        <!-- Nút Next -->
+                                                        <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                                                            <a class="page-link" th:href="@{/(page=${currentPage + 1}, size=6)}">Next</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
