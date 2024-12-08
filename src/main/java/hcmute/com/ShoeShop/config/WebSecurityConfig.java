@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-        private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register"};
+        private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register", "/product/**"};
         private final String[] PUBLIC_CSS = {"/assets/**", "/css/**", "/fonts/**", "/img/**", "/js/**", "/lib/**",
                 "/style.css"};
         @Autowired
@@ -34,11 +34,12 @@ public class WebSecurityConfig {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
                 httpSecurity.authorizeHttpRequests(request -> request
+                                .requestMatchers("/admin/**").hasRole("admin")
                                 .requestMatchers("/manager/**").hasAnyRole("manager", "admin")
                                 .requestMatchers("/shipper/**").hasRole("shipper")
                                 .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
                                 .requestMatchers(PUBLIC_CSS).permitAll() // Cho phép truy cập tài nguyên tĩnh
-                                .anyRequest().permitAll())
+                                .anyRequest().authenticated())
                         //config cho trang login
                         .formLogin(formLogin ->
                                 formLogin.loginPage("/login")
