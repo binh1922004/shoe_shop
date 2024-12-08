@@ -37,12 +37,11 @@ public class Discount {
     @Column(name = "min_order_value")
     private Double minOrderValue;
 
-    @Column(name = "created_date", nullable = false, updatable = false)
+    @Column(name = "created_date", nullable = false)
     private LocalDate createdDate;
 
     @Column(name = "start_date", nullable = false)
     @NotNull(message = "Start date cannot be null")
-    @FutureOrPresent(message = "Start date cannot be in the past")
     private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)

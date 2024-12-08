@@ -219,9 +219,6 @@
                                 <div class="continue-shopping">
                                     <a href="/user/shop"> continue shopping </a>
                                 </div>
-                                <div class="shopping-cart-left">
-                                    <a href="#"> Clear Shopping Cart </a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -317,28 +314,34 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!--
+                               
                                 <div class="form-box">
                                     <div class="form-name">
-                                        <label> Zip/Postal Code </label>
-                                        <input type="text">
+                                     
+                                        <label>Shipping Company <em>*</em></label>
+                                        <select name="shippingCompanyId" required style="width: 100%; max-width: 400px;">
+                                            <!-- Lặp qua danh sách shippingCompanies -->
+                                            <th:block th:each="company : ${shippingCompanies}">
+                                                <!-- Kiểm tra nếu company.active = true và hiển thị như option -->
+                                                <option th:value="${company.id}" th:text="${company.name}" ></option>
+                                            </th:block>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="shopping-button">
-                                    <button type="submit">get a quote</button>
-                                </div>-->
                             </form>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="totals">
                             <p>Created Date: <span th:text="${#dates.format(cart.createdDate, 'HH:mm:ss dd-MM-yyyy')}"></span></p>
-                            <h3>Grand Total <span id="totalPrice" th:text="${cart.totalPrice}"></span></h3>
+                            <h3>Grand Total <span id="totalPrice"  th:text="${cart.totalPrice+5}"></span></h3>
+                           
+                           
 
                             <!-- Form for Checkout -->
-                            <form action="/order/pay" method="post">
+                            <form action="/order/pay" method="post" id="form2">
                                 <input type="hidden" name="cartId" th:value="${cart.id}"/>
-
+                                <input type="hidden" name="finalTotalPrice" id="finalTotalPrice" th:value="${finalTotalPrice != null && finalTotalPrice != '' ? finalTotalPrice : 0}"/>
                                 <label for="payOption">Payment Option:</label>
                                 <select name="payOption" id="payOption">
                                     <option value="COD">Cash on Delivery</option>
@@ -400,6 +403,15 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     </body>
+<script>
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        // Lấy giá trị từ input bên ngoài form
+        var couponCodeValue = document.getElementById('couponCodeInput').value;
+
+        // Gán giá trị vào input bên trong form
+        document.getElementById('couponCode').value = couponCodeValue;
+    });
+</script>
 <script>
     // Lấy phần tử HTML có id 'totalPrice', đây là phần tử hiển thị tổng giá trị
     const totalPriceElem = document.getElementById('totalPrice');
@@ -472,26 +484,39 @@
     });
 </script>
 <script>
+    // Lưu giá gốc toàn cục
+    let originalTotalPrice = null;
+
+    // Khi DOM đã sẵn sàng
+    document.addEventListener('DOMContentLoaded', () => {
+        const totalPriceElement = document.getElementById('totalPrice');
+
+        // Lưu giá gốc khi trang tải lần đầu
+        originalTotalPrice = parseFloat(totalPriceElement.innerText.replace(/[^0-9.-]+/g, ""));
+    });
+
     document.querySelectorAll('.select-discount-btn').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             // Kiểm tra nếu nút không bị vô hiệu hóa
             if (!this.disabled) {
                 const listItem = this.closest('li');
                 const discountId = listItem.getAttribute('data-id');
                 const discountName = listItem.getAttribute('data-discount-code');
-                const discountPer = parseFloat(listItem.getAttribute('data-percent')); // Tỷ lệ giảm giá (ví dụ: 0.2 cho 20%)
+                const discountPer = parseFloat(listItem.getAttribute('data-percent')); // Tỷ lệ giảm giá (ví dụ: 20%)
 
                 // Cập nhật giá trị vào các input
                 document.getElementById('discountIdInput').value = discountId;
-                document.getElementById('couponCodeInput').value = discountName + " - " + discountPer+ "% OFF"; // Hiển thị tỷ lệ phần trăm trong input
+                document.getElementById('couponCodeInput').value = discountName + " - " + discountPer + "% OFF"; // Hiển thị tỷ lệ phần trăm trong input
 
-                // Cập nhật tổng giá
-                const totalPriceElement = document.getElementById('totalPrice');
-                let originalTotalPrice = parseFloat(totalPriceElement.innerText.replace(/[^0-9.-]+/g, "")); // Lấy giá trị tổng ban đầu
-                let newTotalPrice = originalTotalPrice * (1 - (discountPer/100.0)); // Tính toán tổng mới với discount
+                // Tính toán giá mới dựa trên giá gốc cộng thêm 5
+                const newTotalPrice = (originalTotalPrice + 5) * (1 - (discountPer / 100.0));
 
                 // Cập nhật giá trị mới vào phần tử #totalPrice
+                const totalPriceElement = document.getElementById('totalPrice');
                 totalPriceElement.innerText = newTotalPrice.toFixed(2); // Cập nhật tổng giá mới với hai chữ số thập phân
+
+                // Cập nhật giá trị cuối cùng vào input ẩn
+                document.getElementById('finalTotalPrice').value = newTotalPrice.toFixed(2);
 
                 // Đóng modal
                 const modalElement = document.getElementById('discountModal');
@@ -517,7 +542,6 @@
 
     // Đảm bảo CSS không làm ngừng cuộn
     document.body.style.overflow = 'auto'; // Đảm bảo cuộn trang không bị chặn
-
-
 </script>
+
 </html>

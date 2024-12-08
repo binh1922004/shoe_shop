@@ -1,7 +1,6 @@
 package hcmute.com.ShoeShop.entity;
 
 import jakarta.validation.constraints.*;
-import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 

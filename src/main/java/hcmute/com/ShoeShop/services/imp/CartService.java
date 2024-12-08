@@ -202,4 +202,8 @@ public class CartService {
     public Cart findById(long cartId) {
         return cartRepository.findCartsById(cartId);
     }
+
+    public void save(Cart cart){
+        cartRepository.save(cart);
+    }
 }

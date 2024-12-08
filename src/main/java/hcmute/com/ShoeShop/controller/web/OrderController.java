@@ -6,10 +6,7 @@ import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.repository.CartRepository;
 import hcmute.com.ShoeShop.repository.OrderDetailRepository;
 import hcmute.com.ShoeShop.repository.OrderRepository;
-import hcmute.com.ShoeShop.services.imp.CartService;
-import hcmute.com.ShoeShop.services.imp.OrderDetailServiceImpl;
-import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
-import hcmute.com.ShoeShop.services.imp.ShipmentService;
+import hcmute.com.ShoeShop.services.imp.*;
 import hcmute.com.ShoeShop.utlis.PayOption;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.servlet.http.HttpSession;
@@ -49,6 +46,8 @@ public class OrderController {
     @Autowired
     ShipmentService shipmentService;
 
+    @Autowired
+    DiscountService discountService;
 
     private Long shippingFee;
     private Long subtotal;
@@ -75,10 +74,21 @@ public class OrderController {
     }
 
     @PostMapping("/pay")
-    public String handlePayment(@RequestParam("cartId") Long cartId, @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
+    public String handlePayment(@RequestParam("cartId") Long cartId,
+                                @RequestParam(value = "finalTotalPrice" , required = false) String finalPrice,
+                                @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
         // Lấy Cart từ CartId
         Cart cart = cartService.findById(cartId);
-
+        if((finalPrice != null) && (Double.parseDouble(finalPrice) != 0) && (!finalPrice.equals(""))){
+            cart.setId(cartId.intValue());
+            cart.setTotalPrice(Double.parseDouble(finalPrice));
+            cartService.save(cart);
+        }
+        else{
+            cart.setId(cartId.intValue());
+            cart.setTotalPrice(cart.getTotalPrice()+5);
+            cartService.save(cart);
+        }
         this.cartId = cartId;
         // Lấy người dùng từ cart
         Users user = cart.getUserId();
