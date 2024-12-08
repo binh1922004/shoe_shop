@@ -73,7 +73,6 @@ public class ForgotPasswordController {
                                 @RequestParam("confirmPassword") String confirmPassword, Model model) {
         if (newPassword.equals(confirmPassword)) {
             Users u = userService.findUserByEmail(ema);
-            u.setPass(newPassword);
             userService.saveUser(u);
             return "redirect:/login";
         } else {

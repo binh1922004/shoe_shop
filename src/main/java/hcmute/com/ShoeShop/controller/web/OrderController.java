@@ -248,7 +248,10 @@ public class OrderController {
         return "redirect:/";
     }
 
-
+    @GetMapping("/success")
+    public String sucess() {
+        return "user/order-sucess";
+    }
 
 
 }

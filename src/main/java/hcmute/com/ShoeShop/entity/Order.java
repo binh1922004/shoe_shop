@@ -45,6 +45,6 @@ public class Order {
         private Set<OrderDetail> orderDetailSet;
 
         @Enumerated(EnumType.STRING)
-        @Column(name = "pay_option", columnDefinition = "ENUM('COD', 'Momo')", nullable = false)
+        @Column(name = "pay_option", columnDefinition = "ENUM('COD', 'VNPAY')", nullable = false)
         private PayOption payOption;
 }
