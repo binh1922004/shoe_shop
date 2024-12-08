@@ -46,9 +46,9 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
                 OrderPaymentDto orderPaymentDto = new OrderPaymentDto();
                 double total = 0, discount = 0, payment = 0;
                 for (var item: optionalOrderDetail.stream().toList()){
-                        total += item.getProduct().getPriceadd() + item.getProduct().getProduct().getPrice();
+                        total += (item.getProduct().getPriceadd() + item.getProduct().getProduct().getPrice()) * item.getQuantity();
                 }
-
+                total += 5;
                 Order order = orderRepository.findOrderById(orderId);
                 payment = order.getTotalPrice();
                 discount = total - payment;
