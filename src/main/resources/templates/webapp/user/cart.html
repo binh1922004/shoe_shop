@@ -317,23 +317,25 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!--
                                 <div class="form-box">
                                     <div class="form-name">
-                                        <label> Zip/Postal Code </label>
-                                        <input type="text">
+                                        <label>Shipping Company <em>*</em></label>
+                                        <select name="shippingCompanyId" required style="width: 100%; max-width: 400px;">
+                                            <!-- Lặp qua danh sách shippingCompanies -->
+                                            <th:block th:each="company : ${shippingCompanies}">
+                                                <!-- Kiểm tra nếu company.active = true và hiển thị như option -->
+                                                <option th:value="${company.id}" th:text="${company.name + ' - Fee = ' + 5 + '$'}" ></option>
+                                            </th:block>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="shopping-button">
-                                    <button type="submit">get a quote</button>
-                                </div>-->
                             </form>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="totals">
                             <p>Created Date: <span th:text="${#dates.format(cart.createdDate, 'HH:mm:ss dd-MM-yyyy')}"></span></p>
-                            <h3>Grand Total <span id="totalPrice"  th:text="${cart.totalPrice}"></span></h3>
+                            <h3>Grand Total <span id="totalPrice"  th:text="${cart.totalPrice+5}"></span></h3>
                             <div class="shopping-button">
                                 <button type="submit">proceed to checkout</button>
                             </div>
@@ -458,25 +460,35 @@
     });
 </script>
 <script>
+    // Lưu giá gốc toàn cục
+    let originalTotalPrice = null;
+
+    // Khi DOM đã sẵn sàng
+    document.addEventListener('DOMContentLoaded', () => {
+        const totalPriceElement = document.getElementById('totalPrice');
+
+        // Lưu giá gốc khi trang tải lần đầu
+        originalTotalPrice = parseFloat(totalPriceElement.innerText.replace(/[^0-9.-]+/g, ""));
+    });
+
     document.querySelectorAll('.select-discount-btn').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             // Kiểm tra nếu nút không bị vô hiệu hóa
             if (!this.disabled) {
                 const listItem = this.closest('li');
                 const discountId = listItem.getAttribute('data-id');
                 const discountName = listItem.getAttribute('data-discount-code');
-                const discountPer = parseFloat(listItem.getAttribute('data-percent')); // Tỷ lệ giảm giá (ví dụ: 0.2 cho 20%)
+                const discountPer = parseFloat(listItem.getAttribute('data-percent')); // Tỷ lệ giảm giá (ví dụ: 20%)
 
                 // Cập nhật giá trị vào các input
                 document.getElementById('discountIdInput').value = discountId;
-                document.getElementById('couponCodeInput').value = discountName + " - " + discountPer+ "% OFF"; // Hiển thị tỷ lệ phần trăm trong input
+                document.getElementById('couponCodeInput').value = discountName + " - " + discountPer + "% OFF"; // Hiển thị tỷ lệ phần trăm trong input
 
-                // Cập nhật tổng giá
-                const totalPriceElement = document.getElementById('totalPrice');
-                let originalTotalPrice = parseFloat(totalPriceElement.innerText.replace(/[^0-9.-]+/g, "")); // Lấy giá trị tổng ban đầu
-                let newTotalPrice = originalTotalPrice * (1 - (discountPer/100.0)); // Tính toán tổng mới với discount
+                // Tính toán giá mới dựa trên giá gốc
+                const newTotalPrice = originalTotalPrice * (1 - (discountPer / 100.0));
 
                 // Cập nhật giá trị mới vào phần tử #totalPrice
+                const totalPriceElement = document.getElementById('totalPrice');
                 totalPriceElement.innerText = newTotalPrice.toFixed(2); // Cập nhật tổng giá mới với hai chữ số thập phân
 
                 // Đóng modal
@@ -486,6 +498,7 @@
             }
         });
     });
+
 
     // Đảm bảo rằng cuộn chuột không bị chặn
     window.addEventListener('wheel', function(e) {
