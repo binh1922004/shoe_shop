@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     @GetMapping("/details/{id}")
-    public String getProductDetails(@PathVariable long id, ModelMap model, HttpSession session) {
+    public String getProductDetails(@PathVariable long id, Model model, HttpSession session) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
 
 
@@ -68,6 +68,12 @@ public class ProductController {
             List<Product> wishlist = wishListService.getWishlist(u.getId());
             model.addAttribute("wishlist", wishlist);
         }
+
+        // Truyền thông báo nếu có
+        String alert = (String) model.asMap().get("alert");
+
+        System.out.println(alert);
+        model.addAttribute("alert", alert);
 
 
         Product product = productService.getProductById(id);

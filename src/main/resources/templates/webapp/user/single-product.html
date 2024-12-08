@@ -256,6 +256,9 @@
                     </div>
                 </form>
             </div>
+            <div>
+                <h5 th:if="${alert} != null" th:text="${alert}"></h5>
+            </div>
         </div>
     </div>
 </div>
@@ -303,7 +306,7 @@
                                                 <h3 th:text=" 'You are reviewing: ' + ${product.title}"></h3>
                                                 <h3>How do you rate this product? <em>*</em></h3>
                                             </div>
-                                            <form th:action="@{/rating/add}" method="post" enctype="multipart/form-data">
+                                            <form id="ratingForm" th:action="@{/rating/add}" method="post" enctype="multipart/form-data">
                                                 <div class="rating-container">
                                                     <span class="star" data-value="1"><i class="fa fa-star" title="Rất tệ"></i></span>
                                                     <span class="star" data-value="2"><i class="fa fa-star" title="Không hài lòng"></i></span>
@@ -311,7 +314,7 @@
                                                     <span class="star" data-value="4"><i class="fa fa-star" title="Hài lòng"></i></span>
                                                     <span class="star" data-value="5"><i class="fa fa-star" title="Rất hài lòng"></i></span>
                                                 </div>
-                                                <input type="hidden" id="rating" name="star" required>
+                                                <input type="hidden" id="rating" name="star" value="" required>
                                                 <ul class="form-list">
                                                     <li>
                                                         <label>Nickname <em>*</em></label>
@@ -941,20 +944,35 @@
     document.addEventListener('DOMContentLoaded', () => {
         const stars = document.querySelectorAll('.star');
         const ratingInput = document.getElementById('rating');
+        const form = document.getElementById('ratingForm');  // Lấy form theo id
+        if (!form) return;
+
+        form.addEventListener("submit", function (e) {
+            // Kiểm tra nếu ratingInput không có giá trị
+            if (!ratingInput.value) {
+                e.preventDefault(); // Ngừng gửi form
+                alert("Vui lòng chọn số sao trước khi gửi đánh giá!");
+            }
+        });
 
         stars.forEach((star, index) => {
             star.addEventListener('click', () => {
-                // Gán giá trị rating vào input ẩn
-                ratingInput.value = star.dataset.value;
-
-                // Đổi trạng thái các sao thành "đã chọn"
-                stars.forEach((s, i) => {
-                    if (i <= index) {
-                        s.classList.add('selected');
-                    } else {
-                        s.classList.remove('selected');
-                    }
-                });
+                // Kiểm tra nếu sao đã được chọn rồi
+                if (ratingInput.value === star.dataset.value) {
+                    // Nếu đã chọn, reset lại trạng thái sao và giá trị rating
+                    ratingInput.value = '';
+                    stars.forEach(s => s.classList.remove('selected'));
+                } else {
+                    // Nếu chưa chọn, gán giá trị rating và thay đổi trạng thái sao
+                    ratingInput.value = star.dataset.value;
+                    stars.forEach((s, i) => {
+                        if (i <= index) {
+                            s.classList.add('selected');
+                        } else {
+                            s.classList.remove('selected');
+                        }
+                    });
+                }
             });
 
             // Tạo hiệu ứng hover từ trái sang phải

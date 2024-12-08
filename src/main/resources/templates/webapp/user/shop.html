@@ -191,7 +191,7 @@
                                                                 <!--                                                            <p th:text="${product.description}"></p>-->
                                                             </div>
                                                             <div class="price-rating">
-                                                                <span th:text="'$' + ${product.price}"></span>
+                                                                <span class="formatted-price" th:text="${product.price}"></span>
                                                                 <!--                                                                <div class="ratings">-->
                                                                 <!--                                                                    <i class="fa fa-star" th:each="star, iterStat : ${#numbers.sequence(1, product.rating)}"></i>-->
                                                                 <!--                                                                    <i class="fa fa-star-half-o" th:if="${product.rating - #numbers.floor(product.rating) > 0}"></i>-->
@@ -203,16 +203,6 @@
                                                                     <i class="fa fa-star"></i>
                                                                     <i class="fa fa-star"></i>
                                                                 </div>
-                                                            </div>
-                                                            <div class="actions">
-                                                                <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>
-                                                                <ul class="add-to-link">
-                                                                    <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
-                                                                    <li><a href="#" onclick="toggleHeart(this);  return false;">
-                                                                        <i class="fa fa-heart-o"></i>
-                                                                    </a></li>
-                                                                    <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
-                                                                </ul>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -435,6 +425,12 @@
                         }
                     });
                 }
+            });
+        </script>
+        <script>
+            document.querySelectorAll('.formatted-price').forEach(function(priceElement) {
+                var price = parseFloat(priceElement.textContent);
+                priceElement.textContent = new Intl.NumberFormat().format(price);
             });
         </script>
     </body>

@@ -24,4 +24,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
         public Page<Order> findOrderByStatus(ShipmentStatus status, Pageable pageable);
 
         public Page<Order> findOrderByUser_Id(int userId, Pageable pageable);
+
+        @Query("SELECT COUNT(o) > 0 FROM Order o WHERE o.user.id = :userId")
+        boolean existsByUser(long userId);
 }

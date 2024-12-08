@@ -9,24 +9,6 @@
                     <img th:src="${product.image}" alt="Image" class="primary-img">
                 </a>
             </div>
-            <div class="actions">
-<!--                <button type="submit" class="cart-btn" title="Add to cart">add to cart</button>-->
-                <ul class="add-to-link">
-                    <li><a class="modal-view" data-target="#productModal" data-bs-toggle="modal" href="#">
-                        <i class="fa fa-search"></i></a></li>
-<!--                                        <li>-->
-<!--                                            &lt;!&ndash; Dùng th:attr để gán giá trị product.id vào data-product-id &ndash;&gt;-->
-<!--                                            <a href="#" class="add-to-wishlist" th:attr="data-product-id=${product.id}">-->
-<!--                                                &lt;!&ndash;<i class="fa fa-heart-o"></i>Trái tim xám ban đầu &ndash;&gt;-->
-<!--                                                <i class="fa"-->
-<!--                                                   th:class="${wishlist.contains(product) ? ' fa fa-heart' : 'fa fa-heart-o'}">-->
-<!--                                                </i>-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-                    <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
-                </ul>
-            </div>
-            <div class="product-price">
                 <div class="product-name">
                     <a th:href="@{/product/details/{id}(id=${product.id})}" th:title="${product.title}"
                        th:text="${product.title}"></a>
@@ -42,7 +24,6 @@
                         <i class="fa fa-star"></i>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
     <!-- Phân trang -->
