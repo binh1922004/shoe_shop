@@ -13,3 +13,6 @@ Nguyễn Nhật Nguyên:**22110384**
 Dương Khánh Nguyên:**22110383**
 
 Trần Thị Kim Chung: **22110288**
+
+Tài khoản admin: admin@admin
+Password: 123123
