@@ -42,7 +42,6 @@ public class Discount {
 
     @Column(name = "start_date", nullable = false)
     @NotNull(message = "Start date cannot be null")
-    @FutureOrPresent(message = "Start date cannot be in the past")
     private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
