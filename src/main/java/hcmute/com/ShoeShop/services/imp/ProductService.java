@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -90,19 +91,24 @@ public class ProductService {
 
         productRepository.save(product);
 
+        // Handle updating size and price details
         for (int size = 38; size <= 45; size++) {
             String priceaddStr = productDetails.get("productDetails[" + size + "].priceadd");
             if (priceaddStr != null && !priceaddStr.isEmpty()) {
                 double priceadd = Double.parseDouble(priceaddStr);
 
-                ProductDetail productDetail = productDetailService.findByProductAndSize(product, size);
-                if (productDetail == null) {
-                    productDetail = new ProductDetail();
+                // Check if the ProductDetail for this size exists
+                ProductDetail existingDetail = productDetailService.findByProductAndSize(product, size);
+                if (existingDetail != null) {
+                    existingDetail.setPriceadd(priceadd); // Update price
+                    productDetailService.save(existingDetail);
+                } else {
+                    ProductDetail productDetail = new ProductDetail();
                     productDetail.setProduct(product);
                     productDetail.setSize(size);
+                    productDetail.setPriceadd(priceadd);
+                    productDetailService.save(productDetail);
                 }
-                productDetail.setPriceadd(priceadd);
-                productDetailService.save(productDetail);
             }
         }
     }
@@ -111,7 +117,9 @@ public class ProductService {
     public void deleteProduct(Long id) {
         wishlistService.deleteByProductId(id);
         //khong xoa -> isdelete = true
-        productRepository.deleteById(id);
+        Product product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        product.setDelete(true);
+        productRepository.save(product);
     }
 
     // Get product by ID
@@ -145,7 +153,7 @@ public class ProductService {
         // Tiến hành lấy sản phẩm từ cơ sở dữ liệu theo danh sách ids
         return productRepository.findAllById(ids);
     }
-public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest pageRequest) {
+    public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest pageRequest) {
         return productRepository.findAllByCategoryId(categoryId, pageRequest);
     }
 
@@ -157,8 +165,21 @@ public Page<Product> getPaginatedProductsByCategory(long categoryId, PageRequest
         }
         return ratedProducts;
     }
+    public Map<Integer, Double> getSizePriceMap(Long productId) {
+        Map<Integer, Double> sizePriceMap = new HashMap<>();
 
-    public List<Product> getProductByCategoryId(Long categoryId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        for (ProductDetail detail : product.getDetails()) {
+            sizePriceMap.put(detail.getSize(), detail.getPriceadd());
+            System.out.println(detail.getSize() + " " + detail.getPriceadd());
+        }
+
+
+        return sizePriceMap;
+    }
+	public List<Product> getProductByCategoryId(Long categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
 }
