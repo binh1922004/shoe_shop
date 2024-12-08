@@ -245,7 +245,7 @@ public class OrderController {
         model.addAttribute("orderInfo", orderInfo);
         model.addAttribute("customer", user);
         model.addAttribute("total", total);
-        return "user/after-checkout";
+        return "redirect:/";
     }
 
 
