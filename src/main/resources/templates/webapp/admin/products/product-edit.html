@@ -1340,7 +1340,8 @@
         <div class="container-xxl">
 
             <div class="row">
-                <form th:object="${product}" method="post" th:action="@{/product/update}" enctype="multipart/form-data">
+                <form th:object="${product}" method="post" th:action="@{/admin/product/update}"
+                      enctype="multipart/form-data">
                     <input type="hidden" th:field="*{id}">
 
                     <div class="col-xl-9 col-lg-8">
@@ -1423,7 +1424,6 @@
                                 </div>
 
                                 <!-- Size and Price Add Fields for each size -->
-                                <!-- Size and Price Add Fields for each size -->
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <h5>Chọn size và thêm giá cho từng size</h5>
@@ -1437,20 +1437,30 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
+
+
+                                                <!-- Loop through sizes from 38 to 45 -->
                                                 <tr th:each="size : ${#numbers.sequence(38, 45)}">
                                                     <td th:text="${size}">38</td>
                                                     <td>
+                                                        <!-- Correct format to dynamically set the field name -->
                                                         <input type="number" class="form-control"
+                                                               th:value="${sizePriceMap[__${size}__]}"
                                                                th:name="'productDetails[' + ${size} + '].priceadd'"
-                                                               th:value="${sizePriceMap != null and sizePriceMap.containsKey(size) ? sizePriceMap[size] : null}"
                                                                placeholder="Giá thêm cho size" min="0"/>
                                                     </td>
                                                 </tr>
+
+
+
+
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
 

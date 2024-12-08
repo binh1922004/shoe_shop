@@ -48,7 +48,7 @@ public class ProductController {
     @GetMapping("/details/{id}")
     public String getProductDetails(@PathVariable long id, ModelMap model, HttpSession session) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
-        
+
 
         List<Long> viewedProductIds = (List<Long>) session.getAttribute(Constant.VIEW_PRODUCT);
 
