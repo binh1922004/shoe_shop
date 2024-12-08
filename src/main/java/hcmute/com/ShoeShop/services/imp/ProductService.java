@@ -182,4 +182,12 @@ public class ProductService {
 	public List<Product> getProductByCategoryId(Long categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
+
+    public Page<Product> searchProductsByTitle(String keyword, Pageable pageable) {
+        return productRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+    }
+
+    public Page<Product> searchProductsByCategoryAndTitle(Long categoryId, String keyword, Pageable pageable) {
+        return productRepository.findByCategoryIdAndTitleContainingIgnoreCase(categoryId, keyword, pageable);
+    }
 }
