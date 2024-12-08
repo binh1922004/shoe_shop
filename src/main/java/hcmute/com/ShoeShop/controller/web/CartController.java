@@ -49,12 +49,8 @@ public class CartController {
         Set<CartDetail> cartDetails = cart.getOrderDetailSet();
         cartService.cleanCart(cartDetails, cart);
 
-        List<Discount> discounts = discountService.findAllDiscountsCondition(15);
-        List<Discount> activeDiscounts = discounts.stream()
-                .filter(discount -> discount.getStatus().equals("ACTIVE"))
-                .collect(Collectors.toList());
-
-        model.addAttribute("discounts", activeDiscounts);
+        List<Discount> discounts = discountService.findAllDiscountsCondition(cart.getTotalPrice());
+        model.addAttribute("discounts", discounts);
 
 
         // Truyền thông báo nếu có

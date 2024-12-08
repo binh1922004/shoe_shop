@@ -45,6 +45,7 @@ public class ApplicationInitConfig {
                         .pass(passwordEncoder.encode("123123"))
                         .address("admin")
                         .fullname("admin")
+                        .address("1 VNN, TP Thu Duc, VN")
                         .phone("0123456789")
                         .build();
                 userRepository.save(user);
