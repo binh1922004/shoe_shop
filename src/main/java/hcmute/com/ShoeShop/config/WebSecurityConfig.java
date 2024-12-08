@@ -34,7 +34,7 @@ public class WebSecurityConfig {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
                 httpSecurity.authorizeHttpRequests(request -> request
-                                .requestMatchers("/manager/**").hasRole("manager")
+                                .requestMatchers("/manager/**").hasAnyRole("manager", "admin")
                                 .requestMatchers("/shipper/**").hasRole("shipper")
                                 .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
                                 .requestMatchers(PUBLIC_CSS).permitAll() // Cho phép truy cập tài nguyên tĩnh

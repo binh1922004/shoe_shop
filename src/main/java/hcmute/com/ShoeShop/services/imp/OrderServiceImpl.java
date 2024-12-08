@@ -109,7 +109,14 @@ public class OrderServiceImpl implements IOrderService {
                 orderRepository.save(order);
         }
 
-        public boolean checkOrderByUser(Users user){
+        public boolean checkOrderByUser(Users user) {
                 return orderRepository.existsByUser(user.getId());
+        }
+        public long countOrder(){
+                return orderRepository.count();
+        }
+
+        public double totalPrice(){
+                return orderRepository.sumTotalPrice();
         }
 }

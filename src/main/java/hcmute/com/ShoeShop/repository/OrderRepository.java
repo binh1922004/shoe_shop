@@ -27,4 +27,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
         @Query("SELECT COUNT(o) > 0 FROM Order o WHERE o.user.id = :userId")
         boolean existsByUser(long userId);
+        @Query("select sum(o.totalPrice) from Order o")
+        public double sumTotalPrice();
+
 }
