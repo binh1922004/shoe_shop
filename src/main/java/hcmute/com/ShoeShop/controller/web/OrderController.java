@@ -1,9 +1,8 @@
 package hcmute.com.ShoeShop.controller.web;
 
-import hcmute.com.ShoeShop.entity.Cart;
-import hcmute.com.ShoeShop.entity.Order;
-import hcmute.com.ShoeShop.entity.OrderDetail;
-import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.dto.OrderDetailDto;
+import hcmute.com.ShoeShop.dto.OrderPaymentDto;
+import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.repository.CartRepository;
 import hcmute.com.ShoeShop.repository.OrderDetailRepository;
 import hcmute.com.ShoeShop.repository.OrderRepository;
@@ -19,10 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -49,6 +45,7 @@ public class OrderController {
 
     @Autowired
     OrderDetailRepository orderDetailRepository;
+
 
     private Long shippingFee;
     private Long subtotal;
@@ -253,5 +250,31 @@ public class OrderController {
         return "user/order-sucess";
     }
 
+    @GetMapping("/detail/{id}")
+    public String getOrderDetail(@PathVariable("id") int orderId,
+                                 Model model){
+        model.addAttribute("title", "Order detail");
 
+        //add list order detail to view
+        List<OrderDetailDto> list = orderDetailService.findAllOrderDetailById(orderId);
+        model.addAttribute("list", list);
+
+        //add payment detail to view
+        OrderPaymentDto orderPaymentDto = orderDetailService.getOrderPayment(orderId);
+        model.addAttribute("payment", orderPaymentDto);
+
+        //add order to view
+        Order order = orderService.findById(orderId);
+        model.addAttribute("order", order);
+
+        //add user detail to view
+        Users user = order.getUser();
+        model.addAttribute("user", user);
+
+        //add shipper to view
+        Shipment shipment = shipmentService.findShipmentByOrderId(orderId);
+        model.addAttribute("shipper", shipment);
+
+        return "manager/order/order-detail";
+    }
 }
