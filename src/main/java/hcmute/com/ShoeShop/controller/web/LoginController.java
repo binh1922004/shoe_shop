@@ -37,7 +37,7 @@ public class LoginController {
         if (username != null) {
             model.addAttribute("username", username);
         }
-        return "web/login";
+        return "/web/login";
     }
 
     @PostMapping("/login-process")

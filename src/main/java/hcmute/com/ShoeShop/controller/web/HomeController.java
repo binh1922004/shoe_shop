@@ -63,11 +63,11 @@ public class HomeController {
         // lay ra list 20 san pham co rating cao nhat
         List<Product> ratedProducts = productService.getTopRatedProducts();
         model.addAttribute("ratedProducts", ratedProducts);
-        return "web/index";
+        return "/web/index";
     }
 
     @GetMapping("/blog")
     public String blog(){
-        return "user/blog";
+        return "/user/blog";
     }
 }

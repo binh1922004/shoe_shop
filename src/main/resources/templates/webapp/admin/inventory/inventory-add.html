@@ -1358,21 +1358,22 @@
                                         <label for="product-categories" class="form-label">Sản phẩm</label>
                                         <select class="form-control" id="product-categories" data-choices
                                                 data-choices-groups data-placeholder="Chọn sản phẩm"
-                                                name="choices-single-groups" th:field="*{productId}">
-                                            <option th:each="product : ${products}" th:value="${product.id}"
-                                                    th:text="${product.title}"
-                                                    th:selected="${product.id == inventory.productId}"/>
+                                                th:field="*{productDetailId}">
+                                            <option th:each="detail : ${details}"
+                                                    th:value="${detail.id}"
+                                                    th:text="${detail.product.title} + ' - Size ' + ${detail.size}"
+                                                    th:selected="${detail.id == inventory.productDetailId}"/>
                                         </select>
                                     </div>
                                 </div>
 
-                                <!-- Product Voucher -->
+                                <!-- Product Quantity -->
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="quantity" class="form-label">Số lượng</label>
-                                            <input type="number" id="quantity" class="form-control"
-                                                   th:field="*{quantity}" placeholder="Voucher code">
+                                            <input type="number" id="quantity" class="form-control" th:field="*{quantity}"
+                                                   placeholder="Nhập số lượng" min="1">
                                         </div>
                                     </div>
                                 </div>
@@ -1386,12 +1387,13 @@
                                     <button type="submit" class="btn btn-outline-secondary w-100">Lưu thông tin</button>
                                 </div>
                                 <div class="col-lg-2">
-                                    <a href="#!" class="btn btn-primary w-100">Huỷ</a>
+                                    <a href="#" class="btn btn-primary w-100">Huỷ</a> <!-- Add proper href for cancel action -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
+
             </div>
 
         </div>
