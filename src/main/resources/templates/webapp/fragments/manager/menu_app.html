@@ -57,14 +57,18 @@
             <li class="menu-title mt-2">Users</li>
 
             <li class="nav-item">
-                <a class="nav-link" href="pages-profile.html">
+                <a th:href="@{/manager/profile}" class="nav-link" href="pages-profile.html">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:chat-square-like-bold-duotone"></iconify-icon>
                                    </span>
                     <span class="nav-text"> Profile </span>
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a th:href="@{/logout}" class="nav-link" href="pages-profile.html">
+                    <span class="nav-text"> Logout </span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

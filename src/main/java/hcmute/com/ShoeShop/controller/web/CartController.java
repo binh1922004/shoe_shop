@@ -1,11 +1,10 @@
 package hcmute.com.ShoeShop.controller.web;
 
-import hcmute.com.ShoeShop.entity.Address;
-import hcmute.com.ShoeShop.entity.Cart;
-import hcmute.com.ShoeShop.entity.CartDetail;
-import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.services.imp.AddressService;
 import hcmute.com.ShoeShop.services.imp.CartService;
+import hcmute.com.ShoeShop.services.imp.DiscountService;
+import hcmute.com.ShoeShop.services.imp.ProductService;
 import hcmute.com.ShoeShop.utlis.Constant;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,9 @@ public class CartController {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private DiscountService discountService;
+
     @GetMapping("/view")
     public String viewCart(HttpSession session, Model model) {
         // lay thong tin nguoi dung tu session
@@ -45,6 +47,10 @@ public class CartController {
         // duyet qua set cartDetail kiem tra product isdelete = true thi xoa khoi cart
         Set<CartDetail> cartDetails = cart.getOrderDetailSet();
         cartService.cleanCart(cartDetails, cart);
+
+        List<Discount> discounts = discountService.findAllDiscountsCondition(15);
+        model.addAttribute("discounts", discounts);
+
 
         // Truyền thông báo nếu có
         String alert = (String) model.asMap().get("alert");

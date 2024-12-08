@@ -996,12 +996,14 @@ body {
     box-sizing: border-box; /* Đảm bảo kích thước bao gồm padding và border */
     background-color: #f9f9f9; /* Nền cho container */
     overflow: hidden; /* Ẩn phần ảnh thừa nếu có */
+    position: relative; /* Đảm bảo vùng hover chỉ nhận diện ảnh */
 }
 .product-img a {
     display: block;
     position: relative;
     width: 100%; /* Đảm bảo a chiếm 100% chiều rộng của phần tử chứa */
     height: 100%; /* Đảm bảo a chiếm 100% chiều cao */
+    z-index: 10;
 }
 .product-img img {
     width: 100%; /* Ảnh chiếm hết chiều rộng của container */
@@ -1011,6 +1013,12 @@ body {
     border: 1px solid #ddd; /* Viền màu xám nhạt */
     border-radius: 5px; /* Bo góc nhẹ */
     background-color: #f9f9f9; /* Nền để tránh khoảng trống */
+}
+
+.product-img .secondary-img {
+    transform: translate3d(100%, 0, 0); /* Ẩn hoàn toàn ảnh phụ ngoài bên phải */
+    opacity: 0; /* Ảnh phụ không hiển thị */
+    visibility: hidden; /* Không thể nhìn thấy ảnh phụ */
 }
 
 .product-img a .secondary-img {

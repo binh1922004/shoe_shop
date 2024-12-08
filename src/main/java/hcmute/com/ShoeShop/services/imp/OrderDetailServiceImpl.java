@@ -23,44 +23,40 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         OrderRepository orderRepository;
 
         public List<OrderDetailDto> findAllOrderDetailById(int orderId){
-                Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findOrderDetailsByOrderId(orderId);
+                List<OrderDetail> optionalOrderDetail = orderDetailRepository.findOrderDetailsByOrderId(orderId);
 
                 List<OrderDetailDto> listDetailRes = new ArrayList<>();
-                if (optionalOrderDetail.isPresent()){
-                        for (var item: optionalOrderDetail.stream().toList()){
-                                OrderDetailDto detailDto = new OrderDetailDto();
-                                //map data from OrderDetail to OrderDetailDTO
-                                detailDto.setSize(item.getProduct().getSize());
-                                detailDto.setProduct_name(item.getProduct().getProduct().getTitle());
-                                detailDto.setImage(item.getProduct().getProduct().getImage());
-                                detailDto.setPrice(item.getPrice());
-                                detailDto.setQuantity(item.getQuantity());
-                                detailDto.setAmount(item.getPrice() * item.getQuantity());
+                for (var item: optionalOrderDetail.stream().toList()){
+                        OrderDetailDto detailDto = new OrderDetailDto();
+                        //map data from OrderDetail to OrderDetailDTO
+                        detailDto.setSize(item.getProduct().getSize());
+                        detailDto.setProduct_name(item.getProduct().getProduct().getTitle());
+                        detailDto.setImage(item.getProduct().getProduct().getImage());
+                        detailDto.setPrice(item.getPrice());
+                        detailDto.setQuantity(item.getQuantity());
+                        detailDto.setAmount(item.getPrice() * item.getQuantity());
 
-                                listDetailRes.add(detailDto);
-                        }
+                        listDetailRes.add(detailDto);
                 }
                 return listDetailRes;
         }
 
         public OrderPaymentDto getOrderPayment(int orderId){
-                Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findOrderDetailsByOrderId(orderId);
+                List<OrderDetail> optionalOrderDetail = orderDetailRepository.findOrderDetailsByOrderId(orderId);
                 OrderPaymentDto orderPaymentDto = new OrderPaymentDto();
-                if (optionalOrderDetail.isPresent()){
-                        double total = 0, discount = 0, payment = 0;
-                        for (var item: optionalOrderDetail.stream().toList()){
-                                total += item.getProduct().getPriceadd();
-                        }
-
-                        Order order = orderRepository.findOrderById(orderId);
-                        payment = order.getTotalPrice();
-                        discount = total - payment;
-
-
-                        orderPaymentDto.setDiscount(discount);
-                        orderPaymentDto.setTotalpay(payment);
-                        orderPaymentDto.setSubtotal(total);
+                double total = 0, discount = 0, payment = 0;
+                for (var item: optionalOrderDetail.stream().toList()){
+                        total += item.getProduct().getPriceadd() + item.getProduct().getProduct().getPrice();
                 }
+
+                Order order = orderRepository.findOrderById(orderId);
+                payment = order.getTotalPrice();
+                discount = total - payment;
+
+
+                orderPaymentDto.setDiscount(discount);
+                orderPaymentDto.setTotalpay(payment);
+                orderPaymentDto.setSubtotal(total);
                 return orderPaymentDto;
         }
 

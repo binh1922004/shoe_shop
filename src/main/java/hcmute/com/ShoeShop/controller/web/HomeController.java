@@ -44,14 +44,14 @@ public class HomeController {
 //                return "redirect:/user/shop";
 //            }
 //        }
-//        List<String> role = List.of("admin","manager","user","shipper");
-//        for(int i = 0; i < role.size(); i++){
-//            if(roleService.findRoleByName(role.get(i))==null){
-//                Role ro = new Role();
-//                ro.setRoleName(role.get(i));
-//                roleService.insertRole(ro);
-//            }
-//        }
+        List<String> role = List.of("admin","manager","user","shipper");
+        for(int i = 0; i < role.size(); i++){
+            if(roleService.findRoleByName(role.get(i))==null){
+                Role ro = new Role();
+                ro.setRoleName(role.get(i));
+                roleService.insertRole(ro);
+            }
+        }
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
         Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));

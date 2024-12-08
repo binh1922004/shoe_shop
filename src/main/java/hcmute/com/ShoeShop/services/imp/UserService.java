@@ -50,4 +50,11 @@ public class UserService{
     public Users findUserByUserID(int userId){
         return userRepository.findUsersById(userId);
     }
+
+    public void updateUser(Users user, String fullname, String address, String phone) {
+        user.setFullname(fullname);
+        user.setAddress(address);
+        user.setPhone(phone);
+        userRepository.save(user);
+    }
 }

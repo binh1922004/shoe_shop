@@ -5,6 +5,7 @@ import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
 import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.services.imp.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +42,14 @@ public class ApiController {
         public void addNote(@RequestParam("note") String note,
                             @RequestParam("shipmentId") int shipmentId){
                 shipmentService.updateNote(shipmentId, note);
+        }
+
+        @PostMapping("/user/update")
+        public void updateUser(@RequestParam("fullname") String fullname,
+                               @RequestParam("address") String address,
+                               @RequestParam("phone") String phone,
+                               HttpSession session){
+                Users user = (Users) session.getAttribute("user");
+                userService.updateUser(user, fullname, address, phone);
         }
 }

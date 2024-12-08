@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,48 +29,10 @@ public class ProductController {
     private ProductDetailService productDetailService;
 
     @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
     private WishlistService wishListService;
     @Autowired
     private RatingService ratingService;
 
-    @GetMapping("/insertProductPage")
-    public String insertProductPage(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("product", new ProductDto());
-        return "admin/products/product-add";
-    }
-
-    @PostMapping("/save")
-    public String save(@ModelAttribute(name = "product") ProductDto productDto,
-                       @RequestParam(name = "image", required = false) MultipartFile image,
-                       @RequestParam Map<String, String> productDetails) {
-        productService.saveProduct(productDto, image, productDetails);
-        return "redirect:/product";
-    }
-
-    @GetMapping("/updateProduct/{id}")
-    public String getFormUpdateProduct(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("product", productService.getProductDtoById(id));
-        model.addAttribute("categories", categoryService.findAll());
-        return "admin/products/product-edit";
-    }
-
-    @PostMapping("/update")
-    public String update(@ModelAttribute(name = "product") ProductDto productDto,
-                         @RequestParam(name = "image", required = false) MultipartFile image,
-                         @RequestParam Map<String, String> productDetails) {
-        productService.updateProduct(productDto, image, productDetails);
-        return "redirect:/product";
-    }
-
-    @GetMapping("/deleteProduct/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        productService.deleteProduct(id);
-        return "redirect:/product";
-    }
 
     @GetMapping("/web")
     public String getAllProducts(@RequestParam(defaultValue = "0") int page,
@@ -85,13 +48,27 @@ public class ProductController {
     @GetMapping("/details/{id}")
     public String getProductDetails(@PathVariable long id, ModelMap model, HttpSession session) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
-//        if(u==null)
-//            return "redirect:/login";
-        if(u!=null){
+
+
+        List<Long> viewedProductIds = (List<Long>) session.getAttribute(Constant.VIEW_PRODUCT);
+
+        if (viewedProductIds == null) {
+            viewedProductIds = new ArrayList<>();
+        }
+        // Thêm sản phẩm vào danh sách nếu chưa có
+        if (!viewedProductIds.contains(id)) {
+            viewedProductIds.add(id);
+        }
+
+        if(u != null) {
+
+            // Lưu lại vào session
+            session.setAttribute(Constant.VIEW_PRODUCT, viewedProductIds);
             model.addAttribute("user", u);
             List<Product> wishlist = wishListService.getWishlist(u.getId());
             model.addAttribute("wishlist", wishlist);
         }
+
 
         Product product = productService.getProductById(id);
         List<ProductDetail> productDetails = productDetailService.findProductByProductId(id);
@@ -108,16 +85,5 @@ public class ProductController {
         averageStar = Math.round(averageStar * 10) / 10.0;
         model.addAttribute("avgrating", averageStar);
         return "user/single-product";
-    }
-
-    @GetMapping("")
-    public String getAllProduct(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "3") int size,
-                                Model model) {
-        Page<Product> productPage = productService.getPaginatedProducts(PageRequest.of(page, size));
-        model.addAttribute("products", productPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", productPage.getTotalPages());
-        return "admin/products/product-list";
     }
 }

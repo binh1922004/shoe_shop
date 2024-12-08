@@ -28,47 +28,6 @@ public class CategoryController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private WishlistService wishlistService;
-
-    @GetMapping("")
-    public String category(Model model) {
-        model.addAttribute("categories", categoryRepository.findAll());
-        return "admin/categories/category-list";
-    }
-    @GetMapping("/insertCategoryPage")
-    public String insertProductPage(Model model) {
-        Category category = new Category();
-        model.addAttribute("category", category);
-        return "admin/categories/category-add";
-    }
-
-    @PostMapping("/save")
-    public String save(@ModelAttribute(name = "category") Category category) {
-        categoryRepository.save(category);
-
-        return "redirect:/category";
-    }
-
-    @GetMapping("/updateCategory/{id}")
-    public String getFormUpdateCategory(@PathVariable("id") Long id, Model model){
-        Category category = categoryRepository.findById(id).get();
-        model.addAttribute("category", category);
-        model.addAttribute("id", category.getId());
-        return "admin/categories/category-edit";
-    }
-
-    @PostMapping("/update")
-    public String update(@ModelAttribute(name = "category") Category category) {
-        categoryRepository.save(category);
-        return "redirect:/category";
-    }
-    @GetMapping("/deleteCategory/{id}")
-    public String delete(@PathVariable("id") Long id){
-        categoryRepository.deleteById(id);
-        return "redirect:/category";
-    }
-
     @GetMapping("/{id}")
     public String getCategoryContent(@PathVariable("id") Long id, ModelMap model,
                                      @RequestParam(defaultValue = "0") int page,

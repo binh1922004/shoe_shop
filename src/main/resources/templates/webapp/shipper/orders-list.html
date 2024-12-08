@@ -39,12 +39,11 @@
 <div class="wrapper">
 
      <!-- ========== Topbar Start ========== -->
-     <div th:include="~{fragments/manager/header.html}"></div>
+     <div th:include="~{fragments/shipper/header.html}"></div>
      <!-- ========== Topbar End ========== -->
 
-<!--               Start menu app-->
-     <div th:include="~{fragments/manager/menu_app.html}"></div>
-
+     <!--               Start menu app-->
+     <div th:include="~{fragments/shipper/menu_app.html}"></div>
      <!-- ==================================================== -->
      <!-- Start right Content here -->
      <!-- ==================================================== -->
@@ -113,7 +112,7 @@
                                    <div class="card-body">
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
-                                                  <h4 class="card-title mb-2">Roll Back</h4>
+                                                  <h4 class="card-title mb-2">Return</h4>
                                                   <p th:text="${static.preturn}" class="text-muted fw-medium fs-22 mb-0">656</p>
                                              </div>
                                              <div>
@@ -136,9 +135,10 @@
                                         </div>
                                         <div style="display: flex; align-content: center">
                                              <select class="form-select form-select-sm" id="orderStatus" onchange="getOrderStatus()" style="margin-left: 10px">
-                                                  <option th:href="@{/shipper/order/list(status=${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).SHIPPED})}" th:value="${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).SHIPPED}">Shipped</option>
-                                                  <option th:href="@{/shipper/order/list(status=${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).DELIVERED})}" th:value="${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).DELIVERED}">Delivered</option>
-                                                  <option th:href="@{/shipper/order/list(status=${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).RETURN})}" th:value="${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).RETURN}">Return</option>
+                                                  <option value="">All</option>
+                                                  <option th:value="${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).SHIPPED}">Shipped</option>
+                                                  <option th:value="${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).DELIVERED}">Delivered</option>
+                                                  <option th:value="${T(hcmute.com.ShoeShop.utlis.ShipmentStatus).RETURN}">Return</option>
                                              </select>
                                              <script>
                                                   window.onload = function () {
@@ -204,12 +204,12 @@
                                    <div class="card-footer border-top" th:if="${totalPages > 0}">
                                         <nav aria-label="Page navigation example">
                                              <ul class="pagination justify-content-end mb-0">
-                                                  <li th:if="${listOrder.number > 0}" class="page-item"><a class="page-link" th:href="@{/shipper/order/list(page-num=${listOrder.number - 1})}">Previous</a></li>
+                                                  <li th:if="${listOrder.number > 0}" class="page-item"><a class="page-link" th:href="@{/shipper/order/list(page-num=${listOrder.number - 1}, status=${stt})}">Previous</a></li>
                                                   <li  th:each="pageNumber: ${pageNumbers}" th:class="${pageNumber == listOrder.number + 1} ? 'page-item active' : 'page-item'">
-                                                       <a th:text="${pageNumber}" class="page-link" th:href="@{/shipper/order/list(page-num=${pageNumber - 1})}"></a>
+                                                       <a th:text="${pageNumber}" class="page-link" th:href="@{/shipper/order/list(page-num=${pageNumber - 1}, status=${stt})}"></a>
                                                   </li>
 <!--                                                  <li th:if="${pageNumber != listOrder.number + 1}" class="page-item"><a th:text="${pageNumber}" class="page-link" href="javascript:void(0);"></a></li>-->
-                                                  <li th:if="${totalPages > listOrder.number + 1}" class="page-item"><a class="page-link" th:href="@{/shipper/order/list(page-num=${listOrder.number + 1})}">Next</a></li>
+                                                  <li th:if="${totalPages > listOrder.number + 1}" class="page-item"><a class="page-link" th:href="@{/shipper/order/list(page-num=${listOrder.number + 1}, status=${stt})}">Next</a></li>
 
                                              </ul>
                                         </nav>
