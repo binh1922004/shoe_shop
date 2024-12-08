@@ -53,6 +53,7 @@ public class OrderController {
     private Long subtotal;
     private Long total;
     private Boolean orderSuccess;
+    private String address;
 
     private String transactionNo;
     private String orderInfo;
@@ -76,7 +77,10 @@ public class OrderController {
     @PostMapping("/pay")
     public String handlePayment(@RequestParam("cartId") Long cartId,
                                 @RequestParam(value = "finalTotalPrice" , required = false) String finalPrice,
+                                @RequestParam(value = "addressId") String address,
                                 @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
+        this.address = address;
+
         // Lấy Cart từ CartId
         Cart cart = cartService.findById(cartId);
         if((finalPrice != null) && (Double.parseDouble(finalPrice) != 0) && (!finalPrice.equals(""))){
@@ -100,7 +104,7 @@ public class OrderController {
 
 
         if (payOption.equalsIgnoreCase("COD")) {
-            orderService.orderCart(cartId, totalPrice, PayOption.COD);
+            orderService.orderCart(cartId, totalPrice, PayOption.COD, address);
 
             return "redirect:/order/success";
         } else if (payOption.equalsIgnoreCase("VNPAY")) {
@@ -190,7 +194,7 @@ public class OrderController {
 
         Double totalPrice = cart.getTotalPrice();
 
-        orderService.orderCart(cartId, totalPrice, PayOption.VNPAY);
+        orderService.orderCart(cartId, totalPrice, PayOption.VNPAY, this.address);
 
         if(!Objects.equals(transactionNo, "0")) {
             this.orderSuccess = true;

@@ -301,17 +301,6 @@
                             <form action="#">
                                 <div class="form-box">
                                     <div class="form-name">
-                                        <label>Address <em>*</em></label>
-                                        <select name="addressId" required style="width: 100%; max-width: 400px;">
-                                            <!-- Lặp qua danh sách địa chỉ -->
-                                            <th:block th:each="address : ${adr}">
-                                                <option th:value="${address.id}" th:text="${address.address}" th:if="${address.isDefault}" selected></option>
-                                                <option th:value="${address.id}"
-                                                        th:text="${address.address}"
-                                                        th:unless="${address.isDefault}">
-                                                </option>
-                                            </th:block>
-                                        </select>
                                     </div>
                                 </div>
                                
@@ -342,11 +331,26 @@
                             <form action="/order/pay" method="post" id="form2">
                                 <input type="hidden" name="cartId" th:value="${cart.id}"/>
                                 <input type="hidden" name="finalTotalPrice" id="finalTotalPrice" th:value="${finalTotalPrice != null && finalTotalPrice != '' ? finalTotalPrice : 0}"/>
-                                <label for="payOption">Payment Option:</label>
-                                <select name="payOption" id="payOption">
-                                    <option value="COD">Cash on Delivery</option>
-                                    <option value="VNPAY">Pay with VNPay</option>
-                                </select>
+                                <div>
+                                    <label for="payOption">Payment Option:</label>
+                                    <select name="payOption" id="payOption">
+                                        <option value="COD">Cash on Delivery</option>
+                                        <option value="VNPAY">Pay with VNPay</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Address <em>*</em></label>
+                                    <select name="addressId" required style="width: 100%; max-width: 400px;">
+                                        <!-- Lặp qua danh sách địa chỉ -->
+                                        <th:block th:each="address : ${adr}">
+                                            <option th:value="${address.id}" th:text="${address.address}" th:if="${address.isDefault}" selected></option>
+                                            <option th:value="${address.id}"
+                                                    th:text="${address.address}"
+                                                    th:unless="${address.isDefault}">
+                                            </option>
+                                        </th:block>
+                                    </select>
+                                </div>
 
                                 <div class="shopping-button">
                                     <button type="submit">Proceed to Checkout</button>

@@ -80,13 +80,14 @@ public class OrderServiceImpl implements IOrderService {
                 return orderRepository.findOrderByUser_Id(usreId, pageable);
         }
 
-        public void orderCart(Long cartId, double price, PayOption payOption){
+        public void orderCart(Long cartId, double price, PayOption payOption, String address){
                 Cart cart = cartRepository.findCartsById(cartId);
                 Order order = Order.builder()
                         .user(cart.getUserId())
                         .totalPrice(price)
                         .createdDate(new Date())
                         .payOption(payOption)
+                        .address(address)
                         .status(ShipmentStatus.IN_STOCK)
                         .build();
                 Set<OrderDetail> orderDetails = new HashSet<>();
