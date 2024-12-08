@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
@@ -50,8 +51,10 @@ public class WebSecurityConfig {
                         //config cho trang logout
                         .logout(logout ->
                                 logout.logoutUrl("/logout").permitAll()
+                        )
+                        .exceptionHandling(exception -> exception
+                                .accessDeniedHandler(accessDeniedHandler())
                         );
-                        //config cho remember me 1 day
                 //cai nay tu bat nen phai tat
                 httpSecurity.csrf(AbstractHttpConfigurer::disable);
                 return httpSecurity.build();
@@ -68,4 +71,11 @@ public class WebSecurityConfig {
                 return new CustomUserDetailService();
         }
 
+        @Bean
+        public AccessDeniedHandler accessDeniedHandler() {
+                return (request, response, accessDeniedException) -> {
+                        // Chuyển hướng đến trang thông báo
+                        response.sendRedirect("/access-denied");
+                };
+        }
 }
