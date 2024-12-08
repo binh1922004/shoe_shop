@@ -21,4 +21,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findTop20ByAvgRating();
 
     List<Product> findByCategoryId(Long categoryId);
+
+    // tim kiem dua tren key word nhap vao
+    Page<Product> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+
+    // tim kiem dua theo categoryID và keyword
+    Page<Product> findByCategoryIdAndTitleContainingIgnoreCase(Long categoryId, String keyword, Pageable pageable);
 }

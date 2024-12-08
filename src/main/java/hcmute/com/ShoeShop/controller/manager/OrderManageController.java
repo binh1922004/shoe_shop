@@ -43,7 +43,7 @@ public class OrderManageController {
 
 
         @GetMapping("/list")
-        public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "2")int pagesize,
+        public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
                                         @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
                                         @RequestParam(name = "status", defaultValue = "") String status,
                                         Model model){

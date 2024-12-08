@@ -6,10 +6,7 @@ import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.repository.CartRepository;
 import hcmute.com.ShoeShop.repository.OrderDetailRepository;
 import hcmute.com.ShoeShop.repository.OrderRepository;
-import hcmute.com.ShoeShop.services.imp.CartService;
-import hcmute.com.ShoeShop.services.imp.OrderDetailServiceImpl;
-import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
-import hcmute.com.ShoeShop.services.imp.ShipmentService;
+import hcmute.com.ShoeShop.services.imp.*;
 import hcmute.com.ShoeShop.utlis.PayOption;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.servlet.http.HttpSession;
@@ -49,18 +46,21 @@ public class OrderController {
     @Autowired
     ShipmentService shipmentService;
 
+    @Autowired
+    DiscountService discountService;
 
     private Long shippingFee;
     private Long subtotal;
     private Long total;
     private Boolean orderSuccess;
+    private String address;
 
     private String transactionNo;
     private String orderInfo;
     private String transactionStatus;
     private Long cartId;
     @GetMapping()
-    public String order(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
+    public String order(@RequestParam(value = "page-size", defaultValue = "10")int pagesize,
                         @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
                         Model model,
                         HttpSession session) {
@@ -75,10 +75,24 @@ public class OrderController {
     }
 
     @PostMapping("/pay")
-    public String handlePayment(@RequestParam("cartId") Long cartId, @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
+    public String handlePayment(@RequestParam("cartId") Long cartId,
+                                @RequestParam(value = "finalTotalPrice" , required = false) String finalPrice,
+                                @RequestParam(value = "addressId") String address,
+                                @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
+        this.address = address;
+
         // Lấy Cart từ CartId
         Cart cart = cartService.findById(cartId);
-
+        if((finalPrice != null) && (Double.parseDouble(finalPrice) != 0) && (!finalPrice.equals(""))){
+            cart.setId(cartId.intValue());
+            cart.setTotalPrice(Double.parseDouble(finalPrice)*1000);
+            cartService.save(cart);
+        }
+        else{
+            cart.setId(cartId.intValue());
+            cart.setTotalPrice(cart.getTotalPrice()+5);
+            cartService.save(cart);
+        }
         this.cartId = cartId;
         // Lấy người dùng từ cart
         Users user = cart.getUserId();
@@ -90,7 +104,7 @@ public class OrderController {
 
 
         if (payOption.equalsIgnoreCase("COD")) {
-            orderService.orderCart(cartId, totalPrice, PayOption.COD);
+            orderService.orderCart(cartId, totalPrice, PayOption.COD, address);
 
             return "redirect:/order/success";
         } else if (payOption.equalsIgnoreCase("VNPAY")) {
@@ -180,7 +194,7 @@ public class OrderController {
 
         Double totalPrice = cart.getTotalPrice();
 
-        orderService.orderCart(cartId, totalPrice, PayOption.VNPAY);
+        orderService.orderCart(cartId, totalPrice, PayOption.VNPAY, this.address);
 
         if(!Objects.equals(transactionNo, "0")) {
             this.orderSuccess = true;
@@ -235,6 +249,6 @@ public class OrderController {
         Shipment shipment = shipmentService.findShipmentByOrderId(orderId);
         model.addAttribute("shipper", shipment);
 
-        return "manager/order/order-detail";
+        return "user/order-detail";
     }
 }

@@ -59,9 +59,22 @@
         <!-- responsive CSS
         ============================================ -->
         <link rel="stylesheet" href="/css/responsive.css">
+    <!-- Vendor css (Require in all Page) -->
+    <link href="/assets/css/vendor.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Icons css (Require in all Page) -->
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- App css (Require in all Page) -->
+    <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Theme Config js (Require in all Page) -->
+    <script src="/assets/js/config.js"></script>
         <!-- modernizr JS
+
         ============================================ -->
         <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
         .quantity-controller {
@@ -115,7 +128,7 @@
                         <div class="location">
                             <ul>
                                 <li><a href="/" title="go to homepage">Home<span>/</span></a>  </li>
-                                <li><strong> Order shopping</strong></li>
+                                <li><strong> Order detail</strong></li>
                             </ul>
                         </div>
                     </div>
@@ -124,31 +137,23 @@
                     <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table-bordered table table-hover">
-                                <h4 th:if="${alert} != null" th:text="${alert}"></h4>
-                                <thead>
-                                    <tr style="text-align: center">
-                                        <th>Order ID</th>
-                                        <th>Created at</th>
-                                        <th>Price</th>
-                                        <th>Pay option</th>
-                                        <th>Order Status</th>
-                                        <!--                                                       <th>Delivery Number</th>-->
-                                        <th>Action</th>
-                                    </tr>
+                                <h4 th:text="'Order id: ' + ${order.id}"></h4>
+                                <h5 th:text="'Status: ' + ${order.status}"></h5>
+                                <h6 th:text="'Price: ' + ${order.totalPrice}"></h6>
+                                <thead class="bg-light-subtle border-bottom">
+                                <tr>
+                                    <th>Product Name & Size</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Amount</th>
+                                </tr>
                                 </thead>
-                                <tbody class="text-center">
-                                <tr th:each="order: ${orderPage.content}">
-                                    <td th:text="${order.id}">
-                                    </td>
-                                    <td th:text="${order.createdDate}"></td>
-                                    <td th:text="${order.totalPrice}"></td>
-                                    <td> <span th:text="${order.payOption}" class="badge bg-light text-dark  px-2 py-1 fs-13"></span></td>
-                                    <td th:text="${order.status}"> <span class="badge border border-secondary text-secondary  px-2 py-1 fs-13"></span></td>
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <a th:href="@{/order/detail/{id}(id=${order.id})}" href="" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon>detail</a>
-                                        </div>
-                                    </td>
+                                <tbody>
+                                <tr th:each="detail: ${list}">
+                                    <td th:text="${detail.product_name + ', size: ' + detail.size}"></td>
+                                    <td th:text="${detail.quantity}"></td>
+                                    <td th:text="${detail.price}"></td>
+                                    <td th:text="${detail.amount}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -157,8 +162,11 @@
                                     <a href="/user/shop"> continue shopping </a>
                                 </div>
                                 <div class="shopping-cart-left">
-                                    <a href="#"> Clear Shopping Cart </a>
+                                    <button th:onclick="'popUpClick(' + ${order.id} + ')'" th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}"> Clear Shopping Cart </button>
+                                    <div th:include="~{fragments/order/order_cancel.html}"></div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>

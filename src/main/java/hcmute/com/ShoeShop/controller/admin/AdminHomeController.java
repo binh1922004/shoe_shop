@@ -45,7 +45,7 @@ public class AdminHomeController {
         long totalOrder = orderService.countOrder();
         model.addAttribute("totalOrder", totalOrder);
 
-        double totalPrice = orderService.totalPrice();
+        double totalPrice = orderService.totalPrice().orElse(0.0);
         model.addAttribute("totalPrice", totalPrice);
 
         return "admin/index";

@@ -47,4 +47,6 @@ public class Order {
         @Enumerated(EnumType.STRING)
         @Column(name = "pay_option", columnDefinition = "ENUM('COD', 'VNPAY')", nullable = false)
         private PayOption payOption;
+
+        private String address;
 }

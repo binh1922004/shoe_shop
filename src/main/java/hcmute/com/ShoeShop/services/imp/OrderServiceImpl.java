@@ -17,10 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -83,13 +80,14 @@ public class OrderServiceImpl implements IOrderService {
                 return orderRepository.findOrderByUser_Id(usreId, pageable);
         }
 
-        public void orderCart(Long cartId, double price, PayOption payOption){
+        public void orderCart(Long cartId, double price, PayOption payOption, String address){
                 Cart cart = cartRepository.findCartsById(cartId);
                 Order order = Order.builder()
                         .user(cart.getUserId())
                         .totalPrice(price)
                         .createdDate(new Date())
                         .payOption(payOption)
+                        .address(address)
                         .status(ShipmentStatus.IN_STOCK)
                         .build();
                 Set<OrderDetail> orderDetails = new HashSet<>();
@@ -117,11 +115,19 @@ public class OrderServiceImpl implements IOrderService {
                 return orderRepository.count();
         }
 
-        public double totalPrice(){
+        public Optional<Double> totalPrice(){
                 return orderRepository.sumTotalPrice();
         }
 
         public void save(Order order) {
                 orderRepository.save(order);
+        }
+
+        public int orderCountByDate(Date startDate, Date endDate) {
+                return orderRepository.countByCreatedDateBetween(startDate, endDate);
+        }
+
+        public double totalPriceByDate(Date startDate, Date endDate) {
+                return orderRepository.sumTotalPriceByDate(startDate, endDate).orElse(0.0);
         }
 }

@@ -6,6 +6,7 @@ import hcmute.com.ShoeShop.services.imp.*;
 import hcmute.com.ShoeShop.utlis.Constant;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,9 @@ public class ProductController {
     private WishlistService wishListService;
     @Autowired
     private RatingService ratingService;
+
+    @Autowired
+    private CategoryService categoryService;
 
 
     @GetMapping("/web")
@@ -91,5 +95,64 @@ public class ProductController {
         averageStar = Math.round(averageStar * 10) / 10.0;
         model.addAttribute("avgrating", averageStar);
         return "user/single-product";
+    }
+
+    @GetMapping("/search/all")
+    public String getAllProductsByKeyForShop(@RequestParam(value = "key", required = false, defaultValue = "") String key,
+                                      Model model,
+                                      @RequestParam(value = "category", required = false) Long categoryId,
+                                      @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "6") int size) {
+
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("cate", categories);
+
+        Page<Product> products;
+        if (categoryId != null) {
+            // Tìm kiếm theo category và keyword
+            products = productService.searchProductsByCategoryAndTitle(categoryId, key, PageRequest.of(page, size));
+        }
+        else {
+            products = productService.searchProductsByTitle(key, PageRequest.of(page, size));
+        }
+        if(products.isEmpty()){
+            model.addAttribute("alert", "Không tồn tại sản phẩm bạn muốn tìm!");
+        }
+
+        model.addAttribute("products", products.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", products.getTotalPages());
+        return "user/shop";
+    }
+
+    @GetMapping("/search/all/index")
+    public String getAllProductsByKeyForIndex(@RequestParam(value = "key", required = false, defaultValue = "") String key,
+                                             Model model,
+                                             @RequestParam(value = "category", required = false) Long categoryId,
+                                             @RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "6") int size) {
+
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories", categories);
+
+        Page<Product> products;
+        if (categoryId != null) {
+            // Tìm kiếm theo category và keyword
+            products = productService.searchProductsByCategoryAndTitle(categoryId, key, PageRequest.of(page, size));
+        }
+        else {
+            products = productService.searchProductsByTitle(key, PageRequest.of(page, size));
+        }
+        if(products.isEmpty()){
+            model.addAttribute("alert", "Không tồn tại sản phẩm bạn muốn tìm!");
+        }
+
+        model.addAttribute("products", products.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", products.getTotalPages());
+        // lay ra list 20 san pham co rating cao nhat
+        List<Product> ratedProducts = productService.getTopRatedProducts();
+        model.addAttribute("ratedProducts", ratedProducts);
+        return "web/index";
     }
 }

@@ -1,16 +1,11 @@
 package hcmute.com.ShoeShop.config;
 
-import hcmute.com.ShoeShop.component.CustomAuthenticationProvider;
 import hcmute.com.ShoeShop.component.CustomAuthenticationSuccessHandler;
 import hcmute.com.ShoeShop.services.imp.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,15 +14,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-        private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register", "/product/**"};
+        private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register", "/product/**", "/category/**", "/send-code"};
         private final String[] PUBLIC_CSS = {"/assets/**", "/css/**", "/fonts/**", "/img/**", "/js/**", "/lib/**",
-                "/style.css"};
+                "/style.css", "uploads/**"};
         @Autowired
         CustomAuthenticationSuccessHandler successHandler;
 
@@ -37,7 +33,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/admin/**").hasRole("admin")
                                 .requestMatchers("/manager/**").hasAnyRole("manager", "admin")
                                 .requestMatchers("/shipper/**").hasRole("shipper")
-                                .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
+                                .requestMatchers(PUBLIC_ENDPOINT).permitAll()
                                 .requestMatchers(PUBLIC_CSS).permitAll() // Cho phép truy cập tài nguyên tĩnh
                                 .anyRequest().authenticated())
                         //config cho trang login
@@ -50,8 +46,10 @@ public class WebSecurityConfig {
                         //config cho trang logout
                         .logout(logout ->
                                 logout.logoutUrl("/logout").permitAll()
+                        )
+                        .exceptionHandling(exception -> exception
+                                .accessDeniedHandler(accessDeniedHandler())
                         );
-                        //config cho remember me 1 day
                 //cai nay tu bat nen phai tat
                 httpSecurity.csrf(AbstractHttpConfigurer::disable);
                 return httpSecurity.build();
@@ -68,4 +66,11 @@ public class WebSecurityConfig {
                 return new CustomUserDetailService();
         }
 
+        @Bean
+        public AccessDeniedHandler accessDeniedHandler() {
+                return (request, response, accessDeniedException) -> {
+                        // Chuyển hướng đến trang thông báo
+                        response.sendRedirect("/access-denied");
+                };
+        }
 }

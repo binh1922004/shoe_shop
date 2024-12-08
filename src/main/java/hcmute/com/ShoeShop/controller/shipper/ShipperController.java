@@ -48,7 +48,7 @@ public class ShipperController {
         model.addAttribute("title", "Order");
 
         Users user = (Users) session.getAttribute("user");
-        int userId = 2;
+        int userId = user.getId();
         Page<Shipment> shipmentPage = null;
 
         if (status.isEmpty())
@@ -133,4 +133,5 @@ public class ShipperController {
         model.addAttribute("user", user);
         return "shipper/pages-profile";
     }
+
 }

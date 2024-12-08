@@ -1,5 +1,6 @@
 package hcmute.com.ShoeShop.controller;
 
+import hcmute.com.ShoeShop.dto.OrderReportDto;
 import hcmute.com.ShoeShop.dto.ShipperDto;
 import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
@@ -7,8 +8,11 @@ import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.services.imp.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.PublicKey;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,5 +55,18 @@ public class ApiController {
                                HttpSession session){
                 Users user = (Users) session.getAttribute("user");
                 userService.updateUser(user, fullname, address, phone);
+        }
+
+        @GetMapping("/order/report")
+        public OrderReportDto orderReport(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                          @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate){
+                if (startDate.after(endDate)) {
+                        throw new IllegalArgumentException("Start date cannot be after end date.");
+                }
+
+                return OrderReportDto.builder()
+                        .totalOrder(orderService.orderCountByDate(startDate, endDate))
+                        .totalPrice(orderService.totalPriceByDate(startDate, endDate))
+                        .build();
         }
 }
