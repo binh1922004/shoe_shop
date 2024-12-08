@@ -6,7 +6,10 @@ import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.repository.CartRepository;
 import hcmute.com.ShoeShop.repository.OrderDetailRepository;
 import hcmute.com.ShoeShop.repository.OrderRepository;
+import hcmute.com.ShoeShop.services.imp.CartService;
+import hcmute.com.ShoeShop.services.imp.OrderDetailServiceImpl;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
+import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.utlis.PayOption;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.servlet.http.HttpSession;
@@ -38,13 +41,13 @@ public class OrderController {
     OrderServiceImpl orderService;
 
     @Autowired
-    CartRepository cartRepository;
+    CartService cartService;
 
     @Autowired
-    OrderRepository orderRepository;
+    OrderDetailServiceImpl orderDetailService;
 
     @Autowired
-    OrderDetailRepository orderDetailRepository;
+    ShipmentService shipmentService;
 
 
     private Long shippingFee;
@@ -74,7 +77,7 @@ public class OrderController {
     @PostMapping("/pay")
     public String handlePayment(@RequestParam("cartId") Long cartId, @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
         // Lấy Cart từ CartId
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
+        Cart cart = cartService.findById(cartId);
 
         this.cartId = cartId;
         // Lấy người dùng từ cart
@@ -87,28 +90,7 @@ public class OrderController {
 
 
         if (payOption.equalsIgnoreCase("COD")) {
-            Order order = Order.builder()
-                    .user(user)
-                    .totalPrice(totalPrice)
-                    .createdDate(new Date())
-                    .status(ShipmentStatus.IN_STOCK)
-                    .payOption(PayOption.valueOf(payOption))
-                    .build();
-
-            orderRepository.save(order);
-
-            Set<OrderDetail> orderDetails = cart.getOrderDetailSet().stream().map(cartDetail -> {
-                OrderDetail orderDetail = new OrderDetail();
-                orderDetail.setOrder(order);
-                orderDetail.setProduct(cartDetail.getProduct());
-                orderDetail.setQuantity(cartDetail.getQuantity());
-                orderDetail.setPrice(cartDetail.getPrice());
-                return orderDetail;
-            }).collect(Collectors.toSet());
-
-            orderDetailRepository.saveAll(orderDetails);
-
-            cartRepository.delete(cart);
+            orderService.orderCart(cartId, totalPrice, PayOption.COD);
 
             return "redirect:/order/success";
         } else if (payOption.equalsIgnoreCase("VNPAY")) {
@@ -194,34 +176,12 @@ public class OrderController {
         this.transactionNo = transactionNo;
         this.orderInfo = orderInfo;
 
-        Cart cart = cartRepository.findById(this.cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
-
-        Users user = cart.getUserId();
+        Cart cart = cartService.findById(this.cartId);
 
         Double totalPrice = cart.getTotalPrice();
 
-        Order order = Order.builder()
-                .user(user)
-                .totalPrice(totalPrice)
-                .createdDate(new Date())
-                .status(ShipmentStatus.IN_STOCK)
-                .payOption(PayOption.VNPAY)
-                .build();
+        orderService.orderCart(cartId, totalPrice, PayOption.VNPAY);
 
-        orderRepository.save(order);
-
-        Set<OrderDetail> orderDetails = cart.getOrderDetailSet().stream().map(cartDetail -> {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrder(order);
-            orderDetail.setProduct(cartDetail.getProduct());
-            orderDetail.setQuantity(cartDetail.getQuantity());
-            orderDetail.setPrice(cartDetail.getPrice());
-            return orderDetail;
-        }).collect(Collectors.toSet());
-
-        orderDetailRepository.saveAll(orderDetails);
-
-        cartRepository.delete(cart);
         if(!Objects.equals(transactionNo, "0")) {
             this.orderSuccess = true;
         }

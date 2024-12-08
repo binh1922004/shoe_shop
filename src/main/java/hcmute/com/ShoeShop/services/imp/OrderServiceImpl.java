@@ -83,7 +83,7 @@ public class OrderServiceImpl implements IOrderService {
                 return orderRepository.findOrderByUser_Id(usreId, pageable);
         }
 
-        public void orderCart(int cartId, double price, PayOption payOption){
+        public void orderCart(Long cartId, double price, PayOption payOption){
                 Cart cart = cartRepository.findCartsById(cartId);
                 Order order = Order.builder()
                         .user(cart.getUserId())
@@ -107,6 +107,7 @@ public class OrderServiceImpl implements IOrderService {
                 order.setOrderDetailSet(orderDetails);
 
                 orderRepository.save(order);
+                cartRepository.delete(cart);
         }
 
         public boolean checkOrderByUser(Users user) {
@@ -118,5 +119,9 @@ public class OrderServiceImpl implements IOrderService {
 
         public double totalPrice(){
                 return orderRepository.sumTotalPrice();
+        }
+
+        public void save(Order order) {
+                orderRepository.save(order);
         }
 }
