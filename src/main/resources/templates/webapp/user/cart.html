@@ -333,13 +333,27 @@
                     <div class="col-md-4">
                         <div class="totals">
                             <p>Created Date: <span th:text="${#dates.format(cart.createdDate, 'HH:mm:ss dd-MM-yyyy')}"></span></p>
-                            <h3>Grand Total <span id="totalPrice"  th:text="${cart.totalPrice}"></span></h3>
-                            <div class="shopping-button">
-                                <button type="submit">proceed to checkout</button>
-                            </div>
+                            <h3>Grand Total <span id="totalPrice" th:text="${cart.totalPrice}"></span></h3>
+
+                            <!-- Form for Checkout -->
+                            <form action="/order/pay" method="post">
+                                <input type="hidden" name="cartId" th:value="${cart.id}"/>
+
+                                <label for="payOption">Payment Option:</label>
+                                <select name="payOption" id="payOption">
+                                    <option value="COD">Cash on Delivery</option>
+                                    <option value="VNPAY">Pay with VNPay</option>
+                                </select>
+
+                                <div class="shopping-button">
+                                    <button type="submit">Proceed to Checkout</button>
+                                </div>
+                            </form>
+
                             <a href="#">Checkout with Multiple Addresses</a>
                         </div>
                     </div>
+
                 </div>
 
             </div>

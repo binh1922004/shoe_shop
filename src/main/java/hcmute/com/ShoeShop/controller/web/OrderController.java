@@ -26,8 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -72,7 +74,7 @@ public class OrderController {
         return "/user/order";
     }
 
-    @PostMapping("/pay/vnpay")
+    @PostMapping("/pay")
     public String handlePayment(@RequestParam("cartId") Long cartId, @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
         // Lấy Cart từ CartId
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
@@ -82,6 +84,8 @@ public class OrderController {
         Users user = cart.getUserId();
 
         Double totalPrice = cart.getTotalPrice();
+
+        BigDecimal bigTotalPrice = new BigDecimal(cart.getTotalPrice()).setScale(2, RoundingMode.HALF_UP);
 
 
 
@@ -125,7 +129,11 @@ public class OrderController {
             vnp_Params.put("vnp_Version", vnp_Version);
             vnp_Params.put("vnp_Command", vnp_Command);
             vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-            vnp_Params.put("vnp_Amount", String.valueOf(totalPrice * 100));
+
+            long amountInCents = bigTotalPrice.multiply(BigDecimal.valueOf(100)).longValue();
+
+            vnp_Params.put("vnp_Amount", String.valueOf(amountInCents));
+
             vnp_Params.put("vnp_CurrCode", "VND");
 
             vnp_Params.put("vnp_BankCode", bankCode);
@@ -237,7 +245,7 @@ public class OrderController {
         model.addAttribute("orderInfo", orderInfo);
         model.addAttribute("customer", user);
         model.addAttribute("total", total);
-        return "user/after-checkout";
+        return "redirect:/";
     }
 
 
