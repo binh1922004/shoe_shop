@@ -199,4 +199,11 @@ public class CartService {
         // luu gio hang sau khi xoa
         cartRepository.save(cart);
     }
+    public Cart findById(long cartId) {
+        return cartRepository.findCartsById(cartId);
+    }
+
+    public void save(Cart cart){
+        cartRepository.save(cart);
+    }
 }

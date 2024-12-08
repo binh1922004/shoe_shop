@@ -219,9 +219,6 @@
                                 <div class="continue-shopping">
                                     <a href="/user/shop"> continue shopping </a>
                                 </div>
-                                <div class="shopping-cart-left">
-                                    <a href="#"> Clear Shopping Cart </a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -317,14 +314,16 @@
                                         </select>
                                     </div>
                                 </div>
+                               
                                 <div class="form-box">
                                     <div class="form-name">
+                                     
                                         <label>Shipping Company <em>*</em></label>
                                         <select name="shippingCompanyId" required style="width: 100%; max-width: 400px;">
                                             <!-- Lặp qua danh sách shippingCompanies -->
                                             <th:block th:each="company : ${shippingCompanies}">
                                                 <!-- Kiểm tra nếu company.active = true và hiển thị như option -->
-                                                <option th:value="${company.id}" th:text="${company.name + ' - Fee = ' + 5 + '$'}" ></option>
+                                                <option th:value="${company.id}" th:text="${company.name}" ></option>
                                             </th:block>
                                         </select>
                                     </div>
@@ -336,12 +335,28 @@
                         <div class="totals">
                             <p>Created Date: <span th:text="${#dates.format(cart.createdDate, 'HH:mm:ss dd-MM-yyyy')}"></span></p>
                             <h3>Grand Total <span id="totalPrice"  th:text="${cart.totalPrice+5}"></span></h3>
-                            <div class="shopping-button">
-                                <button type="submit">proceed to checkout</button>
-                            </div>
+                           
+                           
+
+                            <!-- Form for Checkout -->
+                            <form action="/order/pay" method="post" id="form2">
+                                <input type="hidden" name="cartId" th:value="${cart.id}"/>
+                                <input type="hidden" name="finalTotalPrice" id="finalTotalPrice" th:value="${finalTotalPrice != null && finalTotalPrice != '' ? finalTotalPrice : 0}"/>
+                                <label for="payOption">Payment Option:</label>
+                                <select name="payOption" id="payOption">
+                                    <option value="COD">Cash on Delivery</option>
+                                    <option value="VNPAY">Pay with VNPay</option>
+                                </select>
+
+                                <div class="shopping-button">
+                                    <button type="submit">Proceed to Checkout</button>
+                                </div>
+                            </form>
+
                             <a href="#">Checkout with Multiple Addresses</a>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -388,6 +403,15 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     </body>
+<script>
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        // Lấy giá trị từ input bên ngoài form
+        var couponCodeValue = document.getElementById('couponCodeInput').value;
+
+        // Gán giá trị vào input bên trong form
+        document.getElementById('couponCode').value = couponCodeValue;
+    });
+</script>
 <script>
     // Lấy phần tử HTML có id 'totalPrice', đây là phần tử hiển thị tổng giá trị
     const totalPriceElem = document.getElementById('totalPrice');
@@ -484,12 +508,15 @@
                 document.getElementById('discountIdInput').value = discountId;
                 document.getElementById('couponCodeInput').value = discountName + " - " + discountPer + "% OFF"; // Hiển thị tỷ lệ phần trăm trong input
 
-                // Tính toán giá mới dựa trên giá gốc
-                const newTotalPrice = originalTotalPrice * (1 - (discountPer / 100.0));
+                // Tính toán giá mới dựa trên giá gốc cộng thêm 5
+                const newTotalPrice = (originalTotalPrice + 5) * (1 - (discountPer / 100.0));
 
                 // Cập nhật giá trị mới vào phần tử #totalPrice
                 const totalPriceElement = document.getElementById('totalPrice');
                 totalPriceElement.innerText = newTotalPrice.toFixed(2); // Cập nhật tổng giá mới với hai chữ số thập phân
+
+                // Cập nhật giá trị cuối cùng vào input ẩn
+                document.getElementById('finalTotalPrice').value = newTotalPrice.toFixed(2);
 
                 // Đóng modal
                 const modalElement = document.getElementById('discountModal');
@@ -498,7 +525,6 @@
             }
         });
     });
-
 
     // Đảm bảo rằng cuộn chuột không bị chặn
     window.addEventListener('wheel', function(e) {
@@ -516,7 +542,6 @@
 
     // Đảm bảo CSS không làm ngừng cuộn
     document.body.style.overflow = 'auto'; // Đảm bảo cuộn trang không bị chặn
-
-
 </script>
+
 </html>

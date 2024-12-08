@@ -40,15 +40,13 @@ public class AdminHomeController {
         redirectAttributes.addFlashAttribute("user", u);
         Pageable pageable = PageRequest.of(0, 5, Sort.by("createdDate").descending());
         Page<Order> orderPage = orderService.findAll(pageable);
-        if(orderPage==null){
-            model.addAttribute("listOrder", orderPage);
+        model.addAttribute("listOrder", orderPage);
 
-            long totalOrder = orderService.countOrder();
-            model.addAttribute("totalOrder", totalOrder);
+        long totalOrder = orderService.countOrder();
+        model.addAttribute("totalOrder", totalOrder);
 
-            double totalPrice = orderService.totalPrice();
-            model.addAttribute("totalPrice", totalPrice);
-        }
+        double totalPrice = orderService.totalPrice().orElse(0.0);
+        model.addAttribute("totalPrice", totalPrice);
 
         return "admin/index";
     }

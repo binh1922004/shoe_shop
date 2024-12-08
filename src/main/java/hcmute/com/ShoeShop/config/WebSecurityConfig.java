@@ -14,13 +14,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-        private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register"};
+        private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register", "/product/**"};
         private final String[] PUBLIC_CSS = {"/assets/**", "/css/**", "/fonts/**", "/img/**", "/js/**", "/lib/**",
                 "/style.css"};
         @Autowired
@@ -29,11 +30,12 @@ public class WebSecurityConfig {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
                 httpSecurity.authorizeHttpRequests(request -> request
+                                .requestMatchers("/admin/**").hasRole("admin")
                                 .requestMatchers("/manager/**").hasAnyRole("manager", "admin")
                                 .requestMatchers("/shipper/**").hasRole("shipper")
                                 .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
                                 .requestMatchers(PUBLIC_CSS).permitAll() // Cho phép truy cập tài nguyên tĩnh
-                                .anyRequest().permitAll())
+                                .anyRequest().authenticated())
                         //config cho trang login
                         .formLogin(formLogin ->
                                 formLogin.loginPage("/login")
@@ -44,8 +46,10 @@ public class WebSecurityConfig {
                         //config cho trang logout
                         .logout(logout ->
                                 logout.logoutUrl("/logout").permitAll()
+                        )
+                        .exceptionHandling(exception -> exception
+                                .accessDeniedHandler(accessDeniedHandler())
                         );
-                        //config cho remember me 1 day
                 //cai nay tu bat nen phai tat
                 httpSecurity.csrf(AbstractHttpConfigurer::disable);
                 return httpSecurity.build();
@@ -62,4 +66,11 @@ public class WebSecurityConfig {
                 return new CustomUserDetailService();
         }
 
+        @Bean
+        public AccessDeniedHandler accessDeniedHandler() {
+                return (request, response, accessDeniedException) -> {
+                        // Chuyển hướng đến trang thông báo
+                        response.sendRedirect("/access-denied");
+                };
+        }
 }

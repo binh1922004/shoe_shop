@@ -1,13 +1,12 @@
 package hcmute.com.ShoeShop.controller.web;
 
-import hcmute.com.ShoeShop.entity.Cart;
-import hcmute.com.ShoeShop.entity.Order;
-import hcmute.com.ShoeShop.entity.OrderDetail;
-import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.dto.OrderDetailDto;
+import hcmute.com.ShoeShop.dto.OrderPaymentDto;
+import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.repository.CartRepository;
 import hcmute.com.ShoeShop.repository.OrderDetailRepository;
 import hcmute.com.ShoeShop.repository.OrderRepository;
-import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
+import hcmute.com.ShoeShop.services.imp.*;
 import hcmute.com.ShoeShop.utlis.PayOption;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.servlet.http.HttpSession;
@@ -19,15 +18,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -40,13 +38,16 @@ public class OrderController {
     OrderServiceImpl orderService;
 
     @Autowired
-    CartRepository cartRepository;
+    CartService cartService;
 
     @Autowired
-    OrderRepository orderRepository;
+    OrderDetailServiceImpl orderDetailService;
 
     @Autowired
-    OrderDetailRepository orderDetailRepository;
+    ShipmentService shipmentService;
+
+    @Autowired
+    DiscountService discountService;
 
     private Long shippingFee;
     private Long subtotal;
@@ -72,42 +73,34 @@ public class OrderController {
         return "/user/order";
     }
 
-    @PostMapping("/pay/vnpay")
-    public String handlePayment(@RequestParam("cartId") Long cartId, @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
+    @PostMapping("/pay")
+    public String handlePayment(@RequestParam("cartId") Long cartId,
+                                @RequestParam(value = "finalTotalPrice" , required = false) String finalPrice,
+                                @RequestParam("payOption") String payOption) throws UnsupportedEncodingException {
         // Lấy Cart từ CartId
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
-
+        Cart cart = cartService.findById(cartId);
+        if((finalPrice != null) && (Double.parseDouble(finalPrice) != 0) && (!finalPrice.equals(""))){
+            cart.setId(cartId.intValue());
+            cart.setTotalPrice(Double.parseDouble(finalPrice));
+            cartService.save(cart);
+        }
+        else{
+            cart.setId(cartId.intValue());
+            cart.setTotalPrice(cart.getTotalPrice()+5);
+            cartService.save(cart);
+        }
         this.cartId = cartId;
         // Lấy người dùng từ cart
         Users user = cart.getUserId();
 
         Double totalPrice = cart.getTotalPrice();
 
+        BigDecimal bigTotalPrice = new BigDecimal(cart.getTotalPrice()).setScale(2, RoundingMode.HALF_UP);
+
 
 
         if (payOption.equalsIgnoreCase("COD")) {
-            Order order = Order.builder()
-                    .user(user)
-                    .totalPrice(totalPrice)
-                    .createdDate(new Date())
-                    .status(ShipmentStatus.IN_STOCK)
-                    .payOption(PayOption.valueOf(payOption))
-                    .build();
-
-            orderRepository.save(order);
-
-            Set<OrderDetail> orderDetails = cart.getOrderDetailSet().stream().map(cartDetail -> {
-                OrderDetail orderDetail = new OrderDetail();
-                orderDetail.setOrder(order);
-                orderDetail.setProduct(cartDetail.getProduct());
-                orderDetail.setQuantity(cartDetail.getQuantity());
-                orderDetail.setPrice(cartDetail.getPrice());
-                return orderDetail;
-            }).collect(Collectors.toSet());
-
-            orderDetailRepository.saveAll(orderDetails);
-
-            cartRepository.delete(cart);
+            orderService.orderCart(cartId, totalPrice, PayOption.COD);
 
             return "redirect:/order/success";
         } else if (payOption.equalsIgnoreCase("VNPAY")) {
@@ -125,7 +118,11 @@ public class OrderController {
             vnp_Params.put("vnp_Version", vnp_Version);
             vnp_Params.put("vnp_Command", vnp_Command);
             vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-            vnp_Params.put("vnp_Amount", String.valueOf(totalPrice * 100));
+
+            long amountInCents = bigTotalPrice.multiply(BigDecimal.valueOf(100)).longValue();
+
+            vnp_Params.put("vnp_Amount", String.valueOf(amountInCents));
+
             vnp_Params.put("vnp_CurrCode", "VND");
 
             vnp_Params.put("vnp_BankCode", bankCode);
@@ -189,34 +186,12 @@ public class OrderController {
         this.transactionNo = transactionNo;
         this.orderInfo = orderInfo;
 
-        Cart cart = cartRepository.findById(this.cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
-
-        Users user = cart.getUserId();
+        Cart cart = cartService.findById(this.cartId);
 
         Double totalPrice = cart.getTotalPrice();
 
-        Order order = Order.builder()
-                .user(user)
-                .totalPrice(totalPrice)
-                .createdDate(new Date())
-                .status(ShipmentStatus.IN_STOCK)
-                .payOption(PayOption.VNPAY)
-                .build();
+        orderService.orderCart(cartId, totalPrice, PayOption.VNPAY);
 
-        orderRepository.save(order);
-
-        Set<OrderDetail> orderDetails = cart.getOrderDetailSet().stream().map(cartDetail -> {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrder(order);
-            orderDetail.setProduct(cartDetail.getProduct());
-            orderDetail.setQuantity(cartDetail.getQuantity());
-            orderDetail.setPrice(cartDetail.getPrice());
-            return orderDetail;
-        }).collect(Collectors.toSet());
-
-        orderDetailRepository.saveAll(orderDetails);
-
-        cartRepository.delete(cart);
         if(!Objects.equals(transactionNo, "0")) {
             this.orderSuccess = true;
         }
@@ -237,10 +212,39 @@ public class OrderController {
         model.addAttribute("orderInfo", orderInfo);
         model.addAttribute("customer", user);
         model.addAttribute("total", total);
-        return "user/after-checkout";
+        return "redirect:/";
     }
 
+    @GetMapping("/success")
+    public String sucess() {
+        return "user/order-sucess";
+    }
 
+    @GetMapping("/detail/{id}")
+    public String getOrderDetail(@PathVariable("id") int orderId,
+                                 Model model){
+        model.addAttribute("title", "Order detail");
 
+        //add list order detail to view
+        List<OrderDetailDto> list = orderDetailService.findAllOrderDetailById(orderId);
+        model.addAttribute("list", list);
 
+        //add payment detail to view
+        OrderPaymentDto orderPaymentDto = orderDetailService.getOrderPayment(orderId);
+        model.addAttribute("payment", orderPaymentDto);
+
+        //add order to view
+        Order order = orderService.findById(orderId);
+        model.addAttribute("order", order);
+
+        //add user detail to view
+        Users user = order.getUser();
+        model.addAttribute("user", user);
+
+        //add shipper to view
+        Shipment shipment = shipmentService.findShipmentByOrderId(orderId);
+        model.addAttribute("shipper", shipment);
+
+        return "manager/order/order-detail";
+    }
 }
