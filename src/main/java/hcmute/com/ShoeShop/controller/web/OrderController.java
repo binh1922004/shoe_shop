@@ -249,6 +249,6 @@ public class OrderController {
         Shipment shipment = shipmentService.findShipmentByOrderId(orderId);
         model.addAttribute("shipper", shipment);
 
-        return "manager/order/order-detail";
+        return "user/order-detail";
     }
 }

@@ -67,7 +67,7 @@
                                                             </h4>
                                                             <p class="mb-0">Created date: <span th:text="${#dates.format(order.createdDate, 'MMM dd, yyyy')}"></span></p>
                                                        </div>
-<!--                                                       <a th:onclick="'popUpClick(' + ${order.id} + ')'" class="btn btn-primary" style="margin-right: 100%">Cancel</a>-->
+                                                       <a th:onclick="'popUpClick(' + ${order.id} + ')'" class="btn btn-primary" style="margin-right: 100%">Cancel</a>
                                                        <!-- Order cancel fragment-->
                                                        <div th:include="~{fragments/order/order_cancel.html}"></div>
                                                   </div>
