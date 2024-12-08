@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/cart")
