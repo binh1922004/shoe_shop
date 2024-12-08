@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
@@ -28,6 +29,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
         @Query("SELECT COUNT(o) > 0 FROM Order o WHERE o.user.id = :userId")
         boolean existsByUser(long userId);
         @Query("select sum(o.totalPrice) from Order o")
-        public double sumTotalPrice();
+        public Optional<Double> sumTotalPrice();
 
 }

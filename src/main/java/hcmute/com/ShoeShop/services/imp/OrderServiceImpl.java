@@ -17,10 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -117,7 +114,7 @@ public class OrderServiceImpl implements IOrderService {
                 return orderRepository.count();
         }
 
-        public double totalPrice(){
+        public Optional<Double> totalPrice(){
                 return orderRepository.sumTotalPrice();
         }
 
