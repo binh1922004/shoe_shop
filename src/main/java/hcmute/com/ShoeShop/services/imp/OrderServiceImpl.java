@@ -121,4 +121,12 @@ public class OrderServiceImpl implements IOrderService {
         public void save(Order order) {
                 orderRepository.save(order);
         }
+
+        public int orderCountByDate(Date startDate, Date endDate) {
+                return orderRepository.countByCreatedDateBetween(startDate, endDate);
+        }
+
+        public double totalPriceByDate(Date startDate, Date endDate) {
+                return orderRepository.sumTotalPriceByDate(startDate, endDate).orElse(0.0);
+        }
 }
