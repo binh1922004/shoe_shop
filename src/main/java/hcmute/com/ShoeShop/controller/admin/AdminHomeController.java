@@ -111,7 +111,6 @@ public class AdminHomeController {
 
         Discount discount = new Discount();
         discount.setName(discountDTO.getName());
-        discount.setQuantity(discountDTO.getQuantity());
         discount.setPercent(discountDTO.getPercent()/100.0);
         discount.setMinOrderValue(discountDTO.getMinOrderValue());
         discount.setStatus(discountDTO.getStatus());
@@ -159,7 +158,6 @@ public class AdminHomeController {
         discount.setId(id);
         discount.setName(discountDTO.getName());
         discount.setCreatedDate(date);
-        discount.setQuantity(discountDTO.getQuantity());
         discount.setPercent(discountDTO.getPercent()/100.0);
         discount.setMinOrderValue(discountDTO.getMinOrderValue());
         discount.setStatus(discountDTO.getStatus());

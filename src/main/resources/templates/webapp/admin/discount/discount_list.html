@@ -495,7 +495,6 @@
                   <thead class="bg-light-subtle">
                   <tr>
                       <th>Discount Name</th>
-                      <th>Quantity</th>
                       <th>Discount Percent</th>
                       <th>Status</th>
                       <th>Minimum Order Value</th>
@@ -508,7 +507,6 @@
                   <tbody>
                   <tr th:each="discount : ${disco}" th:if="${discount.status != 'EXPIRED'}">
                       <td><p class="fs-15 mb-0" th:text="${discount.name}"></p></td>
-                      <td><p class="fs-15 mb-0" th:text="${discount.quantity}"></p></td>
                       <td><p class="fs-15 mb-0" th:text="${discount.percent* 100}+ '%' "></p></td>
                       <td>
                         <p class="fs-15 mb-0" th:text="${discount.status}"></p>
