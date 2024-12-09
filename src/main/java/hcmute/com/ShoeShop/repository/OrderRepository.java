@@ -27,8 +27,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
         public Page<Order> findOrderByUser_Id(int userId, Pageable pageable);
 
-        @Query("SELECT COUNT(o) > 0 FROM Order o WHERE o.user.id = :userId")
-        boolean existsByUser(long userId);
+        @Query("SELECT COUNT(od) > 0 FROM OrderDetail od JOIN od.order o WHERE o.user.id = :userId AND od.product.product.id = :productId AND o.status = 'DELIVERED'")
+        boolean existsByUser(long userId, long productId);
         @Query("select sum(o.totalPrice) from Order o where o.status = 'DELIVERED'")
         public Optional<Double> sumTotalPrice();
         @Query("select sum(o.totalPrice) from Order o where o.status = 'DELIVERED' and o.createdDate BETWEEN :startDate AND :endDate")

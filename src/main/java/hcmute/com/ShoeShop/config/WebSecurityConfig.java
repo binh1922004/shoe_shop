@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 public class WebSecurityConfig {
         private final String[] PUBLIC_ENDPOINT = {"/", "/login", "/register", "/product/**", "/category/**", "/send-code"};
         private final String[] PUBLIC_CSS = {"/assets/**", "/css/**", "/fonts/**", "/img/**", "/js/**", "/lib/**",
-                "/style.css", "uploads/**"};
+                "/style.css", "/uploads/**"};
         @Autowired
         CustomAuthenticationSuccessHandler successHandler;
 

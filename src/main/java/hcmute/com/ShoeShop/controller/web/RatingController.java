@@ -46,12 +46,13 @@ public class RatingController {
             return "redirect:/product/details/" + productId; // Điều hướng lại trang sản phẩm
         }
 
-        if(!orderService.checkOrderByUser(user)){
-            redirectAttributes.addFlashAttribute("alert", "Bạn chưa mua sản phẩm nên không được phép đánh giá!");
+        if(!orderService.checkOrderByUser(user, productId)){
+            redirectAttributes.addFlashAttribute("alert", "Bạn chưa mua hoặc chưa nhận được sản phẩm nên không được phép đánh giá!");
             return "redirect:/product/details/" + productId; // Điều hướng lại trang sản phẩm
         }
 
         ratingService.addRating(email, comment, star, image, productId);
+        redirectAttributes.addFlashAttribute("alert", "Đánh giá sản phẩm thành công!");
 
         return "redirect:/product/details/" + productId;
     }
