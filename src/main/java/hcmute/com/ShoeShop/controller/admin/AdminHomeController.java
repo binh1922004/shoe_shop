@@ -153,10 +153,12 @@ public class AdminHomeController {
         // Chuyển đổi ngày tháng từ String thành LocalDate
         LocalDate start = LocalDate.parse(discountDTO.getStartDate());
         LocalDate end = LocalDate.parse(discountDTO.getEndDate());
+        LocalDate date = LocalDate.parse(discountDTO.getCreatedDate());
 
         Discount discount = new Discount();
         discount.setId(id);
         discount.setName(discountDTO.getName());
+        discount.setCreatedDate(date);
         discount.setQuantity(discountDTO.getQuantity());
         discount.setPercent(discountDTO.getPercent()/100.0);
         discount.setMinOrderValue(discountDTO.getMinOrderValue());
