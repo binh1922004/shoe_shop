@@ -1,6 +1,7 @@
 package hcmute.com.ShoeShop.controller.admin;
 
 import hcmute.com.ShoeShop.dto.DiscountDTO;
+import hcmute.com.ShoeShop.dto.OrderStaticDto;
 import hcmute.com.ShoeShop.entity.Discount;
 import hcmute.com.ShoeShop.entity.Order;
 import hcmute.com.ShoeShop.entity.Product;
@@ -8,6 +9,7 @@ import hcmute.com.ShoeShop.entity.Users;
 import hcmute.com.ShoeShop.services.imp.DiscountService;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
 import hcmute.com.ShoeShop.utlis.Constant;
+import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/admin")
@@ -157,5 +161,43 @@ public class AdminHomeController {
         discount.setEndDate(end);
         discountService.saveDiscount(discount);
         return "redirect:/admin/discount-list";
+    }
+
+    @GetMapping("/order/list")
+    public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
+                               @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
+                               @RequestParam(name = "status", defaultValue = "") String status,
+                               Model model){
+        Pageable pageable = PageRequest.of(pageNum, pagesize);
+
+        model.addAttribute("title", "Order");
+
+        Page<Order> listOder = null;
+
+        if (status.isEmpty()){
+            listOder = orderService.findAll(pageable);
+        }
+        else{
+            listOder = orderService.findOrderByStatus(ShipmentStatus.valueOf(status), pageable);
+        }
+
+        model.addAttribute("listOrder", listOder);
+
+        int totalPages = listOder.getTotalPages();
+        model.addAttribute("totalPages", totalPages);
+        if (totalPages > 0){
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        OrderStaticDto orderStaticDto = orderService.getStatic();
+        model.addAttribute("static", orderStaticDto);
+
+
+        //add status
+        model.addAttribute("stt", status);
+        return "admin/order/orders-list";
     }
 }
