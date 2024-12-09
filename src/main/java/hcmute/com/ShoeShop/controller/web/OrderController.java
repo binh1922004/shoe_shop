@@ -127,11 +127,11 @@ public class OrderController {
 
             vnp_Params.put("vnp_Amount", String.valueOf(amountInCents));
 
-            vnp_Params.put("vnp_CurrCode", "VND");
+            vnp_Params.put("vnp_CurrCode", "USD");
 
             vnp_Params.put("vnp_BankCode", bankCode);
             vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-            vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
+            vnp_Params.put("vnp_OrderInfo", "Orrder Payment:" + vnp_TxnRef);
             vnp_Params.put("vnp_OrderType", orderType);
 
             vnp_Params.put("vnp_Locale", "vn");
