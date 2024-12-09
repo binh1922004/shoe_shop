@@ -647,7 +647,7 @@
                                              </div> <!-- end card body -->
                                              <div class="card-footer py-2 bg-light bg-opacity-50">
                                                   <div class="d-flex align-items-center justify-content-between">
-                                                       <a th:href="@{manager/order/list}" class="text-reset fw-semibold fs-12">View More</a>
+                                                       <a th:href="@{admin/order/list}" class="text-reset fw-semibold fs-12">View More</a>
                                                   </div>
                                              </div> <!-- end card body -->
                                         </div> <!-- end card -->
@@ -713,7 +713,7 @@
                                                   <td th:text="${order.status}"> <span class="badge border border-secondary text-secondary  px-2 py-1 fs-13"></span></td>
                                                   <td>
                                                        <div class="d-flex gap-2">
-                                                            <a th:href="@{/manager/order/detail/{id}(id=${order.id})}" href="" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                            <a th:href="@{/admin/order/detail/{id}(id=${order.id})}" href="" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
                                                             <!--                                                                 <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>-->
                                                             <div th:if="${order.status == T(hcmute.com.ShoeShop.utlis.ShipmentStatus).IN_STOCK}">
                                                                  <a th:onclick="'popUpClick(' + ${order.id} + ')'" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>

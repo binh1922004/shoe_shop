@@ -1,13 +1,14 @@
 package hcmute.com.ShoeShop.controller.admin;
 
 import hcmute.com.ShoeShop.dto.DiscountDTO;
+import hcmute.com.ShoeShop.dto.OrderDetailDto;
+import hcmute.com.ShoeShop.dto.OrderPaymentDto;
 import hcmute.com.ShoeShop.dto.OrderStaticDto;
-import hcmute.com.ShoeShop.entity.Discount;
-import hcmute.com.ShoeShop.entity.Order;
-import hcmute.com.ShoeShop.entity.Product;
-import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.services.imp.DiscountService;
+import hcmute.com.ShoeShop.services.imp.OrderDetailServiceImpl;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
+import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.utlis.Constant;
 import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.servlet.http.HttpSession;
@@ -34,7 +35,10 @@ public class AdminHomeController {
 
     @Autowired
     OrderServiceImpl orderService;
-
+    @Autowired
+    OrderDetailServiceImpl orderDetailService;
+    @Autowired
+    ShipmentService shipmentService;
     @GetMapping
     public String adminHome(RedirectAttributes redirectAttributes, HttpSession session, Model model) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
@@ -200,4 +204,32 @@ public class AdminHomeController {
         model.addAttribute("stt", status);
         return "admin/order/orders-list";
     }
+    @GetMapping("/order/detail/{id}")
+    public String getOrderDetail(@PathVariable("id") int orderId,
+                                 Model model){
+        model.addAttribute("title", "Order detail");
+
+        //add list order detail to view
+        List<OrderDetailDto> list = orderDetailService.findAllOrderDetailById(orderId);
+        model.addAttribute("list", list);
+
+        //add payment detail to view
+        OrderPaymentDto orderPaymentDto = orderDetailService.getOrderPayment(orderId);
+        model.addAttribute("payment", orderPaymentDto);
+
+        //add order to view
+        Order order = orderService.findById(orderId);
+        model.addAttribute("order", order);
+
+        //add user detail to view
+        Users user = order.getUser();
+        model.addAttribute("user", user);
+
+        //add shipper to view
+        Shipment shipment = shipmentService.findShipmentByOrderId(orderId);
+        model.addAttribute("shipper", shipment);
+
+        return "admin/order/order-detail";
+    }
+
 }
