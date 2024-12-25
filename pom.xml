@@ -111,7 +111,6 @@
 			<version>3.3.4</version>
 		</dependency>
 	</dependencies>
-g
 	<build>
 		<plugins>
 			<plugin>
