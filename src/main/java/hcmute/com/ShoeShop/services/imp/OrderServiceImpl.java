@@ -108,8 +108,8 @@ public class OrderServiceImpl implements IOrderService {
                 cartRepository.delete(cart);
         }
 
-        public boolean checkOrderByUser(Users user) {
-                return orderRepository.existsByUser(user.getId());
+        public boolean checkOrderByUser(Users user, long productId) {
+                return orderRepository.existsByUser(user.getId(), productId);
         }
         public long countOrder(){
                 return orderRepository.count();

@@ -34,10 +34,7 @@ public class DiscountService {
         for (Discount discount : listDiscount) {
             if(!discount.getStatus().equals("EXPIRED")){
                 // Kiểm tra nếu quantity của discount bằng 0 thì set status là "INACTIVE"
-                if (discount.getQuantity() == 0) {
-                    discount.setStatus("INACTIVE");
-                }
-                else if (discount.getStartDate() != null && discount.getEndDate() != null) {
+                if (discount.getStartDate() != null && discount.getEndDate() != null) {
                     if (!discount.getStartDate().isAfter(today) && !discount.getEndDate().isBefore(today)) {
                         if (discount.getMinOrderValue() == null) {
                             discount.setStatus("ACTIVE");  // Đặt trạng thái là ACTIVE (String)
@@ -65,19 +62,6 @@ public class DiscountService {
         return discountRepository.findAll(pageRequest);
     }
 
-    public void usedDiscount (int id) {
-        Discount discount = findDiscountById(id);
-        if(discount.getStatus().equals("ACTIVE")){
-            if(discount.getQuantity()==1){
-                discount.setQuantity(0);
-                discount.setStatus("INACTIVE");
-            }
-            else {
-                discount.setQuantity(discount.getQuantity() - 1);
-            }
-        }
-    }
-
     public List<Discount> findAllDiscountsCondition(double price) {
         List<Discount> listDiscount = discountRepository.findAll();
         LocalDate today = LocalDate.now();
@@ -88,11 +72,7 @@ public class DiscountService {
                 discount.setStatus("EXPIRED");
             }
             // Nếu số lượng bằng 0, đặt INACTIVE
-            else if (discount.getQuantity() == 0) {
-                discount.setStatus("INACTIVE");
-            }
-            // Kiểm tra các điều kiện ngày và giá trị tối thiểu
-            else if (discount.getStartDate() != null && discount.getEndDate() != null) {
+            if (discount.getStartDate() != null && discount.getEndDate() != null) {
                 if (!discount.getStartDate().isAfter(today) && !discount.getEndDate().isBefore(today)) {
                     if (discount.getMinOrderValue() == null || discount.getMinOrderValue() <= price) {
                         discount.setStatus("ACTIVE");

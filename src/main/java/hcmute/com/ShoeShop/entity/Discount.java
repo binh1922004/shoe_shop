@@ -30,9 +30,6 @@ public class Discount {
     @NotNull(message = "Status cannot be null")
     private String status;
 
-    @Min(1)
-    @Column(name = "quantity")
-    private int quantity;
 
     @Column(name = "min_order_value")
     private Double minOrderValue;

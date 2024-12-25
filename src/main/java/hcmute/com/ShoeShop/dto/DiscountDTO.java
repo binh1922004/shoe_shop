@@ -15,4 +15,5 @@ public class DiscountDTO {
     private Double minOrderValue;
     private String startDate;
     private String endDate;
+    private String createdDate;
 }

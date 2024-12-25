@@ -1,13 +1,16 @@
 package hcmute.com.ShoeShop.controller.admin;
 
 import hcmute.com.ShoeShop.dto.DiscountDTO;
-import hcmute.com.ShoeShop.entity.Discount;
-import hcmute.com.ShoeShop.entity.Order;
-import hcmute.com.ShoeShop.entity.Product;
-import hcmute.com.ShoeShop.entity.Users;
+import hcmute.com.ShoeShop.dto.OrderDetailDto;
+import hcmute.com.ShoeShop.dto.OrderPaymentDto;
+import hcmute.com.ShoeShop.dto.OrderStaticDto;
+import hcmute.com.ShoeShop.entity.*;
 import hcmute.com.ShoeShop.services.imp.DiscountService;
+import hcmute.com.ShoeShop.services.imp.OrderDetailServiceImpl;
 import hcmute.com.ShoeShop.services.imp.OrderServiceImpl;
+import hcmute.com.ShoeShop.services.imp.ShipmentService;
 import hcmute.com.ShoeShop.utlis.Constant;
+import hcmute.com.ShoeShop.utlis.ShipmentStatus;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/admin")
@@ -30,7 +35,10 @@ public class AdminHomeController {
 
     @Autowired
     OrderServiceImpl orderService;
-
+    @Autowired
+    OrderDetailServiceImpl orderDetailService;
+    @Autowired
+    ShipmentService shipmentService;
     @GetMapping
     public String adminHome(RedirectAttributes redirectAttributes, HttpSession session, Model model) {
         Users u = (Users) session.getAttribute(Constant.SESSION_USER);
@@ -103,7 +111,6 @@ public class AdminHomeController {
 
         Discount discount = new Discount();
         discount.setName(discountDTO.getName());
-        discount.setQuantity(discountDTO.getQuantity());
         discount.setPercent(discountDTO.getPercent()/100.0);
         discount.setMinOrderValue(discountDTO.getMinOrderValue());
         discount.setStatus(discountDTO.getStatus());
@@ -145,11 +152,12 @@ public class AdminHomeController {
         // Chuyển đổi ngày tháng từ String thành LocalDate
         LocalDate start = LocalDate.parse(discountDTO.getStartDate());
         LocalDate end = LocalDate.parse(discountDTO.getEndDate());
+        LocalDate date = LocalDate.parse(discountDTO.getCreatedDate());
 
         Discount discount = new Discount();
         discount.setId(id);
         discount.setName(discountDTO.getName());
-        discount.setQuantity(discountDTO.getQuantity());
+        discount.setCreatedDate(date);
         discount.setPercent(discountDTO.getPercent()/100.0);
         discount.setMinOrderValue(discountDTO.getMinOrderValue());
         discount.setStatus(discountDTO.getStatus());
@@ -158,4 +166,70 @@ public class AdminHomeController {
         discountService.saveDiscount(discount);
         return "redirect:/admin/discount-list";
     }
+
+    @GetMapping("/order/list")
+    public String getAllOrders(@RequestParam(value = "page-size", defaultValue = "5")int pagesize,
+                               @RequestParam(name = "page-num", defaultValue = "0") int pageNum,
+                               @RequestParam(name = "status", defaultValue = "") String status,
+                               Model model){
+        Pageable pageable = PageRequest.of(pageNum, pagesize);
+
+        model.addAttribute("title", "Order");
+
+        Page<Order> listOder = null;
+
+        if (status.isEmpty()){
+            listOder = orderService.findAll(pageable);
+        }
+        else{
+            listOder = orderService.findOrderByStatus(ShipmentStatus.valueOf(status), pageable);
+        }
+
+        model.addAttribute("listOrder", listOder);
+
+        int totalPages = listOder.getTotalPages();
+        model.addAttribute("totalPages", totalPages);
+        if (totalPages > 0){
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        OrderStaticDto orderStaticDto = orderService.getStatic();
+        model.addAttribute("static", orderStaticDto);
+
+
+        //add status
+        model.addAttribute("stt", status);
+        return "admin/order/orders-list";
+    }
+    @GetMapping("/order/detail/{id}")
+    public String getOrderDetail(@PathVariable("id") int orderId,
+                                 Model model){
+        model.addAttribute("title", "Order detail");
+
+        //add list order detail to view
+        List<OrderDetailDto> list = orderDetailService.findAllOrderDetailById(orderId);
+        model.addAttribute("list", list);
+
+        //add payment detail to view
+        OrderPaymentDto orderPaymentDto = orderDetailService.getOrderPayment(orderId);
+        model.addAttribute("payment", orderPaymentDto);
+
+        //add order to view
+        Order order = orderService.findById(orderId);
+        model.addAttribute("order", order);
+
+        //add user detail to view
+        Users user = order.getUser();
+        model.addAttribute("user", user);
+
+        //add shipper to view
+        Shipment shipment = shipmentService.findShipmentByOrderId(orderId);
+        model.addAttribute("shipper", shipment);
+
+        return "admin/order/order-detail";
+    }
+
 }
