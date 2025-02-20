@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: "jdbc:mysql://mysql-3d4006e9-binhball.h.aivencloud.com:11528/defaultdb"
-    username: avnadmin
-    password: AVNS_QiK9C_p8IklBG5Ya_30
+    url: "jdbc:mysql://localhost:3306/shoeshop"
+    username: shoeshop
+    password: shoeshop123!
   jpa:
     hibernate:
       ddl-auto: update
