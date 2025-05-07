@@ -13,7 +13,8 @@ public class DiscountDTO {
     private double percent;
     private String status;
     private Double minOrderValue;
+    private String createdDate;
     private String startDate;
     private String endDate;
-    private String createdDate;
+//    private String createdDate;
 }

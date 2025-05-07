@@ -32,6 +32,7 @@ public class WebSecurityConfig {
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
                 httpSecurity.authorizeHttpRequests(request -> request
                                 .requestMatchers("/admin/**").hasRole("admin")
+                                .requestMatchers(HttpMethod.POST, "/register", "/send-code").permitAll()
                                 .requestMatchers("/manager/**").hasAnyRole("manager", "admin")
                                 .requestMatchers("/shipper/**").hasRole("shipper")
                                 .requestMatchers(PUBLIC_ENDPOINT).permitAll()
