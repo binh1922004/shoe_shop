@@ -105,6 +105,7 @@
                                             <ul class="search">
                                                 <li>
                                                     <form action="#">
+                                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                         <input type="text">
                                                         <button type="submit"> <i class="fa fa-search"></i> </button>
                                                     </form>
@@ -498,6 +499,7 @@
                                                         <h3 class="checkout-title">New Customer</h3>
                                                         <p class="c-title-content">Checkout Options</p>
                                                         <form action="#">
+                                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                             <div class="radio">
                                                                 <label>
                                                                     <input type="radio" name="account" value="register">Register Account
@@ -518,6 +520,7 @@
                                                         <h3 class="checkout-title">Returning Customer</h3>
                                                         <p class="c-title-content">I am a returning customer</p>
                                                         <form action="#">
+                                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                             <div class="form-box">
                                                                 <div class="form-name">
                                                                     <label>E-mail</label>
@@ -706,6 +709,7 @@
                                                 <div class="col-md-12">
                                                     <div class="delivery-details">
                                                         <form action="#">
+                                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                             <div class="list-style">
                                                                 <div class="form-name">
                                                                     <label>First Name <em>*</em> </label>

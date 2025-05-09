@@ -97,6 +97,7 @@
                                 </div>
                                 <div class="login-form">
                                     <form action="/register" method="post">
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                         <input name="email" placeholder="Email" type="email" required>
                                         <input type="text" name="fullname" placeholder="Fullname" required>
                                         <input type="text" name="address" placeholder="Address" required>

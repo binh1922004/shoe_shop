@@ -157,6 +157,7 @@
                                                         <div class="row">
                                                             <div class="col-md-6 col-sm-12">
                                                                 <form th:action="@{/user/submitAddress}" method="post">
+                                                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                                     <div th:if="${er}" class="alert alert-danger">
                                                                         <span th:text="${er}"></span>
                                                                     </div>
@@ -220,6 +221,7 @@
                                                                     </div>
                                                                     <div class="modal-body" style="padding: 20px;">
                                                                         <form id="addAddressForm" action="/user/addresses" method="POST">
+                                                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                                             <div class="form-name" style="margin-bottom: 20px;">
                                                                                 <label style="display: block; font-weight: bold; margin-bottom: 5px;">New Address <em style="color: red;">*</em></label>
                                                                                 <input type="text" id="newAddress" name="newAddress" placeholder="New Address" readonly
@@ -283,6 +285,7 @@
                                             <div class="col-md-12">
                                                 <div class="delivery-details">
                                                     <form action="/user/changeInformation" method="post">
+                                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                         <div class="list-style">
                                                             <div class="account-title">
                                                                 <h4>Please be sure to update your personal information if it has changed. </h4>
@@ -331,6 +334,7 @@
                                             <div class="col-md-12">
                                                 <div class="delivery-details">
                                                     <form action="/user/resetPassword" method="post">
+                                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                         <div class="list-style">
                                                             <div class="account-title">
                                                                 <h4>Please enter your current and new password to reset.</h4>

@@ -201,6 +201,7 @@
                                         </td>
                                         <td class="remove-icon">
                                             <form th:action="@{/cart/edit/{id}(id = ${detail.id})}" method="POST" style="margin-top: 30px">
+                                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                 <input type="hidden" name="quantity" class="quantity-input" th:value="${detail.quantity}">
                                                 <button type="submit" class="edit-btn">
                                                     <img src="/img/cart/btn_edit.gif" alt="Edit">
@@ -299,6 +300,7 @@
                             <h3>Estimate Shipping and Tax</h3>
                             <p>Enter your destination to get a shipping estimate.</p>
                             <form action="#">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                 <div class="form-box">
                                     <div class="form-name">
                                     </div>
@@ -329,6 +331,7 @@
 
                             <!-- Form for Checkout -->
                             <form action="/order/pay" method="post" id="form2">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                 <input type="hidden" name="cartId" th:value="${cart.id}"/>
                                 <input type="hidden" name="finalTotalPrice" id="finalTotalPrice" th:value="${finalTotalPrice != null && finalTotalPrice != '' ? finalTotalPrice : 0}"/>
                                 <div>

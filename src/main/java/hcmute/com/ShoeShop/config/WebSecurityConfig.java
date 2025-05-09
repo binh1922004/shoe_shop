@@ -52,7 +52,7 @@ public class WebSecurityConfig {
                                 .accessDeniedHandler(accessDeniedHandler())
                         );
                 //cai nay tu bat nen phai tat
-                httpSecurity.csrf(AbstractHttpConfigurer::disable);
+                //httpSecurity.csrf(AbstractHttpConfigurer::disable);
                 return httpSecurity.build();
         }
 

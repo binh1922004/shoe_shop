@@ -132,6 +132,7 @@
 <!--                                </div>-->
 <!--                            </div>-->
                             <form th:action="@{/product/search/all}" method="get">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                 <input type="hidden" name="category" id="selectedCategory" value="">
                                 <input type="text" name="key" value="" placeholder="Search products">
                                 <button type="submit"><span>search</span></button>
@@ -286,6 +287,7 @@
                             <a href="shop.html" class="see-all">See all features</a>
                             <div class="quick-add-to-cart">
                                 <form method="post" class="cart">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                     <div class="numbers-row">
                                         <input type="number" id="french-hens" value="3">
                                     </div>
