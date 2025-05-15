@@ -24,13 +24,13 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login(HttpServletRequest req, Model model) {
-        return "/web/login";
+        return "web/login";
     }
 
     @PostMapping("/login-process")
     public String loginPost(Model model) {
         model.addAttribute("mess", "Incorrect password or email");
-        return "/web/login";
+        return "web/login";
     }
 
     private void saveRemeberMe(HttpServletResponse resp, String username) {
