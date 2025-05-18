@@ -2,6 +2,12 @@ server:
   port: 8080
   servlet:
     context-path: /
+  ssl:
+    key-store: classpath:shoeshop.jks
+    key-store-password: ShoeshopTLS@2025
+    key-password: ShoeshopTLS@2025
+    key-store-type: JKS
+    key-alias: shoeshop
 
 spring:
   datasource:
